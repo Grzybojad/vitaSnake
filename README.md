@@ -1,7 +1,7 @@
 # vitaSnake
 A snake game with smooth rotation made for the PS Vita with LibVita2D.
 
-# Controlls
+# Controls
 * Use the left stick, or DPAD to turn left and right.
 * Press START to quit the game
 
