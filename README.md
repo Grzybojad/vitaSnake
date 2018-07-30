@@ -11,6 +11,6 @@ Requirements:
 * CMake (sudo apt-get install cmake)
 
 Navigate to the vitaSnake directory, type:
-> cmake. && build
+> cmake . && build
 
 And hit enter.
