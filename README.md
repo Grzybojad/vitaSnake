@@ -1,5 +1,7 @@
 # vitaSnake
-A snake game with smooth rotation made for the PS Vita with LibVita2D.
+A snake game with smooth rotation made for the PS Vita with LibVita2D.  
+For now the game doesn't have a losing condition, so you can collect as many apples as you want.  
+Each apple collected makes the snake longer, like in the classic snake game.
 
 # Controls
 * Use the left stick, or DPAD to turn left and right.
