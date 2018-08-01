@@ -13,6 +13,9 @@ Collectable::Collectable()
 
 	// Set texture
 	texture = vita2d_load_PNG_file( "app0:/img/apple.png" );
+
+	// Set font
+	pgf = vita2d_load_default_pgf();
 }
 
 bool Collectable::checkCollision( Player part )
@@ -43,4 +46,16 @@ void Collectable::render()
 int Collectable::getScore()
 {
 	return score;
+}
+
+// Render the score counter
+void Collectable::renderScore()
+{
+	vita2d_pgf_draw_textf( pgf, 700, 30, RGBA8(255, 255, 0, 255), 1.0f, "SCORE: %d", getScore() );
+}
+
+// Clear textures
+void Collectable::destroyTexture()
+{
+	vita2d_free_texture( texture );
 }

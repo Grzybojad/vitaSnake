@@ -50,6 +50,9 @@ class Player
 		float get_xPos();
 		float get_yPos();
 
+		// Clear textures
+		void destroyTexture();
+
 	private:
 		// Player coordinates
 		float xPos, yPos;

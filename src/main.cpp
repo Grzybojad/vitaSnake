@@ -103,7 +103,7 @@ int main()
 		apple.render();
 
 		// Draw the score counter
-		vita2d_pgf_draw_textf( pgf, 700, 30, RGBA8(255, 255, 0, 255), 1.0f, "SCORE: %d", apple.getScore() );
+		apple.renderScore();
 
 		// Debug 
 		if( DEBUG )
@@ -121,6 +121,15 @@ int main()
 
 	vita2d_fini();
 	vita2d_free_pgf( pgf );
+
+	// Destroy snake textures
+	for( int part = 0; part < SNAKE_LENGTH; ++part )
+	{
+		snakePart[ part ].destroyTexture();
+	}
+	// Destroy collectable texture
+	apple.destroyTexture();
+	
 
 	sceKernelExitProcess( 0 );
 	return 0;

@@ -36,6 +36,12 @@ class Collectable
 		// Get the score number
 		int getScore();
 
+		// Render the score text
+		void renderScore();
+
+		// Clear textures
+		void destroyTexture();
+
 	private:
 		// Collectable coordinates
 		float xPos, yPos;
@@ -46,6 +52,8 @@ class Collectable
 		// Collectable texture
 		vita2d_texture *texture;
 
+		// Score counter text
+		vita2d_pgf *pgf;
 };
 
 #endif // COLLECTABLE_HPP
