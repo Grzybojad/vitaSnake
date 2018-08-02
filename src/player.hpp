@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <cmath>
+#include <queue>
 
 #include <psp2/ctrl.h>
 #include <psp2/kernel/processmgr.h>
@@ -51,7 +52,7 @@ class Player
 		float get_yPos();
 
 		// Clear textures
-		void destroyTexture();
+		void destroyTextures();
 
 	private:
 		// Player coordinates

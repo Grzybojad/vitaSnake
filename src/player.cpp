@@ -127,7 +127,7 @@ float Player::get_yPos()
 
 
 // Clear textures
-void Player::destroyTexture()
+void Player::destroyTextures()
 {
 	vita2d_free_texture( texture );
 }

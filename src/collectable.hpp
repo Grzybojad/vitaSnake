@@ -24,6 +24,9 @@ class Collectable
 		// Initializer
 		Collectable();
 
+		// Assignes a texture to the object
+		void setTextureAndFont( const char *filename );
+
 		// Player-collectable collision
 		bool checkCollision( Player part );
 
@@ -40,7 +43,7 @@ class Collectable
 		void renderScore();
 
 		// Clear textures
-		void destroyTexture();
+		void destroyTextures();
 
 	private:
 		// Collectable coordinates

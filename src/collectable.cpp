@@ -10,11 +10,13 @@ Collectable::Collectable()
 	yPos = rand() % SCREEN_HEIGHT*0.8 + SCREEN_HEIGHT*0.1;
 
 	score = 0;
+}
 
-	// Set texture
-	texture = vita2d_load_PNG_file( "app0:/img/apple.png" );
+// Assign a texture to the object
+void Collectable::setTextureAndFont( const char *filename )
+{
+	texture = vita2d_load_PNG_file( filename );
 
-	// Set font
 	pgf = vita2d_load_default_pgf();
 }
 
@@ -39,8 +41,15 @@ void Collectable::collect()
 // Render the collectable
 void Collectable::render()
 {
-	vita2d_draw_texture_rotate( texture, xPos, yPos, 0 );
+	vita2d_draw_texture_rotate( texture, xPos, yPos, 0.0f );
 }
+
+// Render the score counter
+void Collectable::renderScore()
+{
+	vita2d_pgf_draw_textf( pgf, 740, 30, RGBA8(255, 255, 0, 255), 1.0f, "SCORE: %d", getScore() );
+}
+
 
 // Get the score number
 int Collectable::getScore()
@@ -48,14 +57,8 @@ int Collectable::getScore()
 	return score;
 }
 
-// Render the score counter
-void Collectable::renderScore()
-{
-	vita2d_pgf_draw_textf( pgf, 700, 30, RGBA8(255, 255, 0, 255), 1.0f, "SCORE: %d", getScore() );
-}
-
 // Clear textures
-void Collectable::destroyTexture()
+void Collectable::destroyTextures()
 {
 	vita2d_free_texture( texture );
 }
