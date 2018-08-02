@@ -7,7 +7,7 @@ Each apple collected makes the snake longer, like in the classic snake game.
 
 # Controls
 * Use the left stick, or DPAD to turn left and right.
-* Press START to quit the game
+* Press START to pause the game
 
 # Building
 Requirements:
