@@ -136,7 +136,7 @@ void Game::gamePaused()
 
 	/* RENDERING */
 	vita2d_start_drawing();
-	vita2d_set_clear_color( RGBA8( 0x05, 0x05, 0x05, 0xFF ) );
+	vita2d_set_clear_color( RGBA8( 0x10, 0x10, 0x10, 0xFF ) );
 	vita2d_clear_screen();	
 
 	// Dumb way of checking if the start was pressed, not held down
@@ -160,8 +160,8 @@ void Game::gamePaused()
 	collectable.renderScore();
 
 	// Draw pause text
-	vita2d_pvf_draw_text( pvf, 300, 180, RGBA8( 255, 0, 0, 255 ), 4.0f, "PAUSED" );
-	vita2d_pvf_draw_text( pvf, 300, 270, RGBA8( 255, 0, 0, 255 ), 1.4f, "Press START to unpause" );
+	vita2d_pvf_draw_text( pvf, 330, 180, RGBA8( 255, 0, 0, 255 ), 4.0f, "PAUSED" );
+	vita2d_pvf_draw_text( pvf, 340, 270, RGBA8( 255, 0, 0, 255 ), 1.4f, "Press START to unpause" );
 
 	vita2d_end_drawing();
 	vita2d_swap_buffers();
