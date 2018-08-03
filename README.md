@@ -1,7 +1,6 @@
 # vitaSnake
 A snake game with smooth rotation made for the PS Vita with LibVita2D.  
-For now the game doesn't have a losing condition, so you can collect as many apples as you want.  
-Each apple collected makes the snake longer, like in the classic snake game.
+Turn left and right to collect as many apples as you can, but avoid biting your tail, or you will lose the game.
 
 ![vitaSnake screenshot](https://i.imgur.com/Qr88uv9.jpg)
 
@@ -9,12 +8,6 @@ Each apple collected makes the snake longer, like in the classic snake game.
 * Use the left stick, or DPAD to turn left and right.
 * Press START to pause the game
 
-# Building
-Requirements:
-* VitaSDK (https://github.com/vitasdk/vdpm)  
-* CMake (sudo apt-get install cmake)
+# Releases
+[Newest relese, version 0.3](https://github.com/Grzybojad/vitaSnake/releases/tag/0.3)  
 
-Navigate to the vitaSnake directory, type:
-> cmake . && build
-
-And hit enter.
