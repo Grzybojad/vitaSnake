@@ -36,10 +36,13 @@ void Game::gameStart()
 	// Button bools
 	startPressed = false;
 
-	while( !isExiting() )
+	while( _gameState != 5 )
 	{
 		switch( _gameState )
 		{
+			case 0: // uninitialized
+				gameStart();
+				break;
 			case 1:	// showingMenu
 				gameMenu();
 				break;
@@ -52,14 +55,12 @@ void Game::gameStart()
 			case 4:	// gameOver
 				gameEnd();
 				break;
-			case 5:	// exiting
-				gameQuit();
-				break;
 		}
 	}
+	gameQuit();
 
 	vita2d_fini();
-	sceKernelExitProcess( 0 );
+	return;
 }
 
 bool Game::isExiting()
@@ -95,6 +96,14 @@ void Game::gameLoop()
 
 	// Calcule player position
 	snakePart[0].move();
+
+	// Check snake collisions
+	for( int part = 4; part < SNAKE_LENGTH; ++part )
+	{
+		if( snakePart[0].checkCollision( snakePart[part] ) )
+			_gameState = 4; // gameOver
+	}
+	
 
 	// Check collectable collisions
 	if( collectable.checkCollision( snakePart[0] ) )
@@ -170,19 +179,66 @@ void Game::gamePaused()
 
 void Game::gameEnd()
 {
+	sceCtrlPeekBufferPositive( 0, &pad, 1 );
 
+	/* RENDERING */
+	vita2d_start_drawing();
+	vita2d_set_clear_color( RGBA8( 0x10, 0x10, 0x10, 0xFF ) );
+	vita2d_clear_screen();	
+
+	// Dumb way of checking if the start was pressed, not held down
+	if( (pad.buttons & SCE_CTRL_START) && !startPressed )
+	{
+		startPressed = true;
+
+		// Quit the game
+		_gameState = 5;	// quitting
+	}
+	else if( !(pad.buttons & SCE_CTRL_START) )
+	{
+		startPressed = false;
+	}
+
+	// Restart the game when the user presses X
+	if( pad.buttons & SCE_CTRL_CROSS )
+	{
+		_gameState = 0;	// uninitialized
+
+		// Reset the player and collectable
+		collectable.collect();
+		collectable.score = 0;
+		snakePart[0].xPos = SCREEN_WIDTH / 6;
+		snakePart[0].yPos = SCREEN_HEIGHT / 2;
+		snakePart[0].rotation = M_PI / 2;
+	}
+
+
+	// We still want to draw everything, so the player can see the ended game
+	for( int part = 0; part < SNAKE_LENGTH; ++part )
+		snakePart[ part ].render();
+	collectable.render();
+	collectable.renderScore();
+
+	// Draw text over the game
+	vita2d_pvf_draw_text ( pvf, 300, 180, RGBA8( 255, 0, 0, 255 ), 4.0f, "GAME OVER" );
+	vita2d_pvf_draw_textf( pvf, 340, 270, RGBA8( 255, 0, 0, 255 ), 1.8f, "Your score was: %d", collectable.getScore() );
+	vita2d_pvf_draw_text ( pvf, 350, 410, RGBA8( 255, 0, 0, 255 ), 1.4f, "Press START to quit" );
+	vita2d_pvf_draw_text ( pvf, 370, 450, RGBA8( 255, 0, 0, 255 ), 1.4f, "Press X to restart" );
+
+	vita2d_end_drawing();
+	vita2d_swap_buffers();
 }
 
 
 void Game::gameQuit()
 {
+	// Wait for GPU to stop rendering
+	vita2d_fini();
+
 	// Destroy snake textures
 	for( int part = 0; part < SNAKE_LENGTH; ++part )
-	{
 		snakePart[ part ].destroyTextures();
-	}
+
 	// Destroy collectable texture
 	collectable.destroyTextures();
-
-	sceKernelExitProcess( 0 );
 }

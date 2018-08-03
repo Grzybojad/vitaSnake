@@ -23,8 +23,11 @@ class Player
 		const float PLAYER_MAX_SPEED = 5.0f;		// Player max speed
 		const float PLAYER_ROTATION_SPEED = 0.07f;	// Player rotation speed
 		const float FOLLOW_DISTANCE = 40.0f;		// Follow distanse
-		const float ANALOG_DEADZONE = 0.1f;			// Analog stick deadzone
+		const float ANALOG_DEADZONE = 0.2f;			// Analog stick deadzone
 		const float COLLISION_DISTANCE = 20.0f;		// The distance at which a collision occurs
+
+		float xPos, yPos;	// Player coordinates
+		float rotation;		// Player current rotation
 
 		// Initializes variables
 		Player();
@@ -55,17 +58,11 @@ class Player
 		void destroyTextures();
 
 	private:
-		// Player coordinates
-		float xPos, yPos;
-
 		// Player texture
 		vita2d_texture *texture;
 
 		// Player current speed
 		float speed;
-
-		// Player current rotation
-		float rotation;
 
 		// Controls
 		SceCtrlData pad;

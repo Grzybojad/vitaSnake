@@ -21,6 +21,9 @@ class Collectable
 
 		const float COLLISION_DISTANCE = 30.0f;		// The distance at which a collision occurs
 
+		// Score
+		int score;
+
 		// Initializer
 		Collectable();
 
@@ -48,9 +51,6 @@ class Collectable
 	private:
 		// Collectable coordinates
 		float xPos, yPos;
-
-		// Score
-		int score;
 
 		// Collectable texture
 		vita2d_texture *texture;

@@ -47,7 +47,7 @@ void Collectable::render()
 // Render the score counter
 void Collectable::renderScore()
 {
-	vita2d_pgf_draw_textf( pgf, 740, 30, RGBA8(255, 255, 0, 255), 1.0f, "SCORE: %d", getScore() );
+	vita2d_pgf_draw_textf( pgf, 800, 30, RGBA8(255, 255, 0, 255), 1.0f, "SCORE: %d", getScore() );
 }
 
 
