@@ -9,5 +9,5 @@ Turn left and right to collect as many apples as you can, but avoid biting your 
 * Press START to pause the game
 
 # Releases
-[Newest relese, version 0.3](https://github.com/Grzybojad/vitaSnake/releases/tag/0.3)  
+[Get the newest release here](https://github.com/Grzybojad/vitaSnake/releases)  
 
