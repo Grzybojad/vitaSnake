@@ -23,20 +23,22 @@ class Game
 		void gameQuit();
 
 	private:
-		static bool isExiting();
 		void gameMenu();
 		void gameLoop();
 		void gamePaused();
 		void gameEnd();
 
-		/* Game states are:
-		0 = uninitialized
-		1 = showingMenu
-		2 = playing
-		3 = paused
-		4 = gameOver
-		5 = exiting*/
-		int _gameState;
+		enum gameState
+		{
+			uninitialized = 0,
+			showingMenu = 1,
+			playing = 2,
+			paused = 3,
+			gameOver = 4,
+			exiting = 5
+		};
+
+		gameState _gameState;
 
 		int SNAKE_LENGTH;
 		Player snakePart[ 255 ];
@@ -47,6 +49,10 @@ class Game
 		vita2d_pvf *pvf;
 
 		bool startPressed;
+
+		// Screen textures
+		vita2d_texture *pauseTexture;
+		vita2d_texture *overTexture;
 };
 
 #endif // GAME_HPP

@@ -71,5 +71,7 @@ vita_create_vpk(snake.vpk ${VITA_TITLEID} snake.self
   FILE img/body.png img/body.png
   FILE img/tail.png img/tail.png
   FILE img/apple.png img/apple.png
+  FILE img/pauseScreen.png img/pauseScreen.png
+  FILE img/overScreen.png img/overScreen.png
 )
 

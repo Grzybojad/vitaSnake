@@ -2,15 +2,16 @@
 
 Game::Game()
 {
-	_gameState = 0;
+	_gameState = uninitialized;
 }
 
+// Initialize variables
 void Game::gameStart()
 {
-	if( _gameState != 0 )	// uninitialized
+	if( _gameState != uninitialized )
 		return;
 
-	_gameState = 2;	// playing
+	_gameState = playing;
 
 	// Set sampling mode to analog, so that the analog sticks return proper values
 	sceCtrlSetSamplingMode( SCE_CTRL_MODE_ANALOG );
@@ -20,6 +21,7 @@ void Game::gameStart()
 	vita2d_init();
 	vita2d_set_clear_color( RGBA8( 0x00, 0x00, 0x00, 0xFF ) );
 
+	// The starting length of the snake
 	SNAKE_LENGTH = 3;
 
 	// Set snake textures
@@ -36,23 +38,28 @@ void Game::gameStart()
 	// Button bools
 	startPressed = false;
 
-	while( _gameState != 5 )
+	// Game screen textures
+	pauseTexture = vita2d_load_PNG_file( "app0:/img/pauseScreen.png" );
+	overTexture = vita2d_load_PNG_file( "app0:/img/overScreen.png" );
+
+
+	while( _gameState != exiting )
 	{
 		switch( _gameState )
 		{
-			case 0: // uninitialized
+			case uninitialized: // uninitialized
 				gameStart();
 				break;
-			case 1:	// showingMenu
+			case showingMenu:	// showingMenu
 				gameMenu();
 				break;
-			case 2:	// playing
+			case playing:	// playing
 				gameLoop();
 				break;
-			case 3:	// paused
+			case paused:	// paused
 				gamePaused();
 				break;
-			case 4:	// gameOver
+			case gameOver:	// gameOver
 				gameEnd();
 				break;
 		}
@@ -63,33 +70,27 @@ void Game::gameStart()
 	return;
 }
 
-bool Game::isExiting()
-{
-	return false;
-}
-
+// TODO: add a start screen with a menu
 void Game::gameMenu()
 {
 
 }
 
+// Main game loop
 void Game::gameLoop()
 {
 	sceCtrlPeekBufferPositive( 0, &pad, 1 );
 
-	// Dumb way of checking if the start was pressed, not held down
-	if( (pad.buttons & SCE_CTRL_START) && !startPressed )
+	// Pause the game with START
+	if( ( pad.buttons & SCE_CTRL_START ) && !startPressed )
 	{
 		startPressed = true;
-
-		// Pause the game
-		_gameState = 3;
+		_gameState = paused;
 	}
-	else if( !(pad.buttons & SCE_CTRL_START) )
+	else if( !( pad.buttons & SCE_CTRL_START ) )
 	{
 		startPressed = false;
 	}
-
 
 	// Player controls
 	snakePart[0].handleInput();
@@ -101,7 +102,7 @@ void Game::gameLoop()
 	for( int part = 4; part < SNAKE_LENGTH; ++part )
 	{
 		if( snakePart[0].checkCollision( snakePart[part] ) )
-			_gameState = 4; // gameOver
+			_gameState = gameOver; // gameOver
 	}
 	
 
@@ -125,20 +126,17 @@ void Game::gameLoop()
 	vita2d_set_clear_color( RGBA8( 0x00, 0x00, 0x00, 0xFF ) );
 	vita2d_clear_screen();
 
-	// Draw snake
-	for( int part = 0; part < SNAKE_LENGTH; ++part )
-		snakePart[ part ].render();
+	for( int part = 0; part < SNAKE_LENGTH; ++part ) 
+		snakePart[ part ].render();	// Draw snake
 
-	// Draw collectable
-	collectable.render();
-
-	// Draw the score counter
-	collectable.renderScore();
+	collectable.render();			// Draw collectable
+	collectable.renderScore();		// Draw the score counter
 
 	vita2d_end_drawing();
 	vita2d_swap_buffers();
 }
 
+// Game paused screen
 void Game::gamePaused()
 {
 	sceCtrlPeekBufferPositive( 0, &pad, 1 );
@@ -148,35 +146,31 @@ void Game::gamePaused()
 	vita2d_set_clear_color( RGBA8( 0x10, 0x10, 0x10, 0xFF ) );
 	vita2d_clear_screen();	
 
-	// Dumb way of checking if the start was pressed, not held down
-	if( (pad.buttons & SCE_CTRL_START) && !startPressed )
+	// Unpause the game with START
+	if( ( pad.buttons & SCE_CTRL_START ) && !startPressed )
 	{
 		startPressed = true;
-
-		// Unpause the game
-		_gameState = 2;
+		_gameState = playing;
 	}
-	else if( !(pad.buttons & SCE_CTRL_START) )
+	else if( !( pad.buttons & SCE_CTRL_START ) )
 	{
 		startPressed = false;
 	}
 
-
 	// We still want to draw everything, so the player can see the paused game
-	for( int part = 0; part < SNAKE_LENGTH; ++part )
-		snakePart[ part ].render();
-	collectable.render();
-	collectable.renderScore();
+	for( int part = 0; part < SNAKE_LENGTH; ++part ) 
+		snakePart[ part ].render();	// Draw snake
+	collectable.render();			// Draw collectable
+	collectable.renderScore();		// Draw the score counter
 
-	// Draw pause text
-	vita2d_pvf_draw_text( pvf, 330, 180, RGBA8( 255, 0, 0, 255 ), 4.0f, "PAUSED" );
-	vita2d_pvf_draw_text( pvf, 340, 270, RGBA8( 255, 0, 0, 255 ), 1.4f, "Press START to unpause" );
+	// Draw pause screen image
+	vita2d_draw_texture( pauseTexture, 0.0f, 0.0f );
 
 	vita2d_end_drawing();
 	vita2d_swap_buffers();
 }
 
-
+// Game Over screen
 void Game::gameEnd()
 {
 	sceCtrlPeekBufferPositive( 0, &pad, 1 );
@@ -186,23 +180,21 @@ void Game::gameEnd()
 	vita2d_set_clear_color( RGBA8( 0x10, 0x10, 0x10, 0xFF ) );
 	vita2d_clear_screen();	
 
-	// Dumb way of checking if the start was pressed, not held down
-	if( (pad.buttons & SCE_CTRL_START) && !startPressed )
+	// Quit the game with START
+	if( ( pad.buttons & SCE_CTRL_START ) && !startPressed )
 	{
 		startPressed = true;
-
-		// Quit the game
-		_gameState = 5;	// quitting
+		_gameState = exiting;
 	}
-	else if( !(pad.buttons & SCE_CTRL_START) )
+	else if( !( pad.buttons & SCE_CTRL_START ) )
 	{
 		startPressed = false;
 	}
-
+			
 	// Restart the game when the user presses X
 	if( pad.buttons & SCE_CTRL_CROSS )
 	{
-		_gameState = 0;	// uninitialized
+		_gameState = uninitialized;	// uninitialized
 
 		// Reset the player and collectable
 		collectable.collect();
@@ -219,17 +211,22 @@ void Game::gameEnd()
 	collectable.render();
 	collectable.renderScore();
 
+	/*
 	// Draw text over the game
 	vita2d_pvf_draw_text ( pvf, 300, 180, RGBA8( 255, 0, 0, 255 ), 4.0f, "GAME OVER" );
 	vita2d_pvf_draw_textf( pvf, 340, 270, RGBA8( 255, 0, 0, 255 ), 1.8f, "Your score was: %d", collectable.getScore() );
 	vita2d_pvf_draw_text ( pvf, 350, 410, RGBA8( 255, 0, 0, 255 ), 1.4f, "Press START to quit" );
 	vita2d_pvf_draw_text ( pvf, 370, 450, RGBA8( 255, 0, 0, 255 ), 1.4f, "Press X to restart" );
+	*/
+	// Draw game over image
+	vita2d_draw_texture( overTexture, 0.0f, 0.0f );
+	vita2d_pvf_draw_textf( pvf, 440, 370, RGBA8( 255, 255, 0, 255 ), 5.0f, "%d", collectable.getScore() );
 
 	vita2d_end_drawing();
 	vita2d_swap_buffers();
 }
 
-
+// Destroy textures on game exit
 void Game::gameQuit()
 {
 	// Wait for GPU to stop rendering

@@ -13,9 +13,6 @@ Player::Player()
 	// Set starting rotation to 90 degrees (pi rad / 2)
 	rotation = M_PI / 2;
 
-	// Initialize texture
-	//texture = vita2d_load_PNG_file( "app0:/img/body.png" );
-
 	memset( &pad, 0, sizeof( pad ) );
 
 	// Set sampling mode to analog, so that the analog sticks return proper values
