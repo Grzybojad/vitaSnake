@@ -10,6 +10,7 @@
 #include <psp2/io/stat.h> 
 #include <vita2d.h>
 
+#include "menu.hpp"
 #include "player.hpp"
 #include "collectable.hpp"
 #include "global.hpp"
@@ -20,39 +21,59 @@ class Game
 		Game();
 
 		void gameStart();
-		void gameQuit();
 
 	private:
-		void gameMenu();
-		void gameLoop();
-		void gamePaused();
-		void gameEnd();
+		void gameMenu();			// Go to main menu
+		void gameLoop();			// Main game loop
+		void gamePaused();			// Pause screen
+		void gameEnd();				// Game over screen
+		void gameQuit();			// Exit game and free resources
+		void gameReinitialize();	// Reinitialize game variables and restart
 
+		void gameHTP();			// Instructions on how to play the game
+
+		// Game state
 		enum gameState
 		{
-			uninitialized = 0,
+			initialized = 0,
 			showingMenu = 1,
 			playing = 2,
 			paused = 3,
 			gameOver = 4,
-			exiting = 5
+			exiting = 5,
+			needReinitialize = 6,
+			showingHTP = 7
 		};
-
 		gameState _gameState;
 
+		// Main menu
+		Menu mainMenu;
+
+		// Player length and buffer
 		int SNAKE_LENGTH;
 		Player snakePart[ 255 ];
+
+		// Collectable
 		Collectable collectable;
 
+		// Inputs
 		SceCtrlData pad;
 
+		// PVF text
 		vita2d_pvf *pvf;
 
+		// Button bools
 		bool startPressed;
+		bool crossPressed;
+		bool circlePressed;
+		bool upPressed;
+		bool downPressed;
+
 
 		// Screen textures
 		vita2d_texture *pauseTexture;
 		vita2d_texture *overTexture;
+		vita2d_texture *infoTexture;
 };
 
 #endif // GAME_HPP

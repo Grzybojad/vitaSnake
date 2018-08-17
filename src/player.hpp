@@ -22,7 +22,7 @@ class Player
 
 		const float PLAYER_MAX_SPEED = 5.0f;		// Player max speed
 		const float PLAYER_ROTATION_SPEED = 0.07f;	// Player rotation speed
-		const float FOLLOW_DISTANCE = 40.0f;		// Follow distanse
+		const float FOLLOW_DISTANCE = 35.0f;		// Follow distanse
 		const float ANALOG_DEADZONE = 0.2f;			// Analog stick deadzone
 		const float COLLISION_DISTANCE = 20.0f;		// The distance at which a collision occurs
 

@@ -44,6 +44,12 @@ void Player::handleInput()
 	{
 		rotation += analogInput * PLAYER_ROTATION_SPEED;
 	}
+
+	// Boost snake speed with X
+	if( pad.buttons & SCE_CTRL_CROSS )
+		speed = 1.5f * -PLAYER_MAX_SPEED;
+	else
+		speed = -PLAYER_MAX_SPEED;
 }
 
 

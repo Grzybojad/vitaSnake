@@ -4,8 +4,10 @@
 #include <cstdlib>
 #include <ctime>
 #include <cmath>
+#include <fstream>
 
 #include <psp2/kernel/processmgr.h>
+#include <psp2/io/stat.h> 
 
 #include <vita2d.h>
 
@@ -48,6 +50,17 @@ class Collectable
 		// Clear textures
 		void destroyTextures();
 
+
+		// Read highscore from file
+		int getHighscore();
+
+		// Write new highscore to file
+		void writeHighscore();
+
+		// Render the highscore text
+		void renderHighscore();
+
+
 	private:
 		// Collectable coordinates
 		float xPos, yPos;
@@ -57,6 +70,9 @@ class Collectable
 
 		// Score counter text
 		vita2d_pgf *pgf;
+
+		// Current highscore
+		int highscore;
 };
 
 #endif // COLLECTABLE_HPP

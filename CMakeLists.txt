@@ -11,9 +11,9 @@ endif()
 project(snake)
 include("${VITASDK}/share/vita.cmake" REQUIRED)
 
-set(VITA_APP_NAME "Snake")
+set(VITA_APP_NAME "vitaSnake")
 set(VITA_TITLEID  "GRZB00002")
-set(VITA_VERSION  "00.01")
+set(VITA_VERSION  "00.50")
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
@@ -27,10 +27,12 @@ link_directories(
   ${CMAKE_CURRENT_BINARY_DIR}
 )
 
-add_executable(snake
+add_executable(vitaSnake
   src/main.cpp
   src/game.hpp
   src/game.cpp
+  src/menu.hpp
+  src/menu.cpp
   src/player.hpp
   src/player.cpp
   src/collectable.hpp
@@ -38,7 +40,7 @@ add_executable(snake
   src/global.hpp
 )
 
-target_link_libraries(snake
+target_link_libraries(vitaSnake
   SceLibKernel_stub
   SceDisplay_stub
   SceTouch_stub
@@ -58,9 +60,9 @@ target_link_libraries(snake
   -lc
 )
 
-vita_create_self(snake.self snake)
+vita_create_self(vitaSnake.self vitaSnake)
 
-vita_create_vpk(snake.vpk ${VITA_TITLEID} snake.self
+vita_create_vpk(vitaSnake.vpk ${VITA_TITLEID} vitaSnake.self
   VERSION ${VITA_VERSION}
   NAME ${VITA_APP_NAME}
   FILE sce_sys/icon0.png sce_sys/icon0.png
@@ -71,6 +73,9 @@ vita_create_vpk(snake.vpk ${VITA_TITLEID} snake.self
   FILE img/body.png img/body.png
   FILE img/tail.png img/tail.png
   FILE img/apple.png img/apple.png
+  FILE img/menuScreen.png img/menuScreen.png
+  FILE img/cursor.png img/cursor.png
+  FILE img/infoScreen.png img/infoScreen.png
   FILE img/pauseScreen.png img/pauseScreen.png
   FILE img/overScreen.png img/overScreen.png
 )

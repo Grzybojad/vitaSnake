@@ -47,7 +47,7 @@ void Collectable::render()
 // Render the score counter
 void Collectable::renderScore()
 {
-	vita2d_pgf_draw_textf( pgf, 800, 30, RGBA8(255, 255, 0, 255), 1.0f, "SCORE: %d", getScore() );
+	vita2d_pgf_draw_textf( pgf, 830, 30, RGBA8(255, 255, 0, 255), 1.0f, "SCORE: %d", score );
 }
 
 
@@ -57,8 +57,42 @@ int Collectable::getScore()
 	return score;
 }
 
+
 // Clear textures
 void Collectable::destroyTextures()
 {
 	vita2d_free_texture( texture );
+}
+
+
+// Read highscore from file
+int Collectable::getHighscore()
+{
+	int highscore;
+
+	std::ifstream scoreList;
+
+	scoreList.open( "ux0:/data/vitaSnake/highscores.txt", std::ifstream::in );
+	scoreList >> highscore;
+	scoreList.close();
+
+	return highscore;
+}
+
+
+// Write new highscore to file
+void Collectable::writeHighscore()
+{
+	std::ofstream scoreList;
+	sceIoMkdir("ux0:/data/vitaSnake", 0777);
+	scoreList.open( "ux0:/data/vitaSnake/highscores.txt" );
+	scoreList << score;
+	scoreList.close();
+}
+
+
+// Render the highscore text
+void Collectable::renderHighscore()
+{
+	vita2d_pgf_draw_textf( pgf, 10, 30, RGBA8(255, 255, 0, 255), 1.0f, "HIGHSCORE: %d", getHighscore() );
 }
