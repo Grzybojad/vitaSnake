@@ -25,13 +25,6 @@ Game::Game()
 
 	pvf = vita2d_load_default_pvf();
 
-	// Button bools
-	startPressed = false;
-	crossPressed = false;
-	circlePressed = false;
-	upPressed = false;
-	downPressed = false;
-
 	// Game screen textures
 	pauseTexture = vita2d_load_PNG_file( "app0:/img/pauseScreen.png" );
 	overTexture = vita2d_load_PNG_file( "app0:/img/overScreen.png" );
@@ -92,43 +85,24 @@ void Game::gameStart()
 void Game::gameMenu()
 {
 	sceCtrlPeekBufferPositive( 0, &pad, 1 );
-	// Move cursor up with UP ARROW on DPAD
-	if( ( pad.buttons & SCE_CTRL_UP ) && !upPressed )
+
+	// Menu controls
+	if( input.wasPressed(Input::up) )
 	{
-		upPressed = true;
 		mainMenu.selectUp();
 	}
-	else if( !( pad.buttons & SCE_CTRL_UP ) )
+	if( input.wasPressed(Input::down) )
 	{
-		upPressed = false;
-	}
-
-	// Move cursor down with DOWN ARROW on DPAD
-	if( ( pad.buttons & SCE_CTRL_DOWN ) && !downPressed )
-	{
-		downPressed = true;
 		mainMenu.selectDown();
 	}
-	else if( !( pad.buttons & SCE_CTRL_DOWN ) )
+	if( input.wasPressed(Input::cross) )
 	{
-		downPressed = false;
-	}
-
-	// Select item with X
-	if( ( pad.buttons & SCE_CTRL_CROSS ) && !crossPressed )
-	{
-		crossPressed = true;
-		
 		if( mainMenu.cursor == startGame )
 			_gameState = playing;
 		else if( mainMenu.cursor == howToPlay )
 			_gameState = showingHTP;
 		else if( mainMenu.cursor == exitGame )
 			_gameState = exiting;
-	}
-	else if( !( pad.buttons & SCE_CTRL_CROSS ) )
-	{
-		crossPressed = false;
 	}
 
 	/* RENDERING */
@@ -149,15 +123,8 @@ void Game::gameLoop()
 	sceCtrlPeekBufferPositive( 0, &pad, 1 );
 
 	// Pause the game with START
-	if( ( pad.buttons & SCE_CTRL_START ) && !startPressed )
-	{
-		startPressed = true;
+	if( input.wasPressed(Input::start) )
 		_gameState = paused;
-	}
-	else if( !( pad.buttons & SCE_CTRL_START ) )
-	{
-		startPressed = false;
-	}
 
 	// Player controls
 	snakePart[0].handleInput();
@@ -212,15 +179,8 @@ void Game::gamePaused()
 	vita2d_clear_screen();	
 
 	// Unpause the game with START
-	if( ( pad.buttons & SCE_CTRL_START ) && !startPressed )
-	{
-		startPressed = true;
+	if( input.wasPressed(Input::start) )
 		_gameState = playing;
-	}
-	else if( !( pad.buttons & SCE_CTRL_START ) )
-	{
-		startPressed = false;
-	}
 
 	// We still want to draw everything, so the player can see the paused game
 	for( int part = 0; part < SNAKE_LENGTH; ++part ) 
@@ -264,26 +224,12 @@ void Game::gameEnd()
 	vita2d_swap_buffers();
 
 	// Restart the game when the user presses X
-	if( ( pad.buttons & SCE_CTRL_CROSS ) && !crossPressed )
-	{
-		crossPressed = true;
+	if( input.wasPressed(Input::cross) )
 		_gameState = needReinitialize;
-	}
-	else if( !( pad.buttons & SCE_CTRL_CROSS ) )
-	{
-		crossPressed = false;
-	}
 
 	// Quit the game with START
-	if( ( pad.buttons & SCE_CTRL_START ) && !startPressed )
-	{
-		startPressed = true;
+	if( input.wasPressed(Input::start) )
 		_gameState = exiting;
-	}
-	else if( !( pad.buttons & SCE_CTRL_START ) )
-	{
-		startPressed = false;
-	}
 }
 
 // Destroy textures on game exit
@@ -336,15 +282,8 @@ void Game::gameHTP()
 	vita2d_clear_screen();	
 
 	// Press O to go back
-	if( ( pad.buttons & SCE_CTRL_CIRCLE ) && !circlePressed )
-	{
-		circlePressed = true;
+	if( input.wasPressed(Input::start) )
 		_gameState = showingMenu;
-	}
-	else if( !( pad.buttons & SCE_CTRL_CIRCLE ) )
-	{
-		circlePressed = false;
-	}
 
 	// TO DO change this
 	vita2d_draw_texture( infoTexture, 0.0f, 0.0f );

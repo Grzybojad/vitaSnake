@@ -13,6 +13,7 @@
 #include "menu.hpp"
 #include "player.hpp"
 #include "collectable.hpp"
+#include "buttons.hpp"
 #include "global.hpp"
 
 class Game
@@ -58,16 +59,10 @@ class Game
 
 		// Inputs
 		SceCtrlData pad;
+		Input input;
 
 		// PVF text
 		vita2d_pvf *pvf;
-
-		// Button bools
-		bool startPressed;
-		bool crossPressed;
-		bool circlePressed;
-		bool upPressed;
-		bool downPressed;
 
 
 		// Screen textures
