@@ -19,13 +19,6 @@ Player::Player()
 	sceCtrlSetSamplingMode( SCE_CTRL_MODE_ANALOG );
 }
 
-// Assign a texture to the object
-void Player::setTexture( const char *filename )
-{
-	texture = vita2d_load_PNG_file( filename );
-}
-
-
 // Handle input
 void Player::handleInput()
 {
@@ -52,7 +45,6 @@ void Player::handleInput()
 		speed = -PLAYER_MAX_SPEED;
 }
 
-
 // Move the player
 void Player::move()
 {
@@ -70,7 +62,6 @@ void Player::move()
 	else if( yPos > SCREEN_HEIGHT - PLAYER_HEIGHT / 2 )
 		yPos = SCREEN_HEIGHT - PLAYER_HEIGHT / 2;
 }
-
 
 // Tail collision
 bool Player::checkCollision( Player part )
@@ -109,13 +100,31 @@ void Player::follow( Player part )
 		yPos = SCREEN_HEIGHT - PLAYER_HEIGHT / 2;
 }
 
-
 // Render head or body
-void Player::render()
+void Player::render( part part )
 {
-	vita2d_draw_texture_rotate( texture, xPos, yPos, rotation );
+	switch( part )
+	{
+		case head:
+			vita2d_draw_texture_rotate( gSnakeHeadTexture.texture, xPos, yPos, rotation );
+			break;
+		case body:
+			vita2d_draw_texture_rotate( gSnakeBodyTexture.texture, xPos, yPos, rotation );
+			break;
+		case tail:
+			vita2d_draw_texture_rotate( gSnakeTailTexture.texture, xPos, yPos, rotation );
+			break;
+	}
+	
 }
 
+// Reset player position
+void Player::resetPos()
+{
+	xPos = SCREEN_WIDTH / 6;
+	yPos = SCREEN_HEIGHT / 2;
+	rotation = M_PI / 2;
+}
 
 // Get position coordinates
 float Player::get_xPos()
@@ -126,11 +135,4 @@ float Player::get_xPos()
 float Player::get_yPos()
 {
 	return yPos;
-}
-
-
-// Clear textures
-void Player::destroyTextures()
-{
-	vita2d_free_texture( texture );
 }

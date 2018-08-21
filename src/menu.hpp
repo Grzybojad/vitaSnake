@@ -9,27 +9,69 @@
 class Menu
 {
 	public:
-		Menu();
-
 		struct MenuItem
 		{
-			itemName name;
+			int name;
 			float x;
 			float y;
 		};
 
-		itemName cursor;
-
-		MenuItem item[ 3 ];
+		int MENU_ITEMS;
+		int cursor;
 
 		void selectUp();
 		void selectDown();
-		void renderBackground();
+		
 		void renderCursor( MenuItem item );
+};
 
-	private:
-		vita2d_texture *menuTexture;
-		vita2d_texture *cursorTexture;
+class MainMenu: public Menu
+{
+	public:
+		MainMenu();
+
+		enum itemName
+		{
+			startGame = 0, 
+			howToPlay = 1, 
+			exitGame = 2
+		};
+
+		MenuItem item[ 3 ];
+
+		void renderBackground();
+};
+
+class PauseMenu: public Menu
+{
+	public:
+		PauseMenu();
+
+		enum itemName
+		{
+			resumeGame = 0, 
+			returnToMenu = 1
+		};
+
+		MenuItem item[ 2 ];
+
+		void renderBackground();
+};
+
+class GameOverMenu: public Menu
+{
+	public:
+		GameOverMenu();
+
+		enum itemName
+		{
+			playAgain = 0, 
+			returnToMenu = 1
+		};
+
+		MenuItem item[ 2 ];
+
+		void renderBackground();
 };
 
 #endif // MENU_HPP

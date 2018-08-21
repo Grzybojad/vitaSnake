@@ -14,6 +14,7 @@
 #include "player.hpp"
 #include "collectable.hpp"
 #include "buttons.hpp"
+#include "texture.hpp"
 #include "global.hpp"
 
 class Game
@@ -29,9 +30,12 @@ class Game
 		void gamePaused();			// Pause screen
 		void gameEnd();				// Game over screen
 		void gameQuit();			// Exit game and free resources
-		void gameReinitialize();	// Reinitialize game variables and restart
+		void gameReinitialize();	// Reinitialize game variables and go to menu
+		void gamePlayAgain();		// Reinitialize game variables and go to the game 
 
-		void gameHTP();			// Instructions on how to play the game
+		void gameHTP();				// Instructions on how to play the game
+
+		static const int START_SNAKE_LENGTH = 3;
 
 		// Game state
 		enum gameState
@@ -43,16 +47,18 @@ class Game
 			gameOver = 4,
 			exiting = 5,
 			needReinitialize = 6,
-			showingHTP = 7
+			playAgain = 7,
+			showingHTP = 8
 		};
 		gameState _gameState;
 
-		// Main menu
-		Menu mainMenu;
+		MainMenu mainMenu;			// Main menu
+		PauseMenu pauseMenu;		// Pause menu
+		GameOverMenu gameOverMenu;	// Game over menu
 
-		// Player length and buffer
-		int SNAKE_LENGTH;
-		Player snakePart[ 255 ];
+		// Player with buffer
+		int SNAKE_LENGTH = START_SNAKE_LENGTH;
+		Player snakePart[255];
 
 		// Collectable
 		Collectable collectable;
@@ -62,13 +68,7 @@ class Game
 		Input input;
 
 		// PVF text
-		vita2d_pvf *pvf;
-
-
-		// Screen textures
-		vita2d_texture *pauseTexture;
-		vita2d_texture *overTexture;
-		vita2d_texture *infoTexture;
+		vita2d_pvf *pvf;	
 };
 
 #endif // GAME_HPP

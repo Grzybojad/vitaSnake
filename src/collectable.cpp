@@ -13,10 +13,8 @@ Collectable::Collectable()
 }
 
 // Assign a texture to the object
-void Collectable::setTextureAndFont( const char *filename )
+void Collectable::setFont()
 {
-	texture = vita2d_load_PNG_file( filename );
-
 	pgf = vita2d_load_default_pgf();
 }
 
@@ -41,7 +39,7 @@ void Collectable::collect()
 // Render the collectable
 void Collectable::render()
 {
-	vita2d_draw_texture_rotate( texture, xPos, yPos, 0.0f );
+	vita2d_draw_texture_rotate( gAppleTexture.texture, xPos, yPos, 0.0f );
 }
 
 // Render the score counter
@@ -57,13 +55,11 @@ int Collectable::getScore()
 	return score;
 }
 
-
-// Clear textures
-void Collectable::destroyTextures()
+// Reset the score counter
+void Collectable::resetScore()
 {
-	vita2d_free_texture( texture );
+	score = 0;
 }
-
 
 // Read highscore from file
 int Collectable::getHighscore()

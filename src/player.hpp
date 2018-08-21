@@ -16,24 +16,15 @@
 class Player
 {
 	public:
-		// Player dimensions
-		static const int PLAYER_WIDTH = 30;
-		static const int PLAYER_HEIGHT = 40;
-
-		const float PLAYER_MAX_SPEED = 5.0f;		// Player max speed
-		const float PLAYER_ROTATION_SPEED = 0.07f;	// Player rotation speed
-		const float FOLLOW_DISTANCE = 35.0f;		// Follow distanse
-		const float ANALOG_DEADZONE = 0.2f;			// Analog stick deadzone
-		const float COLLISION_DISTANCE = 20.0f;		// The distance at which a collision occurs
-
-		float xPos, yPos;	// Player coordinates
-		float rotation;		// Player current rotation
-
 		// Initializes variables
 		Player();
 
-		// Assignes a texture to the object
-		void setTexture( const char *filename );
+		enum part
+		{
+			head = 0,
+			body = 1,
+			tail = 2
+		};
 
 		// Handles input
 		void handleInput();
@@ -48,18 +39,28 @@ class Player
 		bool checkCollision( Player part );
 
 		// Renders the player on the screen
-		void render();
+		void render( part part );
+
+		// Reset player position
+		void resetPos();
 
 		// Get position
 		float get_xPos();
 		float get_yPos();
 
-		// Clear textures
-		void destroyTextures();
-
 	private:
-		// Player texture
-		vita2d_texture *texture;
+		// Player dimensions
+		static const int PLAYER_WIDTH = 30;
+		static const int PLAYER_HEIGHT = 40;
+
+		const float PLAYER_MAX_SPEED = 5.0f;		// Player max speed
+		const float PLAYER_ROTATION_SPEED = 0.07f;	// Player rotation speed
+		const float FOLLOW_DISTANCE = 35.0f;		// Follow distanse
+		const float ANALOG_DEADZONE = 0.2f;			// Analog stick deadzone
+		const float COLLISION_DISTANCE = 20.0f;		// The distance at which a collision occurs
+
+		float xPos, yPos;	// Player coordinates
+		float rotation;		// Player current rotation
 
 		// Player current speed
 		float speed;
@@ -67,6 +68,5 @@ class Player
 		// Controls
 		SceCtrlData pad;
 };
-
 
 #endif // PLAYER_HPP

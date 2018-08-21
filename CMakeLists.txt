@@ -14,7 +14,7 @@ include("${VITASDK}/share/vita.cmake" REQUIRED)
 set(VITA_APP_NAME "vitaSnake")
 set(SHORT_NAME vitaSnake)
 set(VITA_TITLEID  "GRZB00002")
-set(VITA_VERSION  "00.51")
+set(VITA_VERSION  "00.60")
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
@@ -40,7 +40,10 @@ add_executable(${VITA_APP_NAME}
   src/collectable.cpp
   src/buttons.hpp
   src/buttons.cpp
+  src/texture.hpp
+  src/texture.cpp
   src/global.hpp
+  src/global.cpp
 )
 
 target_link_libraries(${VITA_APP_NAME}
