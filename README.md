@@ -6,7 +6,8 @@ Turn left and right to collect as many apples as you can, but avoid biting your 
 ![vitaSnake menu screenshot](https://i.imgur.com/XesbQb9.jpg)
 ![vitaSnake gameplay screenshot](https://i.imgur.com/f49pKgF.jpg)
 ![vitaSnake how to play screenshot](https://i.imgur.com/G8Uy5yh.jpg)
-![vitaSnake game over screenshot](https://i.imgur.com/P15v8qe.jpg)
+![vitaSnake pause screenshot](https://i.imgur.com/syrc5h8.png)
+![vitaSnake game over screenshot](https://i.imgur.com/a6Nre4t.png)
 
 # Controls
 * Use the left stick, or DPAD to turn left and right.
@@ -19,4 +20,3 @@ Turn left and right to collect as many apples as you can, but avoid biting your 
 # To Do
 In the next version I'll try to add difficulty options with different snake speeds and killer walls on "hard". Each difficulty will have it's own highscore.  
 After that I'm hoping for a graphic overhaul to make vitaSnake look like a real game.  
-I should also fix the crash that sometimes happens on exit. 
