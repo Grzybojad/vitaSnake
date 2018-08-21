@@ -3,9 +3,9 @@ A snake game with smooth rotation made for the PS Vita with LibVita2D.
 Turn left and right to collect as many apples as you can, but avoid biting your tail, or you will lose the game.
 
 # Screenshots
-![vitaSnake menu screenshot](https://i.imgur.com/XesbQb9.jpg)
-![vitaSnake gameplay screenshot](https://i.imgur.com/f49pKgF.jpg)
-![vitaSnake how to play screenshot](https://i.imgur.com/G8Uy5yh.jpg)
+![vitaSnake menu screenshot](https://i.imgur.com/Kmbu5qB.png)
+![vitaSnake gameplay screenshot](https://i.imgur.com/OC0I5QT.png)
+![vitaSnake how to play screenshot](https://i.imgur.com/DS3pztu.png)
 ![vitaSnake pause screenshot](https://i.imgur.com/syrc5h8.png)
 ![vitaSnake game over screenshot](https://i.imgur.com/a6Nre4t.png)
 
