@@ -16,5 +16,5 @@ Turn left and right to collect as many apples as you can, but avoid biting your 
 [Get the latest release here](https://github.com/Grzybojad/vitaSnake/releases)  
 
 # To Do
-In the next version I'll try to add difficulty options with different snake speeds and killer walls on "hard". Each difficulty will have it's own highscore.  
+In the next update, I'll try to bring sound to vitaSnake.
 After that I'm hoping for a graphic overhaul to make vitaSnake look like a real game.  
