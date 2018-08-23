@@ -7,9 +7,6 @@ Player::Player()
 	xPos = SCREEN_WIDTH / 6;
 	yPos = SCREEN_HEIGHT / 2;
 
-	// Set speed
-	speed = -PLAYER_MAX_SPEED;
-
 	// Set starting rotation to 90 degrees (pi rad / 2)
 	rotation = M_PI / 2;
 
@@ -17,6 +14,28 @@ Player::Player()
 
 	// Set sampling mode to analog, so that the analog sticks return proper values
 	sceCtrlSetSamplingMode( SCE_CTRL_MODE_ANALOG );
+}
+
+// Set difficulty
+void Player::setDifficulty()
+{
+	switch( GAME_DIFFICULTY )
+	{
+		case 0:
+			PLAYER_SET_SPEED = 4.0f;
+			PLAYER_SET_ROTATION_SPEED = 0.06f;
+			break;
+		case 1:
+			PLAYER_SET_SPEED = 5.0f;
+			PLAYER_SET_ROTATION_SPEED = 0.07f;
+			break;
+		case 2:
+			PLAYER_SET_SPEED = 6.0f;
+			PLAYER_SET_ROTATION_SPEED = 0.08f;
+			break;
+	}
+
+	speed = -PLAYER_SET_SPEED;
 }
 
 // Handle input
@@ -27,22 +46,22 @@ void Player::handleInput()
 	// Calculate rotation
 	// DPAD controls
 	if ( pad.buttons & SCE_CTRL_LEFT )
-		rotation -= PLAYER_ROTATION_SPEED;
+		rotation -= PLAYER_SET_ROTATION_SPEED;
 	else if ( pad.buttons & SCE_CTRL_RIGHT )
-		rotation += PLAYER_ROTATION_SPEED;
+		rotation += PLAYER_SET_ROTATION_SPEED;
 
 	// Analog stick controls with deadzone
 	float analogInput = (float)( ( pad.lx - 128.0f ) / 128.0f );
 	if( analogInput > ANALOG_DEADZONE || analogInput < -ANALOG_DEADZONE )
 	{
-		rotation += analogInput * PLAYER_ROTATION_SPEED;
+		rotation += analogInput * PLAYER_SET_ROTATION_SPEED;
 	}
 
 	// Boost snake speed with X
 	if( pad.buttons & SCE_CTRL_CROSS )
-		speed = 1.5f * -PLAYER_MAX_SPEED;
+		speed = 1.5f * -PLAYER_SET_SPEED;
 	else
-		speed = -PLAYER_MAX_SPEED;
+		speed = -PLAYER_SET_SPEED;
 }
 
 // Move the player
@@ -52,25 +71,18 @@ void Player::move()
 	xPos -= sin( rotation ) * speed;
 	yPos += cos( rotation ) * speed;
 
-	// Trap the player inside the screen
-	if( xPos < PLAYER_HEIGHT / 2 )
-		xPos = PLAYER_HEIGHT / 2;
-	else if( xPos > SCREEN_WIDTH - PLAYER_HEIGHT / 2 )
-		xPos = SCREEN_WIDTH - PLAYER_HEIGHT / 2;
-	if( yPos < PLAYER_HEIGHT / 2 )
-		yPos = PLAYER_HEIGHT / 2;
-	else if( yPos > SCREEN_HEIGHT - PLAYER_HEIGHT / 2 )
-		yPos = SCREEN_HEIGHT - PLAYER_HEIGHT / 2;
-}
-
-// Tail collision
-bool Player::checkCollision( Player part )
-{
-	float distance = sqrt( pow( ( part.get_xPos() - xPos ), 2) + pow( ( part.get_yPos() - yPos ), 2 ) );
-	if( distance < COLLISION_DISTANCE )
-		return true;
-	else
-		return false;
+	if( GAME_DIFFICULTY != 2 )
+	{
+		// Trap the player inside the screen
+		if( xPos < PLAYER_HEIGHT / 2 )
+			xPos = PLAYER_HEIGHT / 2;
+		else if( xPos > SCREEN_WIDTH - PLAYER_HEIGHT / 2 )
+			xPos = SCREEN_WIDTH - PLAYER_HEIGHT / 2;
+		if( yPos < PLAYER_HEIGHT / 2 )
+			yPos = PLAYER_HEIGHT / 2;
+		else if( yPos > SCREEN_HEIGHT - PLAYER_HEIGHT / 2 )
+			yPos = SCREEN_HEIGHT - PLAYER_HEIGHT / 2;
+	}
 }
 
 // Move the body parts
@@ -90,14 +102,39 @@ void Player::follow( Player part )
 	}
 
 	// Trap the part inside the screen
-	if( xPos < PLAYER_HEIGHT / 2 )
-		xPos = PLAYER_HEIGHT / 2;
-	else if( xPos > SCREEN_WIDTH - PLAYER_HEIGHT / 2 )
-		xPos = SCREEN_WIDTH - PLAYER_HEIGHT / 2;
-	if( yPos < PLAYER_HEIGHT / 2 )
-		yPos = PLAYER_HEIGHT / 2;
-	else if( yPos > SCREEN_HEIGHT - PLAYER_HEIGHT / 2 )
-		yPos = SCREEN_HEIGHT - PLAYER_HEIGHT / 2;
+	if( xPos < 0 )
+		xPos = 0;
+	else if( xPos > SCREEN_WIDTH )
+		xPos = SCREEN_WIDTH;
+	if( yPos < 0 )
+		yPos = 0;
+	else if( yPos > SCREEN_HEIGHT )
+		yPos = SCREEN_HEIGHT;
+}
+
+// Tail collision
+bool Player::checkCollision( Player part )
+{
+	float distance = sqrt( pow( ( part.get_xPos() - xPos ), 2) + pow( ( part.get_yPos() - yPos ), 2 ) );
+	if( distance < COLLISION_DISTANCE )
+		return true;
+	else
+		return false;
+}
+
+// Die from touching a wall on HARD
+bool Player::wallDeath()
+{
+	if( xPos < PLAYER_HEIGHT / 4 )
+		return true;
+	else if( xPos > SCREEN_WIDTH - PLAYER_HEIGHT / 4 )
+		return true;
+	if( yPos < PLAYER_HEIGHT / 4 )
+		return true;
+	else if( yPos > SCREEN_HEIGHT - PLAYER_HEIGHT / 4 )
+		return true;
+	else
+		return false;
 }
 
 // Render head or body
@@ -115,7 +152,6 @@ void Player::render( part part )
 			vita2d_draw_texture_rotate( gSnakeTailTexture.texture, xPos, yPos, rotation );
 			break;
 	}
-	
 }
 
 // Reset player position

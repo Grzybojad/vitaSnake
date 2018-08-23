@@ -26,6 +26,7 @@ class Game
 
 	private:
 		void gameMenu();			// Go to main menu
+		void gameDifficulty();	// Menu for choosing game difficulty
 		void gameLoop();			// Main game loop
 		void gamePaused();			// Pause screen
 		void gameEnd();				// Game over screen
@@ -34,6 +35,7 @@ class Game
 		void gamePlayAgain();		// Reinitialize game variables and go to the game 
 
 		void gameHTP();				// Instructions on how to play the game
+		
 
 		static const int START_SNAKE_LENGTH = 3;
 
@@ -42,19 +44,21 @@ class Game
 		{
 			initialized = 0,
 			showingMenu = 1,
-			playing = 2,
-			paused = 3,
-			gameOver = 4,
-			exiting = 5,
-			needReinitialize = 6,
-			playAgain = 7,
-			showingHTP = 8
+			choosingDifficulty = 2,
+			playing = 3,
+			paused = 4,
+			gameOver = 5,
+			exiting = 6,
+			needReinitialize = 7,
+			playAgain = 8,
+			showingHTP = 9
 		};
 		gameState _gameState;
 
-		MainMenu mainMenu;			// Main menu
-		PauseMenu pauseMenu;		// Pause menu
-		GameOverMenu gameOverMenu;	// Game over menu
+		MainMenu mainMenu;				// Main menu
+		DifficultyMenu difficultyMenu;	// Menu for choosing game difficulty
+		PauseMenu pauseMenu;			// Pause menu
+		GameOverMenu gameOverMenu;		// Game over menu
 
 		// Player with buffer
 		int SNAKE_LENGTH = START_SNAKE_LENGTH;

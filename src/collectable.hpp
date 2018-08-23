@@ -25,14 +25,17 @@ class Collectable
 		void collect();			// Pick up the collectable
 		void render();			// Render the collectable
 
-		int getHighscore();		// Read highscore from file
-		void renderHighscore();	// Render the highscore text
-		void writeHighscore();	// Write new highscore to file
+		void readHighscore();					// Read highscore from file
+		void writeHighscore();					// Write new highscore to file
+		int getHighscore( int difficulty );		// Return highscore
+		void renderHighscore();					// Render the highscore text
+		void renderMenuScores();				// Render menu scores
 
 		int getScore();			// Get the score number
 		void resetScore();		// Reset the score counter
-		void renderScore();		// Render the score text
+		void renderScore();		// Render the score text			
 		
+
 	private:
 		// Collectable dimensions
 		static const int COLLECT_WIDTH = 30;
@@ -48,7 +51,9 @@ class Collectable
 		int score;
 
 		// Current highscore
-		int highscore;
+		int easyHighscore = 0;
+		int normalHighscore = 0;
+		int hardHighscore = 0;
 
 		// Score counter text
 		vita2d_pgf *pgf;

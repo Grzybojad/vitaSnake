@@ -20,9 +20,14 @@ Game::Game()
 
 	// Load collectable font
 	collectable.setFont();
+	collectable.readHighscore();
 
-	// Set highscore if none is set
-	if( collectable.getHighscore() > 10000 || !( collectable.getHighscore() > 0 ) )
+	// Set highscore if none is set, or highscore is incorrect
+	if( collectable.getHighscore( 0 ) > 10000 || !( collectable.getHighscore( 0 ) > 0 ) )
+		collectable.writeHighscore();
+	if( collectable.getHighscore( 1 ) > 10000 || !( collectable.getHighscore( 1 ) > 0 ) )
+		collectable.writeHighscore();
+	if( collectable.getHighscore( 2 ) > 10000 || !( collectable.getHighscore( 2 ) > 0 ) )
 		collectable.writeHighscore();
 
 	_gameState = initialized;
@@ -45,6 +50,9 @@ void Game::gameStart()
 				break;
 			case showingMenu:
 				gameMenu();
+				break;
+			case choosingDifficulty:
+				gameDifficulty();
 				break;
 			case playing:
 				gameLoop();
@@ -88,7 +96,7 @@ void Game::gameMenu()
 	if( input.wasPressed(Input::cross) )
 	{
 		if( mainMenu.cursor == MainMenu::startGame )
-			_gameState = playing;
+			_gameState = choosingDifficulty;
 		else if( mainMenu.cursor == MainMenu::howToPlay )
 			_gameState = showingHTP;
 		else if( mainMenu.cursor == MainMenu::exitGame )
@@ -101,7 +109,51 @@ void Game::gameMenu()
 
 	mainMenu.renderBackground();								// Draw menu background
 	mainMenu.renderCursor( mainMenu.item[ mainMenu.cursor ] );	// Draw cursor
-	collectable.renderHighscore();								// Draw highscore text
+
+	vita2d_end_drawing();
+	vita2d_swap_buffers();
+}
+
+// Menu for choosing game difficulty
+void Game::gameDifficulty()
+{
+	sceCtrlPeekBufferPositive( 0, &pad, 1 );
+
+	if( difficultyMenu.cursor == DifficultyMenu::easy )
+		GAME_DIFFICULTY = DifficultyMenu::easy;
+	else if( difficultyMenu.cursor == DifficultyMenu::normal )
+		GAME_DIFFICULTY = DifficultyMenu::normal;
+	else if( difficultyMenu.cursor == DifficultyMenu::hard )
+		GAME_DIFFICULTY = DifficultyMenu::hard;
+
+	// Menu controls
+	if( input.wasPressed(Input::up) )
+	{
+		difficultyMenu.selectUp();
+	}
+	if( input.wasPressed(Input::down) )
+	{
+		difficultyMenu.selectDown();
+	}
+	if( input.wasPressed(Input::cross) )
+	{
+		snakePart[0].setDifficulty();
+		_gameState = playing;
+	}
+	if( input.wasPressed(Input::circle) )
+	{
+		_gameState = showingMenu;
+	}
+
+
+	/* RENDERING */
+	vita2d_start_drawing();
+	vita2d_clear_screen();	
+
+	difficultyMenu.renderBackground();												// Draw menu background
+	difficultyMenu.renderCursor( difficultyMenu.item[ difficultyMenu.cursor ] );	// Draw cursor
+	difficultyMenu.renderSnake();
+	collectable.renderMenuScores();													// Render highscores in the menu
 
 	vita2d_end_drawing();
 	vita2d_swap_buffers();
@@ -126,6 +178,13 @@ void Game::gameLoop()
 	for( int part = 4; part < SNAKE_LENGTH; ++part )
 	{
 		if( snakePart[0].checkCollision( snakePart[part] ) )
+			_gameState = gameOver;
+	}
+
+	// Check wall collision if playing on HARD
+	if( GAME_DIFFICULTY == 2 )
+	{
+		if( snakePart[0].wallDeath() )
 			_gameState = gameOver;
 	}
 	
@@ -213,14 +272,17 @@ void Game::gameEnd()
 {
 	sceCtrlPeekBufferPositive( 0, &pad, 1 );
 
-	// Check if the player set a new highscore
-	if( collectable.getScore() > collectable.getHighscore() )
-		collectable.writeHighscore();
-
 	/* RENDERING */
 	vita2d_start_drawing();
 	vita2d_clear_screen();	
 
+	// New highscore flag
+	bool highscore;
+
+	// Check if the player set a new highscore
+	if( collectable.getScore() > collectable.getHighscore( GAME_DIFFICULTY ) )
+		highscore = true;
+	
 	// We still want to draw everything, so the player can see the game even after they lost
 	// Draw snake
 	snakePart[ 0 ].render( Player::head );	
@@ -232,9 +294,18 @@ void Game::gameEnd()
 	collectable.renderScore();		// draw the score counter
 	collectable.renderHighscore();	// draw highscore text
 
-	// Draw game over image
+	// Draw image over the game
 	gameOverMenu.renderBackground();
 	gameOverMenu.renderCursor( gameOverMenu.item[ gameOverMenu.cursor ] );
+
+	// If the player set a new highscore
+	if( highscore )
+	{
+		int text_width = vita2d_pvf_text_width( pvf, 2.0f, "NEW HIGHSCORE" );
+		vita2d_pvf_draw_textf( pvf, (SCREEN_WIDTH-text_width)/2, 270, RGBA8( 255, 255, 0, 255 ), 2.0f, "NEW HIGHSCORE" );
+		collectable.writeHighscore();
+		collectable.readHighscore();
+	}
 
 	// Render final score
 	int text_width = vita2d_pvf_text_width(pvf, 2.0f, "Your score: 00" );
@@ -242,6 +313,7 @@ void Game::gameEnd()
 
 	vita2d_end_drawing();
 	vita2d_swap_buffers();
+
 
 	// Menu controls
 	if( input.wasPressed(Input::up) )
@@ -304,7 +376,7 @@ void Game::gamePlayAgain()
 	// The starting length of the snake
 	SNAKE_LENGTH = START_SNAKE_LENGTH;
 
-	_gameState = playing;
+	_gameState = choosingDifficulty;
 }
 
 void Game::gameHTP()

@@ -15,6 +15,23 @@
 
 class Player
 {
+	private:
+		// Player dimensions
+		static const int PLAYER_WIDTH = 30;
+		static const int PLAYER_HEIGHT = 40;
+		const float FOLLOW_DISTANCE = 35.0f;		// Follow distanse
+		const float ANALOG_DEADZONE = 0.2f;			// Analog stick deadzone
+		const float COLLISION_DISTANCE = 20.0f;		// The distance at which a collision occurs
+
+		float xPos, yPos;					// Player coordinates
+		float rotation;						// Player current rotation
+		float PLAYER_SET_SPEED;				// The speed set by the difficulty
+		float PLAYER_SET_ROTATION_SPEED;	// The rotation set by the difficulty
+		float speed;						// Player current speed
+
+		// Controls
+		SceCtrlData pad;
+
 	public:
 		// Initializes variables
 		Player();
@@ -25,6 +42,9 @@ class Player
 			body = 1,
 			tail = 2
 		};
+
+		// Set difficulty
+		void setDifficulty();
 
 		// Handles input
 		void handleInput();
@@ -38,6 +58,9 @@ class Player
 		// Tail collision
 		bool checkCollision( Player part );
 
+		// Die from touching a wall on HARD
+		bool wallDeath();
+
 		// Renders the player on the screen
 		void render( part part );
 
@@ -47,26 +70,6 @@ class Player
 		// Get position
 		float get_xPos();
 		float get_yPos();
-
-	private:
-		// Player dimensions
-		static const int PLAYER_WIDTH = 30;
-		static const int PLAYER_HEIGHT = 40;
-
-		const float PLAYER_MAX_SPEED = 5.0f;		// Player max speed
-		const float PLAYER_ROTATION_SPEED = 0.07f;	// Player rotation speed
-		const float FOLLOW_DISTANCE = 35.0f;		// Follow distanse
-		const float ANALOG_DEADZONE = 0.2f;			// Analog stick deadzone
-		const float COLLISION_DISTANCE = 20.0f;		// The distance at which a collision occurs
-
-		float xPos, yPos;	// Player coordinates
-		float rotation;		// Player current rotation
-
-		// Player current speed
-		float speed;
-
-		// Controls
-		SceCtrlData pad;
 };
 
 #endif // PLAYER_HPP

@@ -62,17 +62,28 @@ void Collectable::resetScore()
 }
 
 // Read highscore from file
-int Collectable::getHighscore()
+void Collectable::readHighscore()
 {
-	int highscore;
-
 	std::ifstream scoreList;
 
 	scoreList.open( "ux0:/data/vitaSnake/highscores.txt", std::ifstream::in );
-	scoreList >> highscore;
+	scoreList >> easyHighscore;
+	scoreList >> normalHighscore;
+	scoreList >> hardHighscore;
 	scoreList.close();
+}
 
-	return highscore;
+int Collectable::getHighscore( int difficulty )
+{
+	switch( difficulty )
+	{
+	case 0:
+		return easyHighscore;
+	case 1:
+		return normalHighscore;
+	case 2:
+		return hardHighscore;
+	}
 }
 
 
@@ -82,7 +93,20 @@ void Collectable::writeHighscore()
 	std::ofstream scoreList;
 	sceIoMkdir("ux0:/data/vitaSnake", 0777);
 	scoreList.open( "ux0:/data/vitaSnake/highscores.txt" );
-	scoreList << score;
+
+	switch( GAME_DIFFICULTY )
+	{
+	case 0:
+		scoreList << score << "\n" << normalHighscore << "\n" << hardHighscore;
+		break;
+	case 1:
+		scoreList << easyHighscore << "\n" << score << "\n" << hardHighscore;
+		break;
+	case 2:
+		scoreList << easyHighscore << "\n" << normalHighscore << "\n" << score;
+		break;
+	}
+
 	scoreList.close();
 }
 
@@ -90,5 +114,24 @@ void Collectable::writeHighscore()
 // Render the highscore text
 void Collectable::renderHighscore()
 {
-	vita2d_pgf_draw_textf( pgf, 10, 30, RGBA8(255, 255, 0, 255), 1.0f, "HIGHSCORE: %d", getHighscore() );
+	switch( GAME_DIFFICULTY )
+	{
+		case 0:
+			vita2d_pgf_draw_textf( pgf, 10, 30, RGBA8(255, 255, 0, 255), 1.0f, "HIGHSCORE: %d", easyHighscore );
+			break;
+		case 1:
+			vita2d_pgf_draw_textf( pgf, 10, 30, RGBA8(255, 255, 0, 255), 1.0f, "HIGHSCORE: %d", normalHighscore );
+			break;
+		case 2:
+			vita2d_pgf_draw_textf( pgf, 10, 30, RGBA8(255, 255, 0, 255), 1.0f, "HIGHSCORE: %d", hardHighscore );
+			break;
+	}
+}
+
+// Render menu scores
+void Collectable::renderMenuScores()
+{
+	vita2d_pgf_draw_textf( pgf, 660, 240, RGBA8(255, 255, 0, 255), 1.4f, "HIGH: %d", easyHighscore );
+	vita2d_pgf_draw_textf( pgf, 660, 340, RGBA8(255, 255, 0, 255), 1.4f, "HIGH: %d", normalHighscore );
+	vita2d_pgf_draw_textf( pgf, 660, 444, RGBA8(255, 255, 0, 255), 1.4f, "HIGH: %d", hardHighscore );
 }

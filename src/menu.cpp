@@ -100,3 +100,47 @@ void GameOverMenu::renderBackground()
 {
 	vita2d_draw_texture( gGameOverMenuBgTexture.texture, 0.0f, 0.0f );
 }
+
+
+DifficultyMenu::DifficultyMenu()
+{
+	// Nr of selectable menu items
+	MENU_ITEMS = 3;
+
+	// Initialize menu items
+	item[0].name = easy;
+	item[0].x = 310.0f;
+	item[0].y = 207.0f;
+
+	item[1].name = normal;
+	item[1].x = 310.0f;
+	item[1].y = 310.0f;
+
+	item[2].name = hard;
+	item[2].x = 310.0f;
+	item[2].y = 411.0f;
+
+	// Initialize cursor
+	cursor = easy;
+}
+
+void DifficultyMenu::renderBackground()
+{
+	vita2d_draw_texture( gDifficultyMenuBgTexture.texture, 0.0f, 0.0f );
+}
+
+void DifficultyMenu::renderSnake()
+{
+	switch( GAME_DIFFICULTY )
+	{
+		case 0:
+			vita2d_draw_texture( gEasySnake.texture, SCREEN_WIDTH-gEasySnake.get_width(), SCREEN_HEIGHT-gEasySnake.get_height() );
+			break;
+		case 1:
+			vita2d_draw_texture( gNormalSnake.texture, SCREEN_WIDTH-gEasySnake.get_width(), SCREEN_HEIGHT-gEasySnake.get_height() );
+			break;
+		case 2:
+			vita2d_draw_texture( gHardSnake.texture, SCREEN_WIDTH-gEasySnake.get_width(), SCREEN_HEIGHT-gEasySnake.get_height() );
+			break;
+	}
+}

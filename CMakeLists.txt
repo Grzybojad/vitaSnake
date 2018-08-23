@@ -14,7 +14,7 @@ include("${VITASDK}/share/vita.cmake" REQUIRED)
 set(VITA_APP_NAME "vitaSnake")
 set(SHORT_NAME vitaSnake)
 set(VITA_TITLEID  "GRZB00002")
-set(VITA_VERSION  "00.60")
+set(VITA_VERSION  "00.70")
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
@@ -80,8 +80,12 @@ vita_create_vpk(${SHORT_NAME}.vpk ${VITA_TITLEID} ${SHORT_NAME}.self
   FILE img/apple.png img/apple.png
   FILE img/menuScreen.png img/menuScreen.png
   FILE img/cursor.png img/cursor.png
+  FILE img/difficulty.png img/difficulty.png
   FILE img/infoScreen.png img/infoScreen.png
   FILE img/pauseScreen.png img/pauseScreen.png
   FILE img/overScreen.png img/overScreen.png
+  FILE img/snakeEasy.png img/snakeEasy.png
+  FILE img/snakeNormal.png img/snakeNormal.png
+  FILE img/snakeHard.png img/snakeHard.png
 )
 

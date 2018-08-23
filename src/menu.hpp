@@ -74,4 +74,22 @@ class GameOverMenu: public Menu
 		void renderBackground();
 };
 
+class DifficultyMenu: public Menu
+{
+public:
+	DifficultyMenu();
+
+	enum itemName
+	{
+		easy = 0, 
+		normal = 1,
+		hard = 2
+	};
+
+	MenuItem item[ 3 ];
+
+	void renderBackground();
+	void renderSnake();
+};
+
 #endif // MENU_HPP

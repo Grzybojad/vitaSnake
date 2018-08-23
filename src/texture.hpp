@@ -14,6 +14,10 @@ public:
 
 	void freeTexture();
 
+	// Get texture dimensions
+	int get_width();
+	int get_height();
+
 	vita2d_texture *texture;	
 };
 
