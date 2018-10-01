@@ -21,4 +21,5 @@ public:
 	vita2d_texture *texture;	
 };
 
+
 #endif // TEXTURE_HPP

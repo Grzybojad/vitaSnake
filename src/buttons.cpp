@@ -5,6 +5,9 @@ Input::Input()
 	sceCtrlSetSamplingMode( SCE_CTRL_MODE_ANALOG );
 	memset( &pad, 0, sizeof( pad ) );
 
+	sceTouchSetSamplingState(SCE_TOUCH_PORT_FRONT, SCE_TOUCH_SAMPLING_STATE_START);
+	sceTouchEnableTouchForce(SCE_TOUCH_PORT_FRONT);
+
 	/* Button bools */
 	for( int i = 0; i < 12; ++i )
 		button[i] = false;
@@ -16,8 +19,11 @@ bool Input::wasPressed( buttonIndex id )
 
 	int ctrl;
 
-	switch( id )
+	// Button checks
+	if( id < 12 )
 	{
+		switch( id )
+		{
 		case select:
 			ctrl = 0x00000001;
 			break;
@@ -54,17 +60,90 @@ bool Input::wasPressed( buttonIndex id )
 		case square:
 			ctrl = 0x00008000;
 			break;
+		}
+
+		if( ( pad.buttons & ctrl ) && !button[id] )
+		{
+			button[id] = true;
+			return true;
+		}
+		else if( !( pad.buttons & ctrl ) )
+		{
+			button[id] = false;
+		}
+	}
+	// Analog checks
+	else if( id < 16 )
+	{
+		float lAnalogX = (float)( ( pad.lx - 128.0f ) / 128.0f );
+		float lAnalogY = (float)( ( pad.ly - 128.0f ) / 128.0f );
+
+		if( id == lAnalogUp )
+		{
+			if( ( lAnalogY < -ANALOG_DEADZONE ) && !button[id] )
+			{
+				button[id] = true;
+				return true;
+			}
+			else if( !( lAnalogY < -ANALOG_DEADZONE ) )
+			{
+				button[id] = false;
+			}
+		}
+		else if( id == lAnalogRight )
+		{
+			if( ( lAnalogX < -ANALOG_DEADZONE ) && !button[id] )
+			{
+				button[id] = true;
+				return true;
+			}
+			else if( !( lAnalogX < -ANALOG_DEADZONE ) )
+			{
+				button[id] = false;
+			}
+		}
+		else if( id == lAnalogDown )
+		{
+			if( ( lAnalogY > ANALOG_DEADZONE ) && !button[id] )
+			{
+				button[id] = true;
+				return true;
+			}
+			else if( !( lAnalogY > ANALOG_DEADZONE ) )
+			{
+				button[id] = false;
+			}
+		}
+		else if( id == lAnalogLeft )
+		{
+			if( ( lAnalogX > ANALOG_DEADZONE ) && !button[id] )
+			{
+				button[id] = true;
+				return true;
+			}
+			else if( !( lAnalogX > ANALOG_DEADZONE ) )
+			{
+				button[id] = false;
+			}
+		}
+	}
+	// Touch
+	else
+	{
+		memcpy( touch_old, touch, sizeof( touch_old ) );
+		sceTouchPeek( 0, &touch[0], 1 );
+
+		if( ( touch[0].reportNum > 0 ) && !button[id] )
+		{
+			button[id] = true;
+			return true;
+		}
+		else if( touch[0].reportNum <= 0 )
+		{
+			button[id] = false;
+		}
 	}
 
-	if( ( pad.buttons & ctrl ) && !button[id] )
-	{
-		button[id] = true;
-		return true;
-	}
-	else if( !( pad.buttons & ctrl ) )
-	{
-		button[id] = false;
-	}
 
 	return false;
 }

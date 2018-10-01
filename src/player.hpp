@@ -12,6 +12,8 @@
 #include <vita2d.h>
 
 #include "global.hpp"
+#include "menu.hpp"
+#include "particle.hpp"
 
 class Player
 {
@@ -19,7 +21,7 @@ class Player
 		// Player dimensions
 		static const int PLAYER_WIDTH = 30;
 		static const int PLAYER_HEIGHT = 40;
-		const float FOLLOW_DISTANCE = 35.0f;		// Follow distanse
+		const float FOLLOW_DISTANCE = 28.0f;		// Follow distanse
 		const float ANALOG_DEADZONE = 0.2f;			// Analog stick deadzone
 		const float COLLISION_DISTANCE = 20.0f;		// The distance at which a collision occurs
 
@@ -42,6 +44,9 @@ class Player
 			body = 1,
 			tail = 2
 		};
+
+		// Is snake close to the collectable
+		bool isClose;
 
 		// Set difficulty
 		void setDifficulty();
@@ -71,5 +76,6 @@ class Player
 		float get_xPos();
 		float get_yPos();
 };
+
 
 #endif // PLAYER_HPP
