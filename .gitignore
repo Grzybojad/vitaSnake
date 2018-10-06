@@ -1,47 +1,21 @@
-# Windows image file caches
-Thumbs.db
-ehthumbs.db
+# Vita build
+*.vpk
 
-# Folder config file
-Desktop.ini
+# Cmake files
+CMakeFiles
+Makefile
+vitaSnake
+vitaSnake.self
+vitaSnake.velf
+vitaSnake.vpk_param.sfo
+cmake_install.cmake
+CMakeCache.txt
 
-# Recycle Bin used on file shares
-$RECYCLE.BIN/
-
-# Windows Installer files
-*.cab
-*.msi
-*.msm
-*.msp
-
-# Windows shortcuts
-*.lnk
-
-# =========================
-# Operating System Files
-# =========================
-
-# OSX
-# =========================
-
-.DS_Store
-.AppleDouble
-.LSOverride
-
-# Thumbnails
-._*
-
-# Files that might appear in the root of a volume
-.DocumentRevisions-V100
-.fseventsd
-.Spotlight-V100
-.TemporaryItems
-.Trashes
-.VolumeIcon.icns
-
-# Directories potentially created on remote AFP share
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk
+# Visual Studio files
+Debug
+vitaSnake.sln
+vitaSnake.VC.db
+vitaSnake.vcxproj
+vitaSnake.vcxproj.filters
+vitaSnake.vcxproj.user
+vitaSnake.VC.VC.opendb

@@ -52,7 +52,36 @@ void Player::handleInput()
 	float analogInput = (float)( ( pad.lx - 128.0f ) / 128.0f );
 	if( analogInput > ANALOG_DEADZONE || analogInput < -ANALOG_DEADZONE )
 	{
-		rotation += analogInput * PLAYER_SET_ROTATION_SPEED;
+		if( CONTROL_STYLE == 0 )
+		{
+			rotation += analogInput * PLAYER_SET_ROTATION_SPEED;
+		}
+		else if( CONTROL_STYLE == 1 )
+		{
+			float analogX = pad.lx - 128;
+			float analogY = pad.ly - 128;
+
+			float analogAngle = atan2( analogY, analogX ) + ( M_PI / 2 );
+			if( analogAngle < 0 ) analogAngle += M_PI * 2;	
+
+			if( rotation < M_PI )
+			{
+				if( analogAngle > rotation && analogAngle < ( rotation + M_PI ) )
+					rotation += PLAYER_SET_ROTATION_SPEED;
+				else
+					rotation -= PLAYER_SET_ROTATION_SPEED;
+			}
+			else if( rotation > M_PI )
+			{
+				if( analogAngle < ( rotation - M_PI ) )
+					analogAngle += 2 * M_PI;
+
+				if( analogAngle > rotation && analogAngle < ( rotation + M_PI ) )
+					rotation += PLAYER_SET_ROTATION_SPEED;
+				else
+					rotation -= PLAYER_SET_ROTATION_SPEED;
+			}
+		}
 	}
 
 	// Boost snake speed with X

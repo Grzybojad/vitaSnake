@@ -14,6 +14,10 @@ int GAME_DIFFICULTY = 0;
 Input gInput;
 
 
+/* Options */
+int CONTROL_STYLE = 0;
+
+
 // Textures
 Texture gSnakeHeadTexture;
 Texture gSnakeHeadOpenTexture;

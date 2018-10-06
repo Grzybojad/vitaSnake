@@ -64,6 +64,11 @@ void Menu::renderCursor( MenuItem item )
 	vita2d_draw_texture( gCursorTexture.texture, item.x, item.y );
 }
 
+void Menu::renderCursor( int x, int y, int w, int h )
+{
+	vita2d_draw_rectangle( x, y, w, h, RGBA8( 0, 0, 0, 100 ) );
+}
+
 
 void Menu::renderButton( MenuItem item )
 {
@@ -85,20 +90,24 @@ MainMenu::MainMenu()
 	sceTouchEnableTouchForce(SCE_TOUCH_PORT_FRONT);
 
 	// Nr of selectable menu items
-	MENU_ITEMS = 3;
+	MENU_ITEMS = 4;
 
 	// Initialize menu items
 	item[0].name = "Start Game";
 	item[0].x = 310.0f;
-	item[0].y = 207.0f;
+	item[0].y = 170.0f;
 
 	item[1].name = "How to play";
 	item[1].x = 310.0f;
-	item[1].y = 310.0f;
+	item[1].y = 260.0f;
 
-	item[2].name = "Exit";
+	item[2].name = "Options";
 	item[2].x = 310.0f;
-	item[2].y = 411.0f;
+	item[2].y = 350.0f;
+
+	item[3].name = "Exit";
+	item[3].x = 310.0f;
+	item[3].y = 440.0f;
 
 	// Initialize cursor
 	cursor = startGame;
@@ -106,7 +115,7 @@ MainMenu::MainMenu()
 
 void MainMenu::renderBackground()
 {
-	vita2d_draw_texture( gBgTexture.texture, 0.0f, 0.0f );
+	gBgTexture.fill_tile();
 }
 
 
@@ -130,7 +139,7 @@ PauseMenu::PauseMenu()
 
 void PauseMenu::renderBackground()
 {
-	vita2d_draw_texture( gBgTexture.texture, 0.0f, 0.0f );
+	gBgTexture.fill_tile();
 }
 
 
@@ -154,7 +163,7 @@ GameOverMenu::GameOverMenu()
 
 void GameOverMenu::renderBackground()
 {
-	vita2d_draw_texture( gBgTexture.texture, 0.0f, 0.0f );
+	gBgTexture.fill_tile();
 }
 
 
@@ -178,7 +187,7 @@ DifficultyMenu::DifficultyMenu()
 
 void DifficultyMenu::renderBackground()
 {
-	vita2d_draw_texture( gBgTexture.texture, 0.0f, 0.0f );
+	gBgTexture.fill_tile();
 
 	// Change the color of the border for dramatic effect
 	if( border_red >= 254 )
@@ -243,4 +252,73 @@ void DifficultyMenu::renderDescription()
 		vita2d_font_draw_text( gJelle[ font_size ], (SCREEN_WIDTH - text_width2)/2, 470, RGBA8(0, 0, 0, 255), font_size, "touching the game border kills the snake.");
 		break;
 	}
+}
+
+OptionsMenu::OptionsMenu()
+{
+	MENU_ITEMS = 1;
+
+	controlType = classic;
+
+	cursor = classic;
+}
+
+void OptionsMenu::controlNav()
+{
+	if( gInput.wasPressed( Input::right ) || gInput.wasPressed( Input::lAnalogRight ) )
+	{
+		if( controlType == classic )
+			controlType = simplified;
+		else
+			controlType = classic;
+	}
+	if( gInput.wasPressed( Input::left ) || gInput.wasPressed( Input::lAnalogLeft ) )
+	{
+		if( controlType == simplified )
+			controlType = classic;
+		else
+			controlType = simplified;
+	}
+
+	if( controlType == classic ) CONTROL_STYLE = 0;
+	else if( controlType == simplified ) CONTROL_STYLE = 1;
+}
+
+void OptionsMenu::renderBackground()
+{
+	gBgTexture.fill_tile();
+}
+
+void OptionsMenu::renderHeader()
+{
+	int text_width = vita2d_font_text_width( gJelle[ 60 ], 60, "Options" );
+	vita2d_font_draw_text( gJelle[ 60 ], (SCREEN_WIDTH - text_width)/2, 110, RGBA8(0, 0, 0, 255), 60, "Options" );
+}
+
+void OptionsMenu::renderOptions()
+{
+	vita2d_font_draw_text( gJelle[ 30 ], 20, 200, RGBA8(0, 0, 0, 255), 30, "Control style:" );
+	int text_width;
+	switch( controlType )
+	{
+		case classic:
+			text_width = vita2d_font_text_width( gJelle[ 30 ], 30, "< classic >" );
+			vita2d_font_draw_text( gJelle[ 30 ], 400 - (text_width/2), 200, RGBA8(0, 0, 0, 255), 30, "< classic >" );
+			vita2d_font_draw_text( gJelle[ 30 ], 550, 180, RGBA8(0, 0, 0, 255), 20, "Move the left stick left or right" );
+			vita2d_font_draw_text( gJelle[ 30 ], 550, 210, RGBA8(0, 0, 0, 255), 20, "to turn the snake." );
+			break;
+		case simplified:
+			text_width = vita2d_font_text_width( gJelle[ 60 ], 30, "< simplified >" );
+			vita2d_font_draw_text( gJelle[ 30 ], 400 - (text_width/2), 200, RGBA8(0, 0, 0, 255), 30, "< simplified >" );
+			vita2d_font_draw_text( gJelle[ 30 ], 550, 180, RGBA8(0, 0, 0, 255), 20, "Move the left in the direction you " );
+			vita2d_font_draw_text( gJelle[ 30 ], 550, 210, RGBA8(0, 0, 0, 255), 20, "want the snake to go." );
+			break;
+	}
+
+	switch( cursor )
+	{
+		case 0:
+			renderCursor( 400 - (text_width/2)-20, 200-30-5, text_width+40, 40 );
+	}
+	
 }

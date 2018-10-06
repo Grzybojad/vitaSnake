@@ -22,6 +22,21 @@ void Texture::draw( float x, float y )
 	vita2d_draw_texture( texture, x, y );
 }
 
+// Fill the screen by with texture tiles
+void Texture::fill_tile()
+{
+	int rows = 544 / get_height()*2 + 1;
+	int columns = 960 / get_width()*2 + 1;
+
+	for( int i = 0; i <= rows; ++i )
+	{
+		for( int j = 0; j <= columns; ++j )
+		{
+			vita2d_draw_texture_scale( texture, i * get_width(), j * get_height(), 2.0f, 2.0f );
+		}
+	}
+}
+
 // Get texture width
 int Texture::get_width()
 {

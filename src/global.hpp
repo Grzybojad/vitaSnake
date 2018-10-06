@@ -35,6 +35,11 @@ extern int GAME_DIFFICULTY;
 // Input
 extern Input gInput;
 
+
+/* Options */
+extern int CONTROL_STYLE;
+
+
 // Textures
 extern Texture gSnakeHeadTexture;
 extern Texture gSnakeHeadOpenTexture;

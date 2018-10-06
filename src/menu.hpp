@@ -39,6 +39,7 @@ class Menu
 		bool touchSelect( MenuItem item );
 		
 		void renderCursor( MenuItem item );
+		void renderCursor( int x, int y, int w, int h );
 		void renderButton( MenuItem item );
 };
 
@@ -51,10 +52,11 @@ class MainMenu: public Menu
 		{
 			startGame = 0, 
 			howToPlay = 1, 
-			exitGame = 2
+			options = 2,
+			exitGame = 3
 		};
 
-		MenuItem item[ 3 ];
+		MenuItem item[ 4 ];
 
 		void renderBackground();
 };
@@ -113,5 +115,26 @@ class DifficultyMenu: public Menu
 		void renderSnake();
 		void renderDescription();
 };
+
+class OptionsMenu: public Menu
+{
+	public:
+		OptionsMenu();
+
+		enum ControlType
+		{
+			classic = 0,
+			simplified = 1
+		};
+
+		ControlType controlType;
+
+		void controlNav();
+
+		void renderBackground();
+		void renderHeader();
+		void renderOptions();
+};
+
 
 #endif // MENU_HPP

@@ -84,6 +84,9 @@ void Game::gameStart()
 			case showingHTP:
 				gameHTP();
 				break;
+			case options:
+				gameOptions();
+				break;
 		}
 	}
 	gameQuit();
@@ -123,6 +126,8 @@ void Game::gameMenu()
 			_gameState = choosingDifficulty;
 		else if( mainMenu.cursor == MainMenu::howToPlay )
 			_gameState = showingHTP;
+		else if( mainMenu.cursor == MainMenu::options )
+			_gameState = options;
 		else if( mainMenu.cursor == MainMenu::exitGame )
 			_gameState = exiting;
 	}
@@ -507,7 +512,7 @@ void Game::gameHTP()
 	vita2d_start_drawing();
 	vita2d_clear_screen();	
 
-	gBgTexture.draw( 0.0f, 0.0f );
+	gBgTexture.fill_tile();
 
 	int text_width;
 
@@ -548,4 +553,31 @@ void Game::gameDraw()
 	// Draw text
 	collectable.renderScore();
 	collectable.renderHighscore();
+}
+
+void Game::gameOptions()
+{
+	sceCtrlPeekBufferPositive( 0, &pad, 1 );
+
+	optionsMenu.controlNav();
+
+	// Press O to go back
+	if( gInput.wasPressed( Input::circle ) )
+	{
+		gSoloud.play( gMenuSelect );
+		_gameState = showingMenu;
+	}	
+
+	/* RENDERING */
+	vita2d_start_drawing();
+	vita2d_clear_screen();	
+
+	optionsMenu.renderBackground();
+	optionsMenu.renderHeader();
+
+	optionsMenu.renderOptions();
+
+	vita2d_end_drawing();
+	vita2d_wait_rendering_done();
+	vita2d_swap_buffers();
 }

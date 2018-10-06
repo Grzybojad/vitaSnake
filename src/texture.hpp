@@ -3,22 +3,22 @@
 
 #include <vita2d.h>
 
-#include "texture.hpp"
-
 class Texture
 {
-public:
-	void loadTexture( const char *filename );
+	public:
+		void loadTexture( const char *filename );
 
-	void draw( float x, float y );
+		void draw( float x, float y );
 
-	void freeTexture();
+		void fill_tile();
 
-	// Get texture dimensions
-	int get_width();
-	int get_height();
+		void freeTexture();
 
-	vita2d_texture *texture;	
+		// Get texture dimensions
+		int get_width();
+		int get_height();
+
+		vita2d_texture *texture;	
 };
 
 

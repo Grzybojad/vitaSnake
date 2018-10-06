@@ -36,6 +36,7 @@ class Game
 		void gameReinitialize();	// Reinitialize game variables and go to menu
 		void gamePlayAgain();		// Reinitialize game variables and go to the game 
 		void gameHTP();				// Instructions on how to play the game
+		void gameOptions();
 		
 		void gameDraw();			// Draw all gameplay elements
 
@@ -54,7 +55,8 @@ class Game
 			exiting = 6,
 			needReinitialize = 7,
 			playAgain = 8,
-			showingHTP = 9
+			showingHTP = 9,
+			options = 10
 		};
 		gameState _gameState;
 
@@ -62,6 +64,7 @@ class Game
 		DifficultyMenu difficultyMenu;
 		PauseMenu pauseMenu;
 		GameOverMenu gameOverMenu;
+		OptionsMenu optionsMenu;
 
 		int SNAKE_LENGTH = START_SNAKE_LENGTH;
 		Player snakePart[255];
