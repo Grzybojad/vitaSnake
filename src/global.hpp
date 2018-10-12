@@ -36,15 +36,21 @@ extern int GAME_DIFFICULTY;
 extern Input gInput;
 
 
+enum part
+{
+	tail = 0,
+	body = 1,
+	head = 2,
+	headOpen = 3
+};
+
+
 /* Options */
 extern int CONTROL_STYLE;
 
 
 // Textures
-extern Texture gSnakeHeadTexture;
-extern Texture gSnakeHeadOpenTexture;
-extern Texture gSnakeBodyTexture;
-extern Texture gSnakeTailTexture;
+extern Texture gSnakeSheet;
 
 extern Texture gAppleTexture;
 extern Texture gSparkleTexture;
@@ -77,13 +83,18 @@ extern void loadMenuTextures();
 extern void loadCollectableTextures();
 extern void loadGameTextures();
 
-/* Sound loading functions */
+// Sound loading functions
 extern void loadPlayerSounds();
 extern void loadMenuSounds();
 
 
-/* Font loading functions */
+// Font loading functions
 extern void loadFonts();
+
+
+// Draw player character in specified location
+extern void drawPlayer( part part, float x, float y, float rad );
+extern void drawPlayer( part part, float x, float y, float scale_x, float scale_y, float rad );
 
 
 #endif // GLOBAL_HPP

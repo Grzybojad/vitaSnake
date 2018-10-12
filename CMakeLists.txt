@@ -81,19 +81,19 @@ vita_create_vpk(${SHORT_NAME}.vpk ${VITA_TITLEID} ${SHORT_NAME}.self
   FILE sce_sys/livearea/contents/startup.png 		sce_sys/livearea/contents/startup.png
   FILE sce_sys/livearea/contents/template.xml 	sce_sys/livearea/contents/template.xml
   
-  FILE img/head.png 			img/head.png
-  FILE img/headOpen.png 	img/headOpen.png
-  FILE img/body.png			img/body.png
-  FILE img/tail.png 			img/tail.png
+  FILE img/playerDefault.png		img/playerDefault.png
+  
+  #FILE img/head.png 			img/head.png
+  #FILE img/headOpen.png 	img/headOpen.png
+  #FILE img/body.png			img/body.png
+  #FILE img/tail.png 			img/tail.png
   
   FILE img/apple.png 		img/apple.png
   FILE img/sparkle.png 	img/sparkle.png
   
   FILE img/menuButton.png	img/menuButton.png
   FILE img/cursor.png 			img/cursor.png
-  #FILE img/infoScreen.png	 	img/infoScreen.png
-  
-  #FILE img/snakeEasy.png 		img/snakeEasy.png
+
   FILE img/snakeNormal.png 	img/snakeNormal.png
   FILE img/snakeHard.png 		img/snakeHard.png
   FILE img/snakeSleep.png 	img/snakeSleep.png

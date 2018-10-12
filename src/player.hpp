@@ -40,13 +40,6 @@ class Player
 
 		bool isClose;		// Is snake close to the collectable
 
-		enum part
-		{
-			head = 0,
-			body = 1,
-			tail = 2
-		};
-
 		void setDifficulty();
 
 		void handleInput();

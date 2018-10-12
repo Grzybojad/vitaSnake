@@ -446,10 +446,7 @@ void Game::gameQuit()
 	vita2d_fini();
 
 	// Free textures
-	gSnakeHeadTexture.freeTexture();
-	gSnakeHeadOpenTexture.freeTexture();
-	gSnakeBodyTexture.freeTexture();
-	gSnakeTailTexture.freeTexture();
+	gSnakeSheet.freeTexture();
 
 	gAppleTexture.freeTexture();
 	gSparkleTexture.freeTexture();
@@ -546,9 +543,9 @@ void Game::gameDraw()
 
 	// Draw snake
 	for( int part = 1; part < SNAKE_LENGTH-1; ++part )
-		snakePart[ part ].render( Player::body );
-	snakePart[ SNAKE_LENGTH-1 ].render( Player::tail );
-	snakePart[ 0 ].render( Player::head );
+		snakePart[ part ].render( body );
+	snakePart[ SNAKE_LENGTH-1 ].render( tail );
+	snakePart[ 0 ].render( head );
 
 	// Draw text
 	collectable.renderScore();

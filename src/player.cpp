@@ -177,21 +177,7 @@ bool Player::wallDeath()
 // Render head or body
 void Player::render( part part )
 {
-	switch( part )
-	{
-		case head:
-			if( isClose )
-				vita2d_draw_texture_rotate( gSnakeHeadOpenTexture.texture, xPos, yPos, rotation );
-			else
-				vita2d_draw_texture_rotate( gSnakeHeadTexture.texture, xPos, yPos, rotation );
-			break;
-		case body:
-			vita2d_draw_texture_rotate( gSnakeBodyTexture.texture, xPos, yPos, rotation );
-			break;
-		case tail:
-			vita2d_draw_texture_rotate( gSnakeTailTexture.texture, xPos, yPos, rotation );
-			break;
-	}
+	drawPlayer( part, xPos, yPos, rotation );
 }
 
 // Reset player position
