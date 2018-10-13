@@ -49,7 +49,8 @@ vita2d_font *gJelle[99];
 /* Texture loading functions */
 void loadPlayerTextures()
 {
-	gSnakeSheet.texture				= vita2d_load_PNG_file( "app0:/img/playerDefault.png" );
+	gSnakeSheet.texture	= vita2d_load_PNG_file( "app0:/img/playerDefault.png" );
+
 	for( int i = 0; i < 4; ++i )
 	{
 		gSnakeSheet.setClips( i, i * 30, 0, 30, 40 );
@@ -103,43 +104,11 @@ void loadFonts()
 // Draw player character in specified location
 void drawPlayer( part part, float x, float y, float rad )
 {
-	switch( part )
-	{
-		case tail:
-			vita2d_draw_texture_part_scale_rotate( gSnakeSheet.texture, x, y, gSnakeSheet.clips[0].x, gSnakeSheet.clips[0].y, gSnakeSheet.clips[0].w, gSnakeSheet.clips[0].h, 1, 1, rad );
-			break;
-
-		case body:
-			vita2d_draw_texture_part_scale_rotate( gSnakeSheet.texture, x, y, gSnakeSheet.clips[1].x, gSnakeSheet.clips[1].y, gSnakeSheet.clips[1].w, gSnakeSheet.clips[1].h, 1, 1, rad );
-			break;
-
-		case head:
-			vita2d_draw_texture_part_scale_rotate( gSnakeSheet.texture, x, y, gSnakeSheet.clips[2].x, gSnakeSheet.clips[2].y, gSnakeSheet.clips[2].w, gSnakeSheet.clips[2].h, 1, 1, rad );
-			break;
-
-		case headOpen:
-			vita2d_draw_texture_part_scale_rotate( gSnakeSheet.texture, x, y, gSnakeSheet.clips[3].x, gSnakeSheet.clips[3].y, gSnakeSheet.clips[3].w, gSnakeSheet.clips[3].h, 1, 1, rad );
-	}
+	vita2d_draw_texture_part_scale_rotate( gSnakeSheet.texture, x, y, gSnakeSheet.clips[part].x, gSnakeSheet.clips[part].y, gSnakeSheet.clips[part].w, gSnakeSheet.clips[part].h, 1, 1, rad );
 }
 
 // Function overload with a scale factor
 void drawPlayer( part part, float x, float y, float scale_x, float scale_y, float rad )
 {
-	switch( part )
-	{
-	case tail:
-		vita2d_draw_texture_part_scale_rotate( gSnakeSheet.texture, x, y, gSnakeSheet.clips[0].x, gSnakeSheet.clips[0].y, gSnakeSheet.clips[0].w, gSnakeSheet.clips[0].h, scale_x, scale_y, rad );
-		break;
-
-	case body:
-		vita2d_draw_texture_part_scale_rotate( gSnakeSheet.texture, x, y, gSnakeSheet.clips[1].x, gSnakeSheet.clips[1].y, gSnakeSheet.clips[1].w, gSnakeSheet.clips[1].h, scale_x, scale_y, rad );
-		break;
-
-	case head:
-		vita2d_draw_texture_part_scale_rotate( gSnakeSheet.texture, x, y, gSnakeSheet.clips[2].x, gSnakeSheet.clips[2].y, gSnakeSheet.clips[2].w, gSnakeSheet.clips[2].h, scale_x, scale_y, rad );
-		break;
-
-	case headOpen:
-		vita2d_draw_texture_part_scale_rotate( gSnakeSheet.texture, x, y, gSnakeSheet.clips[3].x, gSnakeSheet.clips[3].y, gSnakeSheet.clips[3].w, gSnakeSheet.clips[3].h, scale_x, scale_y, rad );
-	}
+	vita2d_draw_texture_part_scale_rotate( gSnakeSheet.texture, x, y, gSnakeSheet.clips[part].x, gSnakeSheet.clips[part].y, gSnakeSheet.clips[part].w, gSnakeSheet.clips[part].h, scale_x, scale_y, rad );
 }
