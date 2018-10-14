@@ -83,18 +83,12 @@ vita_create_vpk(${SHORT_NAME}.vpk ${VITA_TITLEID} ${SHORT_NAME}.self
   
   FILE img/playerDefault.png		img/playerDefault.png
   
-  #FILE img/head.png 			img/head.png
-  #FILE img/headOpen.png 	img/headOpen.png
-  #FILE img/body.png			img/body.png
-  #FILE img/tail.png 			img/tail.png
-  
   FILE img/apple.png 		img/apple.png
   FILE img/sparkle.png 	img/sparkle.png
   
   FILE img/menuButton.png	img/menuButton.png
   FILE img/cursor.png 			img/cursor.png
 
-  FILE img/snakeNormal.png 	img/snakeNormal.png
   FILE img/snakeHard.png 		img/snakeHard.png
   FILE img/snakeSleep.png 	img/snakeSleep.png
   

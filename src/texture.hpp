@@ -1,6 +1,8 @@
 #ifndef TEXTURE_HPP
 #define TEXTURE_HPP
 
+#include <math.h>
+
 #include <vita2d.h>
 
 class Texture

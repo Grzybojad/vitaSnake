@@ -15,14 +15,14 @@ void Texture::draw( float x, float y )
 // Fill the screen by with texture tiles
 void Texture::fill_tile()
 {
-	int rows = 544 / get_height()*2 + 1;
-	int columns = 960 / get_width()*2 + 1;
+	int rows = ceil( 544 / ( get_height()*2 ) );
+	int columns = ceil( 960 / ( get_width()*2 ) );
 
-	for( int i = 0; i <= rows; ++i )
+	for( int i = 0; i <= columns; ++i )
 	{
-		for( int j = 0; j <= columns; ++j )
+		for( int j = 0; j <= rows; ++j )
 		{
-			vita2d_draw_texture_scale( texture, i * get_width(), j * get_height(), 2.0f, 2.0f );
+			vita2d_draw_texture_scale( texture, i * (get_width()*2), j * (get_height()*2), 2.0f, 2.0f );
 		}
 	}
 }

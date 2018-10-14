@@ -58,8 +58,6 @@ extern Texture gSparkleTexture;
 extern Texture gMenuButtonTexture;
 extern Texture gCursorTexture;
 
-extern Texture gSnakeEasy;
-extern Texture gSnakeNormal;
 extern Texture gSnakeHard;
 extern Texture gSnakeSleep;
 

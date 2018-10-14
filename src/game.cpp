@@ -454,7 +454,6 @@ void Game::gameQuit()
 	gMenuButtonTexture.freeTexture();
 	gCursorTexture.freeTexture();
 
-	gSnakeNormal.freeTexture();
 	gSnakeHard.freeTexture();
 	gSnakeSleep.freeTexture();
 

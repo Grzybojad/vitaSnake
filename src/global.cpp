@@ -27,8 +27,6 @@ Texture gSparkleTexture;
 Texture gMenuButtonTexture;
 Texture gCursorTexture;
 
-Texture gSnakeEasy;
-Texture gSnakeNormal;
 Texture gSnakeHard;
 Texture gSnakeSleep;
 
@@ -68,7 +66,6 @@ void loadMenuTextures()
 	gMenuButtonTexture.texture		= vita2d_load_PNG_file( "app0:/img/menuButton.png" );
 	gCursorTexture.texture			= vita2d_load_PNG_file( "app0:/img/cursor.png" );
 
-	gSnakeNormal.texture			= vita2d_load_PNG_file( "app0:/img/snakeNormal.png" );
 	gSnakeHard.texture				= vita2d_load_PNG_file( "app0:/img/snakeHard.png" );
 	gSnakeSleep.texture				= vita2d_load_PNG_file( "app0:/img/snakeSleep.png" );
 }
