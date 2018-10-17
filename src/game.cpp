@@ -446,7 +446,8 @@ void Game::gameQuit()
 	vita2d_fini();
 
 	// Free textures
-	gSnakeSheet.freeTexture();
+	for( int i = 0; i < 2; ++i )
+		gSnakeSheet[ i ].freeTexture();
 
 	gAppleTexture.freeTexture();
 	gSparkleTexture.freeTexture();
@@ -555,7 +556,9 @@ void Game::gameOptions()
 {
 	sceCtrlPeekBufferPositive( 0, &pad, 1 );
 
-	optionsMenu.controlNav();
+	optionsMenu.menuNav();
+
+	//optionsMenu.changeSelectable( optionsMenu.option[ optionsMenu.cursor ] );
 
 	// Press O to go back
 	if( gInput.wasPressed( Input::circle ) )
@@ -568,10 +571,10 @@ void Game::gameOptions()
 	vita2d_start_drawing();
 	vita2d_clear_screen();	
 
-	optionsMenu.renderBackground();
-	optionsMenu.renderHeader();
-
 	optionsMenu.renderOptions();
+
+	// TEST
+	optionsMenu.changeSelectable( optionsMenu.option[ optionsMenu.cursor ] );
 
 	vita2d_end_drawing();
 	vita2d_wait_rendering_done();

@@ -44,6 +44,8 @@ add_executable(${VITA_APP_NAME}
   src/texture.cpp
   src/particle.hpp
   src/particle.cpp
+  src/options.hpp
+  src/options.cpp
   src/global.hpp
   src/global.cpp
 )
@@ -82,17 +84,18 @@ vita_create_vpk(${SHORT_NAME}.vpk ${VITA_TITLEID} ${SHORT_NAME}.self
   FILE sce_sys/livearea/contents/template.xml 	sce_sys/livearea/contents/template.xml
   
   FILE img/playerDefault.png		img/playerDefault.png
+  FILE img/playerClassic.png		img/playerClassic.png
   
-  FILE img/apple.png 		img/apple.png
-  FILE img/sparkle.png 	img/sparkle.png
+  FILE img/apple.png 					img/apple.png
+  FILE img/sparkle.png 				img/sparkle.png
   
-  FILE img/menuButton.png	img/menuButton.png
-  FILE img/cursor.png 			img/cursor.png
+  FILE img/menuButton.png		img/menuButton.png
+  FILE img/cursor.png 				img/cursor.png
 
-  FILE img/snakeHard.png 		img/snakeHard.png
-  FILE img/snakeSleep.png 	img/snakeSleep.png
+  FILE img/snakeHard.png 			img/snakeHard.png
+  FILE img/snakeSleep.png 		img/snakeSleep.png
   
-  FILE img/bg.png 					img/bg.png
+  FILE img/bg.png 						img/bg.png
   
   FILE sound/menu_move.wav 	sound/menu_move.wav
   FILE sound/menu_select.wav 	sound/menu_select.wav

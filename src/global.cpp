@@ -16,10 +16,11 @@ Input gInput;
 
 /* Options */
 int CONTROL_STYLE = 0;
+int PLAYER_TEXTURES = 0;
 
 
 // Textures
-Texture gSnakeSheet;
+Texture gSnakeSheet[ 2 ];
 
 Texture gAppleTexture;
 Texture gSparkleTexture;
@@ -47,12 +48,12 @@ vita2d_font *gJelle[99];
 /* Texture loading functions */
 void loadPlayerTextures()
 {
-	gSnakeSheet.texture	= vita2d_load_PNG_file( "app0:/img/playerDefault.png" );
+	gSnakeSheet[ 0 ].texture = vita2d_load_PNG_file( "app0:/img/playerDefault.png" );
+	gSnakeSheet[ 1 ].texture = vita2d_load_PNG_file( "app0:/img/playerClassic.png" );
 
 	for( int i = 0; i < 4; ++i )
-	{
-		gSnakeSheet.setClips( i, i * 30, 0, 30, 40 );
-	}
+		for( int j = 0; j < 2; ++j )
+			gSnakeSheet[ j ].setClips( i, i * 30, 0, 30, 40 );
 }
 
 void loadCollectableTextures()
@@ -101,11 +102,13 @@ void loadFonts()
 // Draw player character in specified location
 void drawPlayer( part part, float x, float y, float rad )
 {
-	vita2d_draw_texture_part_scale_rotate( gSnakeSheet.texture, x, y, gSnakeSheet.clips[part].x, gSnakeSheet.clips[part].y, gSnakeSheet.clips[part].w, gSnakeSheet.clips[part].h, 1, 1, rad );
+	vita2d_draw_texture_part_scale_rotate( gSnakeSheet[ PLAYER_TEXTURES ].texture, x, y, gSnakeSheet[ PLAYER_TEXTURES ].clips[part].x, 
+		gSnakeSheet[ PLAYER_TEXTURES ].clips[part].y, gSnakeSheet[ PLAYER_TEXTURES ].clips[part].w, gSnakeSheet[ PLAYER_TEXTURES ].clips[part].h, 1, 1, rad );
 }
 
 // Function overload with a scale factor
 void drawPlayer( part part, float x, float y, float scale_x, float scale_y, float rad )
 {
-	vita2d_draw_texture_part_scale_rotate( gSnakeSheet.texture, x, y, gSnakeSheet.clips[part].x, gSnakeSheet.clips[part].y, gSnakeSheet.clips[part].w, gSnakeSheet.clips[part].h, scale_x, scale_y, rad );
+	vita2d_draw_texture_part_scale_rotate( gSnakeSheet[ PLAYER_TEXTURES ].texture, x, y, gSnakeSheet[ PLAYER_TEXTURES ].clips[part].x,
+		gSnakeSheet[ PLAYER_TEXTURES ].clips[part].y, gSnakeSheet[ PLAYER_TEXTURES ].clips[part].w, gSnakeSheet[ PLAYER_TEXTURES ].clips[part].h, scale_x, scale_y, rad );
 }

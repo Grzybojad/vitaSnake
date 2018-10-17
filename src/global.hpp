@@ -47,10 +47,11 @@ enum part
 
 /* Options */
 extern int CONTROL_STYLE;
+extern int PLAYER_TEXTURES;
 
 
 // Textures
-extern Texture gSnakeSheet;
+extern Texture gSnakeSheet[ 2 ];
 
 extern Texture gAppleTexture;
 extern Texture gSparkleTexture;

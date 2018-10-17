@@ -17,6 +17,7 @@
 #include "buttons.hpp"
 #include "texture.hpp"
 #include "particle.hpp"
+#include "options.hpp"
 #include "global.hpp"
 
 class Game

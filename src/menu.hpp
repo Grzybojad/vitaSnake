@@ -14,8 +14,6 @@ class Menu
 		static const int BUTTON_WIDTH = 338;
 		static const int BUTTON_HEIGHT = 64;
 
-		Input input;
-
 		SceTouchData touch_old[ SCE_TOUCH_PORT_MAX_NUM ];
 		SceTouchData touch[ SCE_TOUCH_PORT_MAX_NUM ];
 
@@ -114,26 +112,6 @@ class DifficultyMenu: public Menu
 		void renderBackground();
 		void renderSnake();
 		void renderDescription();
-};
-
-class OptionsMenu: public Menu
-{
-	public:
-		OptionsMenu();
-
-		enum ControlType
-		{
-			classic = 0,
-			simplified = 1
-		};
-
-		ControlType controlType;
-
-		void controlNav();
-
-		void renderBackground();
-		void renderHeader();
-		void renderOptions();
 };
 
 

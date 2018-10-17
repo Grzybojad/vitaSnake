@@ -177,7 +177,10 @@ bool Player::wallDeath()
 // Render head or body
 void Player::render( part part )
 {
-	drawPlayer( part, xPos, yPos, rotation );
+	if( part == head && isClose)
+		drawPlayer( headOpen, xPos, yPos, rotation);
+	else
+		drawPlayer( part, xPos, yPos, rotation );
 }
 
 // Reset player position
