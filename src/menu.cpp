@@ -226,7 +226,8 @@ void DifficultyMenu::renderSnake()
 			drawPlayer( head, SCREEN_WIDTH - ( SCREEN_HEIGHT*0.14 ), SCREEN_HEIGHT - ( SCREEN_HEIGHT*0.14 ), 2.5, 2.5, ( -45 * M_PI ) / 180 );
 			break;
 		case 1:
-			vita2d_draw_texture( gSnakeHard.texture, SCREEN_WIDTH-gSnakeHard.get_width(), SCREEN_HEIGHT-gSnakeHard.get_height() );
+			drawPlayer( body, SCREEN_WIDTH - (SCREEN_HEIGHT*0.04), SCREEN_HEIGHT - (SCREEN_HEIGHT*0.04), 2.3, 2.3, (-45 * M_PI) / 180 );
+			drawPlayer( headAngry, SCREEN_WIDTH - (SCREEN_HEIGHT*0.14), SCREEN_HEIGHT - (SCREEN_HEIGHT*0.14), 2.5, 2.5, (-45 * M_PI) / 180 );
 			break;
 	}
 }

@@ -77,7 +77,7 @@ void OptionsMenu::menuNav()
 	}
 }
 
-
+// Doesn't work yet
 bool OptionsMenu::touchSelect( Option option )
 {
 	memcpy( touch_old, touch, sizeof( touch_old ) );
@@ -151,7 +151,6 @@ void OptionsMenu::renderOptions()
 			vita2d_font_draw_text( gJelle[ 30 ], DESC_X, 210, RGBA8( 0, 0, 0, 255 ), 20, "want the snake to go." );
 			break;
 	}
-
 	if( cursor == 0 )
 		renderCursor( option[ cursor ], text_width );
 
@@ -171,8 +170,9 @@ void OptionsMenu::renderOptions()
 				drawPlayer( (part)i, DESC_X + (i * 30) + 15, option[ 1 ].slct_y - 15, M_PI / 2 );
 			break;
 	}
-
 	if( cursor == 1 )
 		renderCursor( option[ cursor ], text_width );
 	
+	text_width = vita2d_font_text_width( gJelle[ 25 ], 25, "Press O to go back" );
+	vita2d_font_draw_text( gJelle[ 25 ], SCREEN_WIDTH - text_width - 15, SCREEN_HEIGHT - 15, RGBA8( 0, 0, 0, 255 ), 25, "Press O to go back." );
 }

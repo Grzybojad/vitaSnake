@@ -51,7 +51,7 @@ void loadPlayerTextures()
 	gSnakeSheet[ 0 ].texture = vita2d_load_PNG_file( "app0:/img/playerDefault.png" );
 	gSnakeSheet[ 1 ].texture = vita2d_load_PNG_file( "app0:/img/playerClassic.png" );
 
-	for( int i = 0; i < 4; ++i )
+	for( int i = 0; i < 5; ++i )
 		for( int j = 0; j < 2; ++j )
 			gSnakeSheet[ j ].setClips( i, i * 30, 0, 30, 40 );
 }
@@ -66,9 +66,6 @@ void loadMenuTextures()
 {
 	gMenuButtonTexture.texture		= vita2d_load_PNG_file( "app0:/img/menuButton.png" );
 	gCursorTexture.texture			= vita2d_load_PNG_file( "app0:/img/cursor.png" );
-
-	gSnakeHard.texture				= vita2d_load_PNG_file( "app0:/img/snakeHard.png" );
-	gSnakeSleep.texture				= vita2d_load_PNG_file( "app0:/img/snakeSleep.png" );
 }
 
 void loadGameTextures()

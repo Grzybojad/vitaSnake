@@ -91,9 +91,6 @@ vita_create_vpk(${SHORT_NAME}.vpk ${VITA_TITLEID} ${SHORT_NAME}.self
   
   FILE img/menuButton.png		img/menuButton.png
   FILE img/cursor.png 				img/cursor.png
-
-  FILE img/snakeHard.png 			img/snakeHard.png
-  FILE img/snakeSleep.png 		img/snakeSleep.png
   
   FILE img/bg.png 						img/bg.png
   

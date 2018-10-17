@@ -342,7 +342,9 @@ void Game::gamePaused()
 
 	pauseMenu.renderCursor( pauseMenu.item[ pauseMenu.cursor ] );
 
-	vita2d_draw_texture( gSnakeSleep.texture, SCREEN_WIDTH-gSnakeSleep.get_width(), SCREEN_HEIGHT-gSnakeSleep.get_height() );
+	// TODO add a sleeping snake texture
+	drawPlayer( body, SCREEN_WIDTH - (SCREEN_HEIGHT*0.04), SCREEN_HEIGHT - (SCREEN_HEIGHT*0.04), 2.3, 2.3, (-45 * M_PI) / 180 );
+	drawPlayer( head, SCREEN_WIDTH - (SCREEN_HEIGHT*0.14), SCREEN_HEIGHT - (SCREEN_HEIGHT*0.14), 2.5, 2.5, (-45 * M_PI) / 180 );
 
 	vita2d_end_drawing();
 	vita2d_wait_rendering_done();
@@ -455,9 +457,6 @@ void Game::gameQuit()
 	gMenuButtonTexture.freeTexture();
 	gCursorTexture.freeTexture();
 
-	gSnakeHard.freeTexture();
-	gSnakeSleep.freeTexture();
-
 	gBgTexture.freeTexture();
 
 	// Free fonts
@@ -558,7 +557,7 @@ void Game::gameOptions()
 
 	optionsMenu.menuNav();
 
-	//optionsMenu.changeSelectable( optionsMenu.option[ optionsMenu.cursor ] );
+	optionsMenu.changeSelectable( optionsMenu.option[ optionsMenu.cursor ] );
 
 	// Press O to go back
 	if( gInput.wasPressed( Input::circle ) )
@@ -572,9 +571,6 @@ void Game::gameOptions()
 	vita2d_clear_screen();	
 
 	optionsMenu.renderOptions();
-
-	// TEST
-	optionsMenu.changeSelectable( optionsMenu.option[ optionsMenu.cursor ] );
 
 	vita2d_end_drawing();
 	vita2d_wait_rendering_done();

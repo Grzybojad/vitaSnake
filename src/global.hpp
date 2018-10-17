@@ -41,7 +41,8 @@ enum part
 	tail = 0,
 	body = 1,
 	head = 2,
-	headOpen = 3
+	headOpen = 3,
+	headAngry = 4
 };
 
 
@@ -58,9 +59,6 @@ extern Texture gSparkleTexture;
 
 extern Texture gMenuButtonTexture;
 extern Texture gCursorTexture;
-
-extern Texture gSnakeHard;
-extern Texture gSnakeSleep;
 
 extern Texture gBgTexture;
 
