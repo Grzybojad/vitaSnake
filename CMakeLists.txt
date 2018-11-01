@@ -91,6 +91,8 @@ vita_create_vpk(${SHORT_NAME}.vpk ${VITA_TITLEID} ${SHORT_NAME}.self
   
   FILE img/menuButton.png		img/menuButton.png
   FILE img/cursor.png 				img/cursor.png
+  FILE img/button_cross.png		img/button_cross.png
+  FILE img/button_circle.png		img/button_circle.png
   
   FILE img/bg.png 						img/bg.png
   
@@ -99,6 +101,6 @@ vita_create_vpk(${SHORT_NAME}.vpk ${VITA_TITLEID} ${SHORT_NAME}.self
   FILE sound/bite.wav 				sound/bite.wav
   FILE sound/snake_death.ogg 	sound/snake_death.ogg
   
-  FILE font/Jellee-Roman.ttf		font/Jellee-Roman.ttf
+  FILE font/font_main.ttf				font/font_main.ttf
 )
 

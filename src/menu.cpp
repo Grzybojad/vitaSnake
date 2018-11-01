@@ -74,12 +74,12 @@ void Menu::renderButton( MenuItem item )
 {
 	vita2d_draw_texture( gMenuButtonTexture.texture, item.x, item.y );
 
-	int text_w = vita2d_font_text_width( gJelle[ 35 ], 35, item.name );
-	int text_h = vita2d_font_text_height( gJelle[ 35 ], 35, item.name );
+	int text_w = vita2d_font_text_width( gFont[ 25 ], 25, item.name );
+	int text_h = vita2d_font_text_height( gFont[ 25 ], 25, item.name );
 	int text_x = item.x + ( ( BUTTON_WIDTH - text_w ) / 2 );
 	int text_y = item.y + ( ( BUTTON_HEIGHT - text_h ) / 2 ) + text_h;
 
-	vita2d_font_draw_text( gJelle[ 35 ], text_x, text_y , RGBA8(0, 0, 0, 255), 35, item.name );
+	vita2d_font_draw_text( gFont[ 25 ], text_x, text_y , MAIN_FONT_COLOR, 25, item.name );
 }
 
 
@@ -129,7 +129,7 @@ PauseMenu::PauseMenu()
 	item[0].x = 310.0f;
 	item[0].y = 310.0f;
 
-	item[1].name = "Return to menu";
+	item[1].name = "Main menu";
 	item[1].x = 310.0f;
 	item[1].y = 411.0f;
 
@@ -153,7 +153,7 @@ GameOverMenu::GameOverMenu()
 	item[0].x = 310.0f;
 	item[0].y = 310.0f;
 
-	item[1].name = "Return to menu";
+	item[1].name = "Main menu";
 	item[1].x = 310.0f;
 	item[1].y = 411.0f;
 
@@ -235,23 +235,23 @@ void DifficultyMenu::renderSnake()
 void DifficultyMenu::renderDescription()
 {
 	int text_width1, text_width2;
-	int font_size = 30;
+	int font_size = 18;
 
 	switch( GAME_DIFFICULTY )
 	{
 	case 0:
-		text_width1 = vita2d_font_text_width( gJelle[ font_size ], font_size, "Collect as many apples as you can,");
-		text_width2 = vita2d_font_text_width( gJelle[ font_size ], font_size, "just don't bite your tail!");
+		text_width1 = vita2d_font_text_width( gFont[ font_size ], font_size, "Collect as many apples as you can,");
+		text_width2 = vita2d_font_text_width( gFont[ font_size ], font_size, "just don't bite your tail!");
 
-		vita2d_font_draw_text( gJelle[ font_size ], (SCREEN_WIDTH - text_width1)/2, 430, RGBA8(0, 0, 0, 255), font_size, "Collect as many apples as you can,");
-		vita2d_font_draw_text( gJelle[ font_size ], (SCREEN_WIDTH - text_width2)/2, 470, RGBA8(0, 0, 0, 255), font_size, "just don't bite your tail!");
+		vita2d_font_draw_text( gFont[ font_size ], (SCREEN_WIDTH - text_width1)/2, 430, MAIN_FONT_COLOR, font_size, "Collect as many apples as you can,");
+		vita2d_font_draw_text( gFont[ font_size ], (SCREEN_WIDTH - text_width2)/2, 470, MAIN_FONT_COLOR, font_size, "just don't bite your tail!");
 		break;
 	case 1:
-		text_width1 = vita2d_font_text_width( gJelle[ font_size ], font_size, "Recommended for experienced players,");
-		text_width2 = vita2d_font_text_width( gJelle[ font_size ], font_size, "touching the game border kills the snake.");
+		text_width1 = vita2d_font_text_width( gFont[ font_size ], font_size, "Recommended for experienced players,");
+		text_width2 = vita2d_font_text_width( gFont[ font_size ], font_size, "touching the game border kills the snake.");
 
-		vita2d_font_draw_text( gJelle[ font_size ], (SCREEN_WIDTH - text_width1)/2, 430, RGBA8(0, 0, 0, 255), font_size, "Recommended for experienced players,");
-		vita2d_font_draw_text( gJelle[ font_size ], (SCREEN_WIDTH - text_width2)/2, 470, RGBA8(0, 0, 0, 255), font_size, "touching the game border kills the snake.");
+		vita2d_font_draw_text( gFont[ font_size ], (SCREEN_WIDTH - text_width1)/2, 430, MAIN_FONT_COLOR, font_size, "Recommended for experienced players,");
+		vita2d_font_draw_text( gFont[ font_size ], (SCREEN_WIDTH - text_width2)/2, 470, MAIN_FONT_COLOR, font_size, "touching the game border kills the snake.");
 		break;
 	}
 }

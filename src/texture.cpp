@@ -12,6 +12,11 @@ void Texture::draw( float x, float y )
 	vita2d_draw_texture( texture, x, y );
 }
 
+void Texture::draw_scale( float x, float y, float scale_x, float scale_y )
+{
+	vita2d_draw_texture_scale( texture, x, y, scale_x, scale_y );
+}
+
 // Fill the screen by with texture tiles
 void Texture::fill_tile()
 {

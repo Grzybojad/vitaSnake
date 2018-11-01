@@ -49,6 +49,8 @@ enum part
 /* Options */
 extern int CONTROL_STYLE;
 extern int PLAYER_TEXTURES;
+extern float FONT_SCALE;
+extern unsigned int MAIN_FONT_COLOR;
 
 
 // Textures
@@ -59,6 +61,8 @@ extern Texture gSparkleTexture;
 
 extern Texture gMenuButtonTexture;
 extern Texture gCursorTexture;
+extern Texture gCrossTexture;
+extern Texture gCircleTexture;
 
 extern Texture gBgTexture;
 
@@ -71,7 +75,7 @@ extern SoLoud::Wav gMenuSelect;
 
 
 // Fonts
-extern vita2d_font *gJelle[ 99 ];	// Font sizes 1-99
+extern vita2d_font *gFont[ 99 ];	// Font sizes 1-99
 
 
 // Texture loading functions

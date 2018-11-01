@@ -23,7 +23,7 @@ OptionsMenu::OptionsMenu()
 
 	// Initialize the "player textures" selectable
 	option[ 1 ].id		= 1;
-	option[ 1 ].name	= "Player textures:";
+	option[ 1 ].name	= "Player style:";
 	option[ 1 ].name_x	= 20.0;
 	option[ 1 ].name_y	= 270.0f;
 	option[ 1 ].slct_x	= ITEM_X;
@@ -132,40 +132,40 @@ void OptionsMenu::renderOptions()
 
 	int text_width;
 
-	text_width = vita2d_font_text_width( gJelle[ 60 ], 60, "Options" );
-	vita2d_font_draw_text ( gJelle[ 60 ], (SCREEN_WIDTH - text_width) / 2, 100, RGBA8( 0, 0, 0, 255 ), 60, "Options" );
+	text_width = vita2d_font_text_width( gFont[ 60 ], 60, "Options" );
+	vita2d_font_draw_text ( gFont[ (int)(60 * FONT_SCALE) ], (SCREEN_WIDTH - text_width) / 2, 100, MAIN_FONT_COLOR, (int)(60 * FONT_SCALE), "Options" );
 
-	vita2d_font_draw_text( gJelle[ 30 ], 20, option[ 0 ].slct_y, RGBA8( 0, 0, 0, 255 ), 30, option[ 0 ].name );
+	vita2d_font_draw_text( gFont[ (int)(30 * FONT_SCALE) ], 20, option[ 0 ].slct_y, MAIN_FONT_COLOR, (int)(30 * FONT_SCALE), option[ 0 ].name );
 	switch( option[ 0 ].selected )
 	{
 		case 0:
-			text_width = vita2d_font_text_width( gJelle[ 30 ], 30, "< classic >" );
-			vita2d_font_draw_text( gJelle[ 30 ], ITEM_X - (text_width / 2), option[ 0 ].slct_y, RGBA8( 0, 0, 0, 255 ), 30, "< classic >" );
-			vita2d_font_draw_text( gJelle[ 30 ], DESC_X, 180, RGBA8( 0, 0, 0, 255 ), 20, "Move the left stick left or right" );
-			vita2d_font_draw_text( gJelle[ 30 ], DESC_X, 210, RGBA8( 0, 0, 0, 255 ), 20, "to turn the snake." );
+			text_width = vita2d_font_text_width( gFont[ (int)(30 * FONT_SCALE) ], (int)(30 * FONT_SCALE), "< classic >" );
+			vita2d_font_draw_text( gFont[ (int)(30 * FONT_SCALE) ], ITEM_X - (text_width / 2), option[ 0 ].slct_y, MAIN_FONT_COLOR, (int)(30 * FONT_SCALE), "< classic >" );
+			vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], DESC_X, 180, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "Move the left stick left or right" );
+			vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], DESC_X, 210, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "to turn the snake." );
 			break;
 		case 1:
-			text_width = vita2d_font_text_width( gJelle[ 60 ], 30, "< simplified >" );
-			vita2d_font_draw_text( gJelle[ 30 ], ITEM_X - (text_width / 2), option[ 0 ].slct_y, RGBA8( 0, 0, 0, 255 ), 30, "< simplified >" );
-			vita2d_font_draw_text( gJelle[ 30 ], DESC_X, 180, RGBA8( 0, 0, 0, 255 ), 20, "Move the left in the direction you " );
-			vita2d_font_draw_text( gJelle[ 30 ], DESC_X, 210, RGBA8( 0, 0, 0, 255 ), 20, "want the snake to go." );
+			text_width = vita2d_font_text_width( gFont[ (int)(30 * FONT_SCALE) ], (int)(30 * FONT_SCALE), "< simplified >" );
+			vita2d_font_draw_text( gFont[ (int)(30 * FONT_SCALE) ], ITEM_X - (text_width / 2), option[ 0 ].slct_y, MAIN_FONT_COLOR, (int)(30 * FONT_SCALE), "< simplified >" );
+			vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], DESC_X, 180, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "Move the left in the direction you " );
+			vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], DESC_X, 210, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "want the snake to go." );
 			break;
 	}
 	if( cursor == 0 )
 		renderCursor( option[ cursor ], text_width );
 
-	vita2d_font_draw_text( gJelle[ 30 ], 20, option[ 1 ].slct_y, RGBA8( 0, 0, 0, 255 ), 30, option[ 1 ].name );
+	vita2d_font_draw_text( gFont[ (int)(30 * FONT_SCALE) ], 20, option[ 1 ].slct_y, MAIN_FONT_COLOR, (int)(30 * FONT_SCALE), option[ 1 ].name );
 	switch( option[ 1 ].selected )
 	{
 		case 0:
-			text_width = vita2d_font_text_width( gJelle[ 30 ], 30, "< brown >" );
-			vita2d_font_draw_text( gJelle[ 30 ], ITEM_X - (text_width / 2), option[ 1 ].slct_y, RGBA8( 0, 0, 0, 255 ), 30, "< brown >" );
+			text_width = vita2d_font_text_width( gFont[ (int)(30 * FONT_SCALE) ], (int)(30 * FONT_SCALE), "< brown >" );
+			vita2d_font_draw_text( gFont[ (int)(30 * FONT_SCALE) ], ITEM_X - (text_width / 2), option[ 1 ].slct_y, MAIN_FONT_COLOR, (int)(30 * FONT_SCALE), "< brown >" );
 			for( int i = 0; i < 3; ++i )
 				drawPlayer( (part)i, DESC_X + (i * 30) + 15, option[ 1 ].slct_y - 15, M_PI / 2 );
 			break;
 		case 1:
-			text_width = vita2d_font_text_width( gJelle[ 60 ], 30, "< classic >" );
-			vita2d_font_draw_text( gJelle[ 30 ], ITEM_X - (text_width / 2), option[ 1 ].slct_y, RGBA8( 0, 0, 0, 255 ), 30, "< classic >" );
+			text_width = vita2d_font_text_width( gFont[ (int)(30 * FONT_SCALE) ], (int)(30 * FONT_SCALE), "< classic >" );
+			vita2d_font_draw_text( gFont[ (int)(30 * FONT_SCALE) ], ITEM_X - (text_width / 2), option[ 1 ].slct_y, MAIN_FONT_COLOR, (int)(30 * FONT_SCALE), "< classic >" );
 			for( int i = 0; i < 3; ++i )
 				drawPlayer( (part)i, DESC_X + (i * 30) + 15, option[ 1 ].slct_y - 15, M_PI / 2 );
 			break;
@@ -173,6 +173,6 @@ void OptionsMenu::renderOptions()
 	if( cursor == 1 )
 		renderCursor( option[ cursor ], text_width );
 	
-	text_width = vita2d_font_text_width( gJelle[ 25 ], 25, "Press O to go back" );
-	vita2d_font_draw_text( gJelle[ 25 ], SCREEN_WIDTH - text_width - 15, SCREEN_HEIGHT - 15, RGBA8( 0, 0, 0, 255 ), 25, "Press O to go back." );
+	text_width = vita2d_font_text_width( gFont[ (int)(25 * FONT_SCALE) ], (int)(25 * FONT_SCALE), "Press O to go back" );
+	vita2d_font_draw_text( gFont[ (int)(25 * FONT_SCALE) ], SCREEN_WIDTH - text_width - 15, SCREEN_HEIGHT - 15, MAIN_FONT_COLOR, (int)(25 * FONT_SCALE), "Press O to go back." );
 }

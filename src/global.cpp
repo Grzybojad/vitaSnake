@@ -17,6 +17,8 @@ Input gInput;
 /* Options */
 int CONTROL_STYLE = 0;
 int PLAYER_TEXTURES = 0;
+float FONT_SCALE = 0.6;
+int unsigned MAIN_FONT_COLOR = RGBA8( 0, 0, 0, 255 );
 
 
 // Textures
@@ -27,6 +29,8 @@ Texture gSparkleTexture;
 
 Texture gMenuButtonTexture;
 Texture gCursorTexture;
+Texture gCrossTexture;
+Texture gCircleTexture;
 
 Texture gSnakeHard;
 Texture gSnakeSleep;
@@ -42,7 +46,7 @@ SoLoud::Wav gMenuSelect;
 
 
 // Fonts
-vita2d_font *gJelle[99];
+vita2d_font *gFont[99];
 
 
 /* Texture loading functions */
@@ -66,6 +70,8 @@ void loadMenuTextures()
 {
 	gMenuButtonTexture.texture		= vita2d_load_PNG_file( "app0:/img/menuButton.png" );
 	gCursorTexture.texture			= vita2d_load_PNG_file( "app0:/img/cursor.png" );
+	gCrossTexture.texture			= vita2d_load_PNG_file( "app0:/img/button_cross.png" );
+	gCircleTexture.texture			= vita2d_load_PNG_file( "app0:/img/button_circle.png" );
 }
 
 void loadGameTextures()
@@ -92,7 +98,7 @@ void loadMenuSounds()
 void loadFonts()
 {
 	for( int i = 0; i <= 99; ++i )
-		gJelle[ i ]	= vita2d_load_font_file( "app0:/font/Jellee-Roman.ttf" );
+		gFont[ i ]	= vita2d_load_font_file( "app0:/font/font_main.ttf" );
 }
 
 

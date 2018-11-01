@@ -140,8 +140,8 @@ void Game::gameMenu()
 	mainMenu.renderBackground();								
 
 	// Draw logo
-	int text_width = vita2d_font_text_width( gJelle[ 60 ], 60, "vitaSnake" );
-	vita2d_font_draw_text( gJelle[ 60 ], (SCREEN_WIDTH - text_width)/2, 110, RGBA8(0, 0, 0, 255), 60, "vitaSnake" );
+	int text_width = vita2d_font_text_width( gFont[ (int)( 60 * FONT_SCALE ) ], (int)(60 * FONT_SCALE), "vitaSnake" );
+	vita2d_font_draw_text( gFont[ (int)(60 * FONT_SCALE) ], (SCREEN_WIDTH - text_width)/2, 110, MAIN_FONT_COLOR, (int)(60 * FONT_SCALE), "vitaSnake" );
 
 	for( int i = 0; i < mainMenu.MENU_ITEMS; ++i )			
 		mainMenu.renderButton( mainMenu.item[ i ] );
@@ -203,8 +203,8 @@ void Game::gameDifficulty()
 
 	difficultyMenu.renderBackground();												// Draw menu background
 
-	int topText_width = vita2d_font_text_width( gJelle[ 60 ], 60, "Choose the difficulty");
-	vita2d_font_draw_text( gJelle[ 60 ], (SCREEN_WIDTH - topText_width)/2, 110, RGBA8(0, 0, 0, 255), 60, "Choose the difficulty" );
+	int topText_width = vita2d_font_text_width( gFont[ (int)(60 * FONT_SCALE) ], (int)(60 * FONT_SCALE), "Choose the difficulty");
+	vita2d_font_draw_text( gFont[ (int)(60 * FONT_SCALE) ], (SCREEN_WIDTH - topText_width)/2, 110, MAIN_FONT_COLOR, (int)(60 * FONT_SCALE), "Choose the difficulty" );
 
 	for( int i = 0; i < difficultyMenu.MENU_ITEMS; ++i )			
 		difficultyMenu.renderButton( difficultyMenu.item[ i ] );
@@ -334,8 +334,8 @@ void Game::gamePaused()
 	// Dim the background
 	vita2d_draw_rectangle( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, RGBA8( 0, 0, 0, 40 ) );
 
-	int topText_width = vita2d_font_text_width( gJelle[ 60 ], 60, "Paused" );
-	vita2d_font_draw_text( gJelle[ 60 ], (SCREEN_WIDTH - topText_width)/2, 110, RGBA8(0, 0, 0, 255), 60, "Paused" );
+	int topText_width = vita2d_font_text_width( gFont[ (int)(60 * FONT_SCALE) ], (int)(60 * FONT_SCALE), "Paused" );
+	vita2d_font_draw_text( gFont[ (int)(60 * FONT_SCALE) ], (SCREEN_WIDTH - topText_width)/2, 110, MAIN_FONT_COLOR, (int)(60 * FONT_SCALE), "Paused" );
 
 	for( int i = 0; i < pauseMenu.MENU_ITEMS; ++i )			
 		pauseMenu.renderButton( pauseMenu.item[ i ] );
@@ -361,7 +361,7 @@ void Game::gameEnd()
 	vita2d_clear_screen();	
 
 	// New highscore flag
-	bool highscore;
+	bool highscore = false;
 
 	// Check if the player set a new highscore
 	if( collectable.getScore() > collectable.getHighscore( GAME_DIFFICULTY ) )
@@ -372,8 +372,8 @@ void Game::gameEnd()
 	// Draw the Game Over text over the game
 	vita2d_draw_rectangle( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, RGBA8( 0, 0, 0, 40 ) );
 
-	int topText_width = vita2d_font_text_width( gJelle[ 60 ], 60, "Game Over");
-	vita2d_font_draw_text( gJelle[ 60 ], (SCREEN_WIDTH - topText_width)/2, 110, RGBA8(0, 0, 0, 255), 60, "Game Over" );
+	int topText_width = vita2d_font_text_width( gFont[ 60 ], 60, "Game Over");
+	vita2d_font_draw_text( gFont[ 60 ], (SCREEN_WIDTH - topText_width)/2, 110, MAIN_FONT_COLOR, 60, "Game Over" );
 
 	for( int i = 0; i < gameOverMenu.MENU_ITEMS; ++i )			
 		gameOverMenu.renderButton( gameOverMenu.item[ i ] );
@@ -389,20 +389,20 @@ void Game::gameEnd()
 			collectable.readHighscore();
 			score_read = true;
 		}
-		int text_width = vita2d_font_text_width( gJelle[ 35 ], 35, "NEW HIGHSCORE");
-		vita2d_font_draw_textf( gJelle[ 35 ], ( SCREEN_WIDTH - text_width ) / 2, 270, RGBA8(255, 255, 0, 255), 35, "NEW HIGHSCORE");
+		int text_width = vita2d_font_text_width( gFont[ (int)(35 * FONT_SCALE) ], (int)(35 * FONT_SCALE), "NEW HIGHSCORE");
+		vita2d_font_draw_text( gFont[ (int)(35 * FONT_SCALE) ], ( SCREEN_WIDTH - text_width ) / 2, 270, RGBA8( 244, 205, 65, 255 ), (int)(35 * FONT_SCALE), "NEW HIGHSCORE");
 	}
 	
 	// Render final score
 	int text_width = 0;
 	if( collectable.getScore() < 10 )
-		text_width = vita2d_font_text_width( gJelle[ 35 ], 35, "Your score: 0" );
+		text_width = vita2d_font_text_width( gFont[ (int)(35 * FONT_SCALE) ], (int)(35 * FONT_SCALE), "Your score: 0" );
 	else if( collectable.getScore() < 100 )
-		text_width = vita2d_font_text_width( gJelle[ 35 ], 35, "Your score: 00" );
+		text_width = vita2d_font_text_width( gFont[ (int)(35 * FONT_SCALE) ], (int)(35 * FONT_SCALE), "Your score: 00" );
 	else
-		text_width = vita2d_font_text_width( gJelle[ 35 ], 35, "Your score: 000" );
+		text_width = vita2d_font_text_width( gFont[ (int)(35 * FONT_SCALE) ], (int)(35 * FONT_SCALE), "Your score: 000" );
 
-	vita2d_font_draw_textf( gJelle[ 35 ], (SCREEN_WIDTH-text_width)/2, 230, RGBA8( 0, 0, 0, 255 ), 35, "Your score: %d", collectable.getScore() );
+	vita2d_font_draw_textf( gFont[ (int)(35 * FONT_SCALE) ], (SCREEN_WIDTH-text_width)/2, 230, MAIN_FONT_COLOR, (int)(35 * FONT_SCALE), "Your score: %d", collectable.getScore() );
 
 	vita2d_end_drawing();
 	vita2d_wait_rendering_done();
@@ -461,7 +461,7 @@ void Game::gameQuit()
 
 	// Free fonts
 	for( int i = 0; i <= 99; ++i )
-		vita2d_free_font( gJelle[ i ] );
+		vita2d_free_font( gFont[ i ] );
 }
 
 // Re-initialize variables
@@ -512,21 +512,30 @@ void Game::gameHTP()
 
 	int text_width;
 
-	text_width = vita2d_font_text_width( gJelle[ 35 ], 35, "How to play" );
-	vita2d_font_draw_text( gJelle[ 35 ], (SCREEN_WIDTH-text_width)/2, 40, RGBA8( 0, 0, 0, 255 ), 35, "How to play" );
+	text_width = vita2d_font_text_width( gFont[ (int)(35 * FONT_SCALE) ], (int)(35 * FONT_SCALE), "How to play" );
+	vita2d_font_draw_text( gFont[ (int)(35 * FONT_SCALE) ], ( ( SCREEN_WIDTH - text_width ) / 2 ), 40, MAIN_FONT_COLOR, (int)(35 * FONT_SCALE), "How to play" );
 
-	vita2d_font_draw_text( gJelle[ 20 ], 15, 100, RGBA8( 0, 0, 0, 255 ), 20, "Your goal in this game is to eat as many apples as you can," );
-	vita2d_font_draw_text( gJelle[ 20 ], 15, 130, RGBA8( 0, 0, 0, 255 ), 20, "each apple eaten adds a point to your score." );
-	vita2d_font_draw_text( gJelle[ 20 ], 15, 160, RGBA8( 0, 0, 0, 255 ), 20, "Avoid biting your own tail, or you will lose the game." );
+	vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], 15, 100, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "Your goal in this game is to eat as many apples as you can," );
+	vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], 15, 130, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "each apple eaten adds a point to your score." );
+	vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], 15, 160, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "Avoid biting your own tail, or you will lose the game." );
 
-	vita2d_font_draw_text( gJelle[ 20 ], 15, 260, RGBA8( 0, 0, 0, 255 ), 20, "- The snake moves forward by itself." );
-	vita2d_font_draw_text( gJelle[ 20 ], 15, 310, RGBA8( 0, 0, 0, 255 ), 20, "- Steer the snake left and right using the left analog stick or DPAD" );
-	vita2d_font_draw_text( gJelle[ 20 ], 15, 340, RGBA8( 0, 0, 0, 255 ), 20, "  buttons." );
-	vita2d_font_draw_text( gJelle[ 20 ], 15, 390, RGBA8( 0, 0, 0, 255 ), 20, "- You can boost the snake's speed by holding the X button." );
-	vita2d_font_draw_text( gJelle[ 20 ], 15, 440, RGBA8( 0, 0, 0, 255 ), 20, "- Pause the game with the START button." );
 
-	text_width = vita2d_font_text_width( gJelle[ 25 ], 25, "Press O to go back" );
-	vita2d_font_draw_text( gJelle[ 25 ], SCREEN_WIDTH-text_width-15, SCREEN_HEIGHT-15, RGBA8( 0, 0, 0, 255 ), 25, "Press O to go back." );
+	vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], 15, 260, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "- The snake moves forward by itself." );
+	vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], 15, 310, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "- Steer the snake left and right using the left analog stick or DPAD" );
+	vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], 15, 340, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "  buttons." );
+	vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], 15, 390, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "- You can boost the snake's speed by holding the   button." );
+
+	text_width = vita2d_font_text_width( gFont[ (int)(20 * FONT_SCALE) ], (int)(20 * FONT_SCALE), "- You can boost the snake's speed by holding the " );
+	gCrossTexture.draw_scale( text_width + 12, 395 - (gCrossTexture.get_height()*0.30), 0.30, 0.30 );
+
+	vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], 15, 440, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "- Pause the game with the START button." );
+
+
+	text_width = vita2d_font_text_width( gFont[ (int)(25 * FONT_SCALE) ], (int)(25 * FONT_SCALE), "Press   to go back" );
+	vita2d_font_draw_text( gFont[ (int)(25 * FONT_SCALE) ], SCREEN_WIDTH-text_width-15, SCREEN_HEIGHT-15, MAIN_FONT_COLOR, (int)(25 * FONT_SCALE), "Press   to go back" );
+
+	text_width = vita2d_font_text_width( gFont[ (int)(25 * FONT_SCALE) ], (int)(25 * FONT_SCALE), "  to go back" );
+	gCircleTexture.draw_scale( SCREEN_WIDTH - text_width - 17, SCREEN_HEIGHT - 10 - (gCircleTexture.get_height()*0.35), 0.35, 0.35 );
 
 	vita2d_end_drawing();
 	vita2d_wait_rendering_done();
