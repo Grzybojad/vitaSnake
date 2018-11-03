@@ -61,15 +61,18 @@ void Collectable::render()
 void Collectable::renderScore()
 {
 	int text_width;
+	unsigned int text_size = 25;
+	int padding_top = 20;
+	int padding_side = 10;
 
 	if( score < 10 )
-		text_width = vita2d_font_text_width( gFont[ (int)(30 * FONT_SCALE) ], (int)(30 * FONT_SCALE), "SCORE: 0" );
+		text_width = vita2d_font_text_width( gFont[ (int)(text_size * FONT_SCALE) ], (int)(30 * FONT_SCALE), "SCORE: 0" );
 	else if( score < 100 )
-		text_width = vita2d_font_text_width( gFont[ (int)(30 * FONT_SCALE) ], (int)(30 * FONT_SCALE), "SCORE: 00" );
+		text_width = vita2d_font_text_width( gFont[ (int)(text_size * FONT_SCALE) ], (int)(30 * FONT_SCALE), "SCORE: 00" );
 	else
-		text_width = vita2d_font_text_width( gFont[ (int)(30 * FONT_SCALE) ], (int)(30 * FONT_SCALE), "SCORE: 000" );
+		text_width = vita2d_font_text_width( gFont[ (int)(text_size * FONT_SCALE) ], (int)(30 * FONT_SCALE), "SCORE: 000" );
 
-	vita2d_font_draw_textf( gFont[ (int)(30 * FONT_SCALE) ], SCREEN_WIDTH-text_width-10, 30, MAIN_FONT_COLOR, (int)(30 * FONT_SCALE), "SCORE: %d", score );
+	vita2d_font_draw_textf( gFont[ (int)(text_size * FONT_SCALE) ], SCREEN_WIDTH - text_width + padding_side, padding_top, MAIN_FONT_COLOR, (int)(text_size * FONT_SCALE), "SCORE: %d", score );
 }
 
 void Collectable::renderParticles()
@@ -148,13 +151,17 @@ void Collectable::writeHighscore()
 // Render the highscore text
 void Collectable::renderHighscore()
 {
+	unsigned int text_size = 25;
+	int padding_top = 20;
+	int padding_side = 10;
+
 	switch( GAME_DIFFICULTY )
 	{
 		case DifficultyMenu::classic:
-			vita2d_font_draw_textf( gFont[ (int)(30 * FONT_SCALE) ], 10, 30, MAIN_FONT_COLOR, (int)(30 * FONT_SCALE), "HIGHSCORE: %d", classicHighscore );
+			vita2d_font_draw_textf( gFont[ (int)(text_size * FONT_SCALE) ], padding_side, padding_top, MAIN_FONT_COLOR, (int)(text_size * FONT_SCALE), "HIGHSCORE: %d", classicHighscore );
 			break;
 		case DifficultyMenu::hardcore:
-			vita2d_font_draw_textf( gFont[ (int)(30 * FONT_SCALE) ], 10, 30, MAIN_FONT_COLOR, (int)(30 * FONT_SCALE), "HIGHSCORE: %d", hardcoreHighscore );
+			vita2d_font_draw_textf( gFont[ (int)(text_size * FONT_SCALE) ], padding_side, padding_top, MAIN_FONT_COLOR, (int)(text_size * FONT_SCALE), "HIGHSCORE: %d", hardcoreHighscore );
 			break;
 	}
 }

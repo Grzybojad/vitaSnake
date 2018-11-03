@@ -110,25 +110,6 @@ void OptionsMenu::menuNav()
 	}
 }
 
-// Doesn't work yet
-bool OptionsMenu::touchSelect( Option option )
-{
-	memcpy( touch_old, touch, sizeof( touch_old ) );
-	sceTouchPeek( 0, &touch[ 0 ], 1 );
-
-	int x = touch[ 0 ].report[ 0 ].x / 2;
-	int y = touch[ 0 ].report[ 0 ].y / 2;
-
-	if( ( x > option.slct_x ) && ( x < option.slct_x + 200 ) &&
-		( y > option.slct_y ) && ( y < option.slct_y + 40 )
-		)
-	{
-		return true;
-	}
-
-	return false;
-}
-
 
 void OptionsMenu::changeSelectable( Option & option )
 {
@@ -141,7 +122,7 @@ void OptionsMenu::changeSelectable( Option & option )
 		else
 			option.selected = option.nr_selectables - 1;
 	}
-	if( gInput.wasPressed( Input::right ) || gInput.wasPressed( Input::lAnalogRight ) || touchSelect( option ) )
+	if( gInput.wasPressed( Input::right ) || gInput.wasPressed( Input::lAnalogRight ) )
 	{
 		gSoloud.play( gMenuMove );
 
@@ -189,6 +170,9 @@ void OptionsMenu::changeSelectable( Option & option )
 
 void OptionsMenu::renderOptions()
 {
+	sceTouchSetSamplingState( SCE_TOUCH_PORT_FRONT, SCE_TOUCH_SAMPLING_STATE_START );
+	sceTouchEnableTouchForce( SCE_TOUCH_PORT_FRONT );
+
 	drawBackground();
 
 	int text_width;
