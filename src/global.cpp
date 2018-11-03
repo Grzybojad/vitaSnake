@@ -57,6 +57,7 @@ void loadPlayerTextures()
 	gSnakeSheet[ 0 ].texture = vita2d_load_PNG_file( "app0:/img/playerDefault.png" );
 	gSnakeSheet[ 1 ].texture = vita2d_load_PNG_file( "app0:/img/playerClassic.png" );
 	gSnakeSheet[ 2 ].texture = vita2d_load_PNG_file( "app0:/img/playerRPPHS.png" );
+	gSnakeSheet[ 3 ].texture = vita2d_load_PNG_file( "app0:/img/playerNokia.png" );
 
 	for( int i = 0; i < 5; ++i )
 		for( int j = 0; j < NR_PLAYER_TEXTURES; ++j )

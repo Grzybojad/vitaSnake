@@ -238,6 +238,12 @@ void OptionsMenu::renderOptions()
 			for( int i = 0; i < 3; ++i )
 				drawPlayer( (part)i, DESC_X + (i * 30) + 15, option[ 1 ].slct_y - 15, M_PI / 2 );
 			break;
+		case 3:
+			text_width = vita2d_font_text_width( gFont[ (int)(30 * FONT_SCALE) ], (int)(30 * FONT_SCALE), "< Nokia >" );
+			vita2d_font_draw_text( gFont[ (int)(30 * FONT_SCALE) ], ITEM_X - (text_width / 2), option[ 1 ].slct_y, MAIN_FONT_COLOR, (int)(30 * FONT_SCALE), "< Nokia >" );
+			for( int i = 0; i < 3; ++i )
+				drawPlayer( (part)i, DESC_X + (i * 30) + 15, option[ 1 ].slct_y - 15, M_PI / 2 );
+			break;
 	}
 	if( cursor == 1 )
 		renderCursor( option[ cursor ], text_width );
