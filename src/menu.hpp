@@ -102,11 +102,6 @@ class DifficultyMenu: public Menu
 			hardcore = 1
 		};
 
-		static const int BORDER_THICKNESS = 3;
-		static const int COLOR_CYCLE_SPEED = 3;
-		bool color_plus = true;
-		int border_red = 200;
-
 		MenuItem item[ 2 ];
 
 		void renderBackground();

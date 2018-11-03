@@ -448,7 +448,7 @@ void Game::gameQuit()
 	vita2d_fini();
 
 	// Free textures
-	for( int i = 0; i < 2; ++i )
+	for( int i = 0; i < NR_PLAYER_TEXTURES; ++i )
 		gSnakeSheet[ i ].freeTexture();
 
 	gAppleTexture.freeTexture();
@@ -457,7 +457,12 @@ void Game::gameQuit()
 	gMenuButtonTexture.freeTexture();
 	gCursorTexture.freeTexture();
 
-	gBgTexture.freeTexture();
+	for( int i = 0; i < NR_BACKGROUND_TEXTURES; ++i )
+	{
+		if( i != 1 && i != 3 )	// 1 and 3 aren't textures
+			gBgTexture[ i ].freeTexture();
+	}
+		
 
 	// Free fonts
 	for( int i = 0; i <= 99; ++i )
@@ -508,7 +513,7 @@ void Game::gameHTP()
 	vita2d_start_drawing();
 	vita2d_clear_screen();	
 
-	gBgTexture.fill_tile();
+	drawBackground();
 
 	int text_width;
 
@@ -530,12 +535,7 @@ void Game::gameHTP()
 
 	vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], 15, 440, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "- Pause the game with the START button." );
 
-
-	text_width = vita2d_font_text_width( gFont[ (int)(25 * FONT_SCALE) ], (int)(25 * FONT_SCALE), "Press   to go back" );
-	vita2d_font_draw_text( gFont[ (int)(25 * FONT_SCALE) ], SCREEN_WIDTH-text_width-15, SCREEN_HEIGHT-15, MAIN_FONT_COLOR, (int)(25 * FONT_SCALE), "Press   to go back" );
-
-	text_width = vita2d_font_text_width( gFont[ (int)(25 * FONT_SCALE) ], (int)(25 * FONT_SCALE), "  to go back" );
-	gCircleTexture.draw_scale( SCREEN_WIDTH - text_width - 17, SCREEN_HEIGHT - 10 - (gCircleTexture.get_height()*0.35), 0.35, 0.35 );
+	drawBackText();
 
 	vita2d_end_drawing();
 	vita2d_wait_rendering_done();

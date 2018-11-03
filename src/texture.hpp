@@ -10,6 +10,7 @@ class Texture
 	public:
 		void loadTexture( const char *filename );
 
+		void draw();
 		void draw( float x, float y );
 		void draw_scale( float x, float y, float scale_x, float scale_y );
 

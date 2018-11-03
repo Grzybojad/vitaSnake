@@ -85,6 +85,7 @@ vita_create_vpk(${SHORT_NAME}.vpk ${VITA_TITLEID} ${SHORT_NAME}.self
   
   FILE img/playerDefault.png		img/playerDefault.png
   FILE img/playerClassic.png		img/playerClassic.png
+  FILE img/playerRPPHS.png		img/playerRPPHS.png
   
   FILE img/apple.png 					img/apple.png
   FILE img/sparkle.png 				img/sparkle.png
@@ -94,7 +95,8 @@ vita_create_vpk(${SHORT_NAME}.vpk ${VITA_TITLEID} ${SHORT_NAME}.self
   FILE img/button_cross.png		img/button_cross.png
   FILE img/button_circle.png		img/button_circle.png
   
-  FILE img/bg.png 						img/bg.png
+  FILE img/bgDesertTile.png 		img/bgDesertTile.png
+  FILE img/bgRPPHSFull.png 		img/bgRPPHSFull.png
   
   FILE sound/menu_move.wav 	sound/menu_move.wav
   FILE sound/menu_select.wav 	sound/menu_select.wav

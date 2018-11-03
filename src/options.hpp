@@ -22,7 +22,7 @@ public:
 		int selected;
 		int nr_selectables;
 	};
-	Option option[ 2 ];
+	Option option[ 3 ];
 
 	int MENU_ITEMS;
 	int cursor;

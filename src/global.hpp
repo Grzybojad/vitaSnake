@@ -49,12 +49,14 @@ enum part
 /* Options */
 extern int CONTROL_STYLE;
 extern int PLAYER_TEXTURES;
+extern int BACKGROUND_TEXTURE;
 extern float FONT_SCALE;
 extern unsigned int MAIN_FONT_COLOR;
 
 
 // Textures
-extern Texture gSnakeSheet[ 2 ];
+const int NR_PLAYER_TEXTURES = 3;
+extern Texture gSnakeSheet[ NR_PLAYER_TEXTURES ];
 
 extern Texture gAppleTexture;
 extern Texture gSparkleTexture;
@@ -64,7 +66,8 @@ extern Texture gCursorTexture;
 extern Texture gCrossTexture;
 extern Texture gCircleTexture;
 
-extern Texture gBgTexture;
+const int NR_BACKGROUND_TEXTURES = 4;
+extern Texture gBgTexture[ NR_BACKGROUND_TEXTURES ];
 
 
 // Sounds
@@ -96,6 +99,20 @@ extern void loadFonts();
 // Draw player character in specified location
 extern void drawPlayer( part part, float x, float y, float rad );
 extern void drawPlayer( part part, float x, float y, float scale_x, float scale_y, float rad );
+
+
+// Hardcore border variables
+static const int BORDER_THICKNESS = 3;
+static const int COLOR_CYCLE_SPEED = 3;
+extern bool color_plus;
+extern int border_red;
+
+// Draw background
+extern void drawBackground();
+
+
+// Draw "Press O to go back" text
+extern void drawBackText();
 
 
 #endif // GLOBAL_HPP

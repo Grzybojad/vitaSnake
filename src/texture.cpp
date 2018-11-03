@@ -6,6 +6,12 @@ void Texture::loadTexture( const char *filename )
 	texture = vita2d_load_PNG_file( filename );
 }
 
+// Draw texture at 0,0
+void Texture::draw()
+{
+	vita2d_draw_texture( texture, 0, 0 );
+}
+
 // Draw the texture in the specified position
 void Texture::draw( float x, float y )
 {
