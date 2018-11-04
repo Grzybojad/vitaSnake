@@ -7,6 +7,7 @@
 
 #include <psp2/ctrl.h>
 #include <psp2/kernel/processmgr.h>
+#include <psp2/touch.h>
 #include <psp2/io/stat.h> 
 #include <vita2d.h>
 
@@ -15,6 +16,8 @@
 #include "collectable.hpp"
 #include "buttons.hpp"
 #include "texture.hpp"
+#include "particle.hpp"
+#include "options.hpp"
 #include "global.hpp"
 
 class Game
@@ -26,20 +29,22 @@ class Game
 
 	private:
 		void gameMenu();			// Go to main menu
-		void gameDifficulty();	// Menu for choosing game difficulty
+		void gameDifficulty();		// Menu for choosing game difficulty
 		void gameLoop();			// Main game loop
 		void gamePaused();			// Pause screen
 		void gameEnd();				// Game over screen
 		void gameQuit();			// Exit game and free resources
 		void gameReinitialize();	// Reinitialize game variables and go to menu
 		void gamePlayAgain();		// Reinitialize game variables and go to the game 
-
 		void gameHTP();				// Instructions on how to play the game
+		void gameOptions();
 		
+		void gameDraw();			// Draw all gameplay elements
 
 		static const int START_SNAKE_LENGTH = 3;
 
-		// Game state
+		bool score_read = false;
+
 		enum gameState
 		{
 			initialized = 0,
@@ -51,28 +56,27 @@ class Game
 			exiting = 6,
 			needReinitialize = 7,
 			playAgain = 8,
-			showingHTP = 9
+			showingHTP = 9,
+			options = 10
 		};
 		gameState _gameState;
 
-		MainMenu mainMenu;				// Main menu
-		DifficultyMenu difficultyMenu;	// Menu for choosing game difficulty
-		PauseMenu pauseMenu;			// Pause menu
-		GameOverMenu gameOverMenu;		// Game over menu
+		MainMenu mainMenu;
+		DifficultyMenu difficultyMenu;
+		PauseMenu pauseMenu;
+		GameOverMenu gameOverMenu;
+		OptionsMenu optionsMenu;
 
-		// Player with buffer
 		int SNAKE_LENGTH = START_SNAKE_LENGTH;
 		Player snakePart[255];
 
-		// Collectable
 		Collectable collectable;
 
-		// Inputs
 		SceCtrlData pad;
-		Input input;
 
-		// PVF text
-		vita2d_pvf *pvf;	
+		SceTouchData touch_old[SCE_TOUCH_PORT_MAX_NUM];
+		SceTouchData touch[SCE_TOUCH_PORT_MAX_NUM];
 };
+
 
 #endif // GAME_HPP

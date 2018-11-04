@@ -7,19 +7,31 @@ Game::Game()
 	sceCtrlSetSamplingMode( SCE_CTRL_MODE_ANALOG );
 	memset( &pad, 0, sizeof( pad ) );
 
+	sceTouchSetSamplingState(SCE_TOUCH_PORT_FRONT, SCE_TOUCH_SAMPLING_STATE_START);
+	sceTouchEnableTouchForce(SCE_TOUCH_PORT_FRONT);
+	
+
 	// Initialize vita2d and set clear color to black
 	vita2d_init();
 	vita2d_set_clear_color( RGBA8( 0x00, 0x00, 0x00, 0xFF ) );
 
-	pvf = vita2d_load_default_pvf();
+	// Initialize SoLoud engine
+	gSoloud.init(); 
 
 	// Load textures
 	loadPlayerTextures();
 	loadMenuTextures();
 	loadCollectableTextures();
+	loadGameTextures();
 
-	// Load collectable font
-	collectable.setFont();
+	// Load sounds
+	loadPlayerSounds();
+	loadMenuSounds();
+
+	// Load fonts
+	loadFonts();
+
+	// Read highscores from file
 	collectable.readHighscore();
 
 	// Set highscore if none is set, or highscore is incorrect
@@ -72,6 +84,9 @@ void Game::gameStart()
 			case showingHTP:
 				gameHTP();
 				break;
+			case options:
+				gameOptions();
+				break;
 		}
 	}
 	gameQuit();
@@ -84,21 +99,35 @@ void Game::gameMenu()
 {
 	sceCtrlPeekBufferPositive( 0, &pad, 1 );
 
-	// Menu controls
-	if( input.wasPressed(Input::up) )
+	mainMenu.menuNav();
+
+	bool select = false;
+
+	if( mainMenu.selectItem() )
+		select = true;
+	
+	if( gInput.wasPressed(Input::frontTouch) )
 	{
-		mainMenu.selectUp();
+		for( int i = 0; i < mainMenu.MENU_ITEMS; ++i )
+		{
+			if( mainMenu.touchSelect( mainMenu.item[i] ) )
+			{
+				mainMenu.cursor = i;
+				select = true;
+			}
+		}
 	}
-	if( input.wasPressed(Input::down) )
+	
+	if( select )
 	{
-		mainMenu.selectDown();
-	}
-	if( input.wasPressed(Input::cross) )
-	{
+		gSoloud.play( gMenuSelect );
+
 		if( mainMenu.cursor == MainMenu::startGame )
 			_gameState = choosingDifficulty;
 		else if( mainMenu.cursor == MainMenu::howToPlay )
 			_gameState = showingHTP;
+		else if( mainMenu.cursor == MainMenu::options )
+			_gameState = options;
 		else if( mainMenu.cursor == MainMenu::exitGame )
 			_gameState = exiting;
 	}
@@ -107,10 +136,20 @@ void Game::gameMenu()
 	vita2d_start_drawing();
 	vita2d_clear_screen();	
 
-	mainMenu.renderBackground();								// Draw menu background
-	mainMenu.renderCursor( mainMenu.item[ mainMenu.cursor ] );	// Draw cursor
+	// Draw menu background
+	mainMenu.renderBackground();								
+
+	// Draw logo
+	int text_width = vita2d_font_text_width( gFont[ (int)( 60 * FONT_SCALE ) ], (int)(60 * FONT_SCALE), "vitaSnake" );
+	vita2d_font_draw_text( gFont[ (int)(60 * FONT_SCALE) ], (SCREEN_WIDTH - text_width)/2, 110, MAIN_FONT_COLOR, (int)(60 * FONT_SCALE), "vitaSnake" );
+
+	for( int i = 0; i < mainMenu.MENU_ITEMS; ++i )			
+		mainMenu.renderButton( mainMenu.item[ i ] );
+
+	mainMenu.renderCursor( mainMenu.item[ mainMenu.cursor ] );	
 
 	vita2d_end_drawing();
+	vita2d_wait_rendering_done();
 	vita2d_swap_buffers();
 }
 
@@ -119,43 +158,65 @@ void Game::gameDifficulty()
 {
 	sceCtrlPeekBufferPositive( 0, &pad, 1 );
 
-	if( difficultyMenu.cursor == DifficultyMenu::easy )
-		GAME_DIFFICULTY = DifficultyMenu::easy;
-	else if( difficultyMenu.cursor == DifficultyMenu::normal )
-		GAME_DIFFICULTY = DifficultyMenu::normal;
-	else if( difficultyMenu.cursor == DifficultyMenu::hard )
-		GAME_DIFFICULTY = DifficultyMenu::hard;
-
 	// Menu controls
-	if( input.wasPressed(Input::up) )
+	difficultyMenu.menuNav();
+
+	bool select = false;
+
+	if( difficultyMenu.selectItem() )
+		select = true;
+
+	if( gInput.wasPressed(Input::frontTouch) )
 	{
-		difficultyMenu.selectUp();
+		for( int i = 0; i < difficultyMenu.MENU_ITEMS; ++i )
+		{
+			if( difficultyMenu.touchSelect(difficultyMenu.item[i]) )
+			{
+				difficultyMenu.cursor = i;
+				select = true;
+			}
+		}
 	}
-	if( input.wasPressed(Input::down) )
+	
+	if( difficultyMenu.cursor == DifficultyMenu::classic )
+		GAME_DIFFICULTY = DifficultyMenu::classic;
+	else if( difficultyMenu.cursor == DifficultyMenu::hardcore )
+		GAME_DIFFICULTY = DifficultyMenu::hardcore;
+
+	if( select )
 	{
-		difficultyMenu.selectDown();
-	}
-	if( input.wasPressed(Input::cross) )
-	{
+		gSoloud.play( gMenuSelect );
+
 		snakePart[0].setDifficulty();
 		_gameState = playing;
 	}
-	if( input.wasPressed(Input::circle) )
+	if( gInput.wasPressed(Input::circle) )
 	{
+		gSoloud.play( gMenuSelect );
 		_gameState = showingMenu;
 	}
 
 
 	/* RENDERING */
 	vita2d_start_drawing();
-	vita2d_clear_screen();	
+	vita2d_clear_screen();								
 
 	difficultyMenu.renderBackground();												// Draw menu background
+
+	int topText_width = vita2d_font_text_width( gFont[ (int)(60 * FONT_SCALE) ], (int)(60 * FONT_SCALE), "Choose the difficulty");
+	vita2d_font_draw_text( gFont[ (int)(60 * FONT_SCALE) ], (SCREEN_WIDTH - topText_width)/2, 110, MAIN_FONT_COLOR, (int)(60 * FONT_SCALE), "Choose the difficulty" );
+
+	for( int i = 0; i < difficultyMenu.MENU_ITEMS; ++i )			
+		difficultyMenu.renderButton( difficultyMenu.item[ i ] );
+
+	difficultyMenu.renderDescription();
+
 	difficultyMenu.renderCursor( difficultyMenu.item[ difficultyMenu.cursor ] );	// Draw cursor
 	difficultyMenu.renderSnake();
 	collectable.renderMenuScores();													// Render highscores in the menu
 
 	vita2d_end_drawing();
+	vita2d_wait_rendering_done();
 	vita2d_swap_buffers();
 }
 
@@ -165,7 +226,7 @@ void Game::gameLoop()
 	sceCtrlPeekBufferPositive( 0, &pad, 1 );
 
 	// Pause the game with START
-	if( input.wasPressed(Input::start) )
+	if( gInput.wasPressed(Input::start) )
 		_gameState = paused;
 
 	// Player controls
@@ -178,41 +239,46 @@ void Game::gameLoop()
 	for( int part = 4; part < SNAKE_LENGTH; ++part )
 	{
 		if( snakePart[0].checkCollision( snakePart[part] ) )
+		{
+			gSoloud.play( gSnakeDeath );
 			_gameState = gameOver;
+		}
 	}
 
-	// Check wall collision if playing on HARD
-	if( GAME_DIFFICULTY == 2 )
+	// Check wall collisions
+	if( snakePart[0].wallDeath() )
 	{
-		if( snakePart[0].wallDeath() )
-			_gameState = gameOver;
+		gSoloud.play( gSnakeDeath );
+		_gameState = gameOver;
 	}
 	
-	// Check collectable collisions
-	if( collectable.checkCollision( snakePart[0] ) )
+	// Check if the player is close to the collectable
+	if( collectable.checkOpenDistance(snakePart[0]) )
 	{
-		collectable.collect();
-		SNAKE_LENGTH++;
-	}
+		snakePart[0].isClose = true;
 
+		// Check collectable collision with snake head
+		if( collectable.checkCollision( snakePart[0] ) )
+		{
+			gSoloud.play( gBite );
+			collectable.collect();
+			SNAKE_LENGTH++;
+		}
+	}
+	else
+	{
+		snakePart[0].isClose = false;
+	}
+	
 	// Move the following parts
 	for( int part = 1; part < SNAKE_LENGTH; ++part )
 		snakePart[ part ].follow( snakePart[ part - 1 ] );
-
 
 	/* RENDERING */
 	vita2d_start_drawing();
 	vita2d_clear_screen();
 
-	// Draw snake
-	snakePart[ 0 ].render( Player::head );	
-	for( int part = 1; part < SNAKE_LENGTH-1; ++part ) 
-		snakePart[ part ].render( Player::body );
-	snakePart[ SNAKE_LENGTH-1 ].render( Player::tail );
-
-	collectable.render();			// draw collectable
-	collectable.renderScore();		// draw the score counter
-	collectable.renderHighscore();	// draw highscore text
+	gameDraw();
 
 	vita2d_end_drawing();
 	vita2d_wait_rendering_done();
@@ -225,22 +291,35 @@ void Game::gamePaused()
 	sceCtrlPeekBufferPositive( 0, &pad, 1 );
 
 	// Menu controls
-	if( input.wasPressed(Input::up) )
+	pauseMenu.menuNav();
+
+	bool select = false;
+
+	if( pauseMenu.selectItem() )
+		select = true;
+
+	if( gInput.wasPressed(Input::frontTouch) )
 	{
-		pauseMenu.selectUp();
+		for( int i = 0; i < pauseMenu.MENU_ITEMS; ++i )
+		{
+			if( pauseMenu.touchSelect(pauseMenu.item[i]) )
+			{
+				pauseMenu.cursor = i;
+				select = true;
+			}
+		}
 	}
-	if( input.wasPressed(Input::down) )
+
+	if( select )
 	{
-		pauseMenu.selectDown();
-	}
-	if( input.wasPressed(Input::cross) )
-	{
+		gSoloud.play( gMenuSelect );
+
 		if( pauseMenu.cursor == PauseMenu::resumeGame )
 			_gameState = playing;
 		else if( pauseMenu.cursor == PauseMenu::returnToMenu )
 			_gameState = needReinitialize;
 	}
-	if( input.wasPressed(Input::start) )
+	if( gInput.wasPressed(Input::start) )
 	{
 		_gameState = playing;
 	}
@@ -250,20 +329,25 @@ void Game::gamePaused()
 	vita2d_clear_screen();	
 
 	// We still want to draw everything, so the player can see the paused game
-	// Draw snake
-	snakePart[ 0 ].render( Player::head );	
-	for( int part = 1; part < SNAKE_LENGTH-1; ++part ) 
-		snakePart[ part ].render( Player::body );
-	snakePart[ SNAKE_LENGTH-1 ].render( Player::tail );
+	gameDraw();
 
-	collectable.render();			// draw collectable
-	collectable.renderScore();		// draw the score counter
-	collectable.renderHighscore();	// draw highscore text
+	// Dim the background
+	vita2d_draw_rectangle( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, RGBA8( 0, 0, 0, 40 ) );
 
-	pauseMenu.renderBackground();									// Draw menu background
-	pauseMenu.renderCursor( pauseMenu.item[ pauseMenu.cursor ] );	// Draw cursor
+	int topText_width = vita2d_font_text_width( gFont[ (int)(60 * FONT_SCALE) ], (int)(60 * FONT_SCALE), "Paused" );
+	vita2d_font_draw_text( gFont[ (int)(60 * FONT_SCALE) ], (SCREEN_WIDTH - topText_width)/2, 110, MAIN_FONT_COLOR, (int)(60 * FONT_SCALE), "Paused" );
+
+	for( int i = 0; i < pauseMenu.MENU_ITEMS; ++i )			
+		pauseMenu.renderButton( pauseMenu.item[ i ] );
+
+	pauseMenu.renderCursor( pauseMenu.item[ pauseMenu.cursor ] );
+
+	// TODO add a sleeping snake texture
+	drawPlayer( body, SCREEN_WIDTH - (SCREEN_HEIGHT*0.04), SCREEN_HEIGHT - (SCREEN_HEIGHT*0.04), 2.3, 2.3, (-45 * M_PI) / 180 );
+	drawPlayer( head, SCREEN_WIDTH - (SCREEN_HEIGHT*0.14), SCREEN_HEIGHT - (SCREEN_HEIGHT*0.14), 2.5, 2.5, (-45 * M_PI) / 180 );
 
 	vita2d_end_drawing();
+	vita2d_wait_rendering_done();
 	vita2d_swap_buffers();
 }
 
@@ -277,55 +361,80 @@ void Game::gameEnd()
 	vita2d_clear_screen();	
 
 	// New highscore flag
-	bool highscore;
+	bool highscore = false;
 
 	// Check if the player set a new highscore
 	if( collectable.getScore() > collectable.getHighscore( GAME_DIFFICULTY ) )
 		highscore = true;
-	
-	// We still want to draw everything, so the player can see the game even after they lost
-	// Draw snake
-	snakePart[ 0 ].render( Player::head );	
-	for( int part = 1; part < SNAKE_LENGTH-1; ++part ) 
-		snakePart[ part ].render( Player::body );
-	snakePart[ SNAKE_LENGTH-1 ].render( Player::tail );
 
-	collectable.render();			// draw collectable
-	collectable.renderScore();		// draw the score counter
-	collectable.renderHighscore();	// draw highscore text
+	gameDraw();
 
-	// Draw image over the game
-	gameOverMenu.renderBackground();
+	// Draw the Game Over text over the game
+	vita2d_draw_rectangle( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, RGBA8( 0, 0, 0, 40 ) );
+
+	int topText_width = vita2d_font_text_width( gFont[ 60 ], 60, "Game Over");
+	vita2d_font_draw_text( gFont[ 60 ], (SCREEN_WIDTH - topText_width)/2, 110, MAIN_FONT_COLOR, 60, "Game Over" );
+
+	for( int i = 0; i < gameOverMenu.MENU_ITEMS; ++i )			
+		gameOverMenu.renderButton( gameOverMenu.item[ i ] );
+
 	gameOverMenu.renderCursor( gameOverMenu.item[ gameOverMenu.cursor ] );
 
 	// If the player set a new highscore
 	if( highscore )
 	{
-		int text_width = vita2d_pvf_text_width( pvf, 2.0f, "NEW HIGHSCORE" );
-		vita2d_pvf_draw_textf( pvf, (SCREEN_WIDTH-text_width)/2, 270, RGBA8( 255, 255, 0, 255 ), 2.0f, "NEW HIGHSCORE" );
-		collectable.writeHighscore();
-		collectable.readHighscore();
+		if( !score_read )
+		{
+			collectable.writeHighscore();
+			collectable.readHighscore();
+			score_read = true;
+		}
+		int text_width = vita2d_font_text_width( gFont[ (int)(35 * FONT_SCALE) ], (int)(35 * FONT_SCALE), "NEW HIGHSCORE");
+		vita2d_font_draw_text( gFont[ (int)(35 * FONT_SCALE) ], ( SCREEN_WIDTH - text_width ) / 2, 270, RGBA8( 244, 205, 65, 255 ), (int)(35 * FONT_SCALE), "NEW HIGHSCORE");
 	}
-
+	
 	// Render final score
-	int text_width = vita2d_pvf_text_width(pvf, 2.0f, "Your score: 00" );
-	vita2d_pvf_draw_textf( pvf, (SCREEN_WIDTH-text_width)/2, 230, RGBA8( 255, 255, 0, 255 ), 2.0f, "Your score: %d", collectable.getScore() );
+	int text_width = 0;
+	if( collectable.getScore() < 10 )
+		text_width = vita2d_font_text_width( gFont[ (int)(35 * FONT_SCALE) ], (int)(35 * FONT_SCALE), "Your score: 0" );
+	else if( collectable.getScore() < 100 )
+		text_width = vita2d_font_text_width( gFont[ (int)(35 * FONT_SCALE) ], (int)(35 * FONT_SCALE), "Your score: 00" );
+	else
+		text_width = vita2d_font_text_width( gFont[ (int)(35 * FONT_SCALE) ], (int)(35 * FONT_SCALE), "Your score: 000" );
+
+	vita2d_font_draw_textf( gFont[ (int)(35 * FONT_SCALE) ], (SCREEN_WIDTH-text_width)/2, 230, MAIN_FONT_COLOR, (int)(35 * FONT_SCALE), "Your score: %d", collectable.getScore() );
 
 	vita2d_end_drawing();
+	vita2d_wait_rendering_done();
 	vita2d_swap_buffers();
 
 
 	// Menu controls
-	if( input.wasPressed(Input::up) )
+	gameOverMenu.menuNav();
+
+	bool select = false;
+
+	if( gameOverMenu.selectItem() )
+		select = true;
+
+	if( gInput.wasPressed( Input::frontTouch ) )
 	{
-		gameOverMenu.selectUp();
+		for( int i = 0; i < gameOverMenu.MENU_ITEMS; ++i )
+		{
+			if( gameOverMenu.touchSelect( gameOverMenu.item[i] ) )
+			{
+				gameOverMenu.cursor = i;
+				select = true;
+			}
+		}
 	}
-	if( input.wasPressed(Input::down) )
+
+	if( select )
 	{
-		gameOverMenu.selectDown();
-	}
-	if( input.wasPressed(Input::cross) )
-	{
+		score_read = false;
+
+		gSoloud.play( gMenuSelect );
+
 		if( gameOverMenu.cursor == GameOverMenu::playAgain )
 			_gameState = playAgain;
 		else if( gameOverMenu.cursor == GameOverMenu::returnToMenu )
@@ -336,19 +445,28 @@ void Game::gameEnd()
 // Destroy textures on game exit
 void Game::gameQuit()
 {
-	// Wait for GPU to stop rendering
 	vita2d_fini();
 
 	// Free textures
-	gSnakeHeadTexture.freeTexture();
-	gSnakeBodyTexture.freeTexture();
-	gSnakeTailTexture.freeTexture();
+	for( int i = 0; i < NR_PLAYER_TEXTURES; ++i )
+		gSnakeSheet[ i ].freeTexture();
+
 	gAppleTexture.freeTexture();
+	gSparkleTexture.freeTexture();
+
+	gMenuButtonTexture.freeTexture();
 	gCursorTexture.freeTexture();
-	gMainMenuBgTexture.freeTexture();
-	gPauseMenuBgTexture.freeTexture();
-	gGameOverMenuBgTexture.freeTexture();
-	gInfoTexture.freeTexture();
+
+	for( int i = 0; i < NR_BACKGROUND_TEXTURES; ++i )
+	{
+		if( i != 1 && i != 3 )	// 1 and 3 aren't textures
+			gBgTexture[ i ].freeTexture();
+	}
+		
+
+	// Free fonts
+	for( int i = 0; i <= 99; ++i )
+		vita2d_free_font( gFont[ i ] );
 }
 
 // Re-initialize variables
@@ -379,21 +497,91 @@ void Game::gamePlayAgain()
 	_gameState = choosingDifficulty;
 }
 
+// Show the "How to play" screen
 void Game::gameHTP()
 {
 	sceCtrlPeekBufferPositive( 0, &pad, 1 );
+
+	// Press O to go back
+	if( gInput.wasPressed(Input::circle) )
+	{
+		gSoloud.play( gMenuSelect );
+		_gameState = showingMenu;
+	}	
 
 	/* RENDERING */
 	vita2d_start_drawing();
 	vita2d_clear_screen();	
 
-	// Press O to go back
-	if( input.wasPressed(Input::circle) )
-		_gameState = showingMenu;
+	drawBackground();
 
-	// Draw how to play info texture
-	gInfoTexture.draw( 0.0f, 0.0f );
+	int text_width;
+
+	text_width = vita2d_font_text_width( gFont[ (int)(35 * FONT_SCALE) ], (int)(35 * FONT_SCALE), "How to play" );
+	vita2d_font_draw_text( gFont[ (int)(35 * FONT_SCALE) ], ( ( SCREEN_WIDTH - text_width ) / 2 ), 40, MAIN_FONT_COLOR, (int)(35 * FONT_SCALE), "How to play" );
+
+	vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], 15, 100, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "Your goal in this game is to eat as many apples as you can," );
+	vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], 15, 130, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "each apple eaten adds a point to your score." );
+	vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], 15, 160, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "Avoid biting your own tail, or you will lose the game." );
+
+
+	vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], 15, 260, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "- The snake moves forward by itself." );
+	vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], 15, 310, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "- Steer the snake left and right using the left analog stick or DPAD" );
+	vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], 15, 340, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "  buttons." );
+	vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], 15, 390, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "- You can boost the snake's speed by holding the   button." );
+
+	text_width = vita2d_font_text_width( gFont[ (int)(20 * FONT_SCALE) ], (int)(20 * FONT_SCALE), "- You can boost the snake's speed by holding the " );
+	gCrossTexture.draw_scale( text_width + 12, 395 - (gCrossTexture.get_height()*0.30), 0.30, 0.30 );
+
+	vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], 15, 440, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "- Pause the game with the START button." );
+
+	drawBackText();
 
 	vita2d_end_drawing();
+	vita2d_wait_rendering_done();
+	vita2d_swap_buffers();
+}
+
+// Draw every gameplay element
+void Game::gameDraw()
+{
+	difficultyMenu.renderBackground();
+
+	collectable.render();			
+
+	// Draw snake
+	for( int part = 1; part < SNAKE_LENGTH-1; ++part )
+		snakePart[ part ].render( body );
+	snakePart[ SNAKE_LENGTH-1 ].render( tail );
+	snakePart[ 0 ].render( head );
+
+	// Draw text
+	collectable.renderScore();
+	collectable.renderHighscore();
+}
+
+void Game::gameOptions()
+{
+	sceCtrlPeekBufferPositive( 0, &pad, 1 );
+
+	optionsMenu.menuNav();
+
+	optionsMenu.changeSelectable( optionsMenu.option[ optionsMenu.cursor ] );
+
+	// Press O to go back
+	if( gInput.wasPressed( Input::circle ) )
+	{
+		gSoloud.play( gMenuSelect );
+		_gameState = showingMenu;
+	}	
+
+	/* RENDERING */
+	vita2d_start_drawing();
+	vita2d_clear_screen();	
+
+	optionsMenu.renderOptions();
+
+	vita2d_end_drawing();
+	vita2d_wait_rendering_done();
 	vita2d_swap_buffers();
 }

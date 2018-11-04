@@ -11,8 +11,10 @@
 
 #include <vita2d.h>
 
-#include "global.hpp"
 #include "player.hpp"
+#include "menu.hpp"
+#include "global.hpp"
+
 
 class Collectable
 {
@@ -20,7 +22,8 @@ class Collectable
 		Collectable();			// Initializer
 		void setFont();			// Sets the score display font
 
-		bool checkCollision( Player part );	// Player-collectable collision
+		bool checkCollision( Player part );		// Player-collectable collision
+		bool checkOpenDistance( Player part );	// Check if the player is close to the collectable
 
 		void collect();			// Pick up the collectable
 		void render();			// Render the collectable
@@ -31,10 +34,11 @@ class Collectable
 		void renderHighscore();					// Render the highscore text
 		void renderMenuScores();				// Render menu scores
 
+		void renderParticles();
+
 		int getScore();			// Get the score number
 		void resetScore();		// Reset the score counter
-		void renderScore();		// Render the score text			
-		
+		void renderScore();		// Render the score text
 
 	private:
 		// Collectable dimensions
@@ -44,6 +48,9 @@ class Collectable
 		// The distance at which a collision occurs
 		const float COLLISION_DISTANCE = 30.0f;	
 
+		// The distance at which the snake opens it's mouth
+		const float OPEN_DISTANCE = 100.0f;
+
 		// Collectable coordinates
 		float xPos, yPos;
 
@@ -51,12 +58,13 @@ class Collectable
 		int score;
 
 		// Current highscore
-		int easyHighscore = 0;
-		int normalHighscore = 0;
-		int hardHighscore = 0;
+		int classicHighscore = 0;
+		int hardcoreHighscore = 0;
 
-		// Score counter text
-		vita2d_pgf *pgf;
+		// Sparkles to make the collectable more visible
+		static const int TOTAL_PARTICLES = 3;
+		Particle* particles[ TOTAL_PARTICLES ];
 };
+
 
 #endif // COLLECTABLE_HPP

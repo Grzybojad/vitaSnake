@@ -14,7 +14,7 @@ include("${VITASDK}/share/vita.cmake" REQUIRED)
 set(VITA_APP_NAME "vitaSnake")
 set(SHORT_NAME vitaSnake)
 set(VITA_TITLEID  "GRZB00002")
-set(VITA_VERSION  "00.70")
+set(VITA_VERSION  "00.99")
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
@@ -42,6 +42,10 @@ add_executable(${VITA_APP_NAME}
   src/buttons.cpp
   src/texture.hpp
   src/texture.cpp
+  src/particle.hpp
+  src/particle.cpp
+  src/options.hpp
+  src/options.cpp
   src/global.hpp
   src/global.cpp
 )
@@ -50,6 +54,7 @@ target_link_libraries(${VITA_APP_NAME}
   SceLibKernel_stub
   SceDisplay_stub
   SceTouch_stub
+  SceAudio_stub
   -lvita2d 
   -lSceDisplay_stub 
   -lSceGxm_stub
@@ -64,28 +69,41 @@ target_link_libraries(${VITA_APP_NAME}
   -lz
   -lm
   -lc
+  soloud
+  pthread
+  m
 )
 
 vita_create_self(${SHORT_NAME}.self ${SHORT_NAME})
 vita_create_vpk(${SHORT_NAME}.vpk ${VITA_TITLEID} ${SHORT_NAME}.self
   VERSION ${VITA_VERSION}
   NAME ${VITA_APP_NAME}
-  FILE sce_sys/icon0.png sce_sys/icon0.png
-  FILE sce_sys/livearea/contents/bg.png sce_sys/livearea/contents/bg.png
-  FILE sce_sys/livearea/contents/startup.png sce_sys/livearea/contents/startup.png
-  FILE sce_sys/livearea/contents/template.xml sce_sys/livearea/contents/template.xml
-  FILE img/head.png img/head.png
-  FILE img/body.png img/body.png
-  FILE img/tail.png img/tail.png
-  FILE img/apple.png img/apple.png
-  FILE img/menuScreen.png img/menuScreen.png
-  FILE img/cursor.png img/cursor.png
-  FILE img/difficulty.png img/difficulty.png
-  FILE img/infoScreen.png img/infoScreen.png
-  FILE img/pauseScreen.png img/pauseScreen.png
-  FILE img/overScreen.png img/overScreen.png
-  FILE img/snakeEasy.png img/snakeEasy.png
-  FILE img/snakeNormal.png img/snakeNormal.png
-  FILE img/snakeHard.png img/snakeHard.png
+  FILE sce_sys/icon0.png 									sce_sys/icon0.png
+  FILE sce_sys/livearea/contents/bg.png 				sce_sys/livearea/contents/bg.png
+  FILE sce_sys/livearea/contents/startup.png 		sce_sys/livearea/contents/startup.png
+  FILE sce_sys/livearea/contents/template.xml 	sce_sys/livearea/contents/template.xml
+  
+  FILE img/playerDefault.png		img/playerDefault.png
+  FILE img/playerClassic.png		img/playerClassic.png
+  FILE img/playerRPPHS.png		img/playerRPPHS.png
+  FILE img/playerNokia.png			img/playerNokia.png
+  
+  FILE img/apple.png 					img/apple.png
+  FILE img/sparkle.png 				img/sparkle.png
+  
+  FILE img/menuButton.png		img/menuButton.png
+  FILE img/cursor.png 				img/cursor.png
+  FILE img/button_cross.png		img/button_cross.png
+  FILE img/button_circle.png		img/button_circle.png
+  
+  FILE img/bgDesertTile.png 		img/bgDesertTile.png
+  FILE img/bgRPPHSFull.png 		img/bgRPPHSFull.png
+  
+  FILE sound/menu_move.wav 	sound/menu_move.wav
+  FILE sound/menu_select.wav 	sound/menu_select.wav
+  FILE sound/bite.wav 				sound/bite.wav
+  FILE sound/snake_death.ogg 	sound/snake_death.ogg
+  
+  FILE font/font_main.ttf				font/font_main.ttf
 )
 

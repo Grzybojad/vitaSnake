@@ -10,6 +10,8 @@ Player::Player()
 	// Set starting rotation to 90 degrees (pi rad / 2)
 	rotation = M_PI / 2;
 
+	isClose = false;
+
 	memset( &pad, 0, sizeof( pad ) );
 
 	// Set sampling mode to analog, so that the analog sticks return proper values
@@ -21,15 +23,11 @@ void Player::setDifficulty()
 {
 	switch( GAME_DIFFICULTY )
 	{
-		case 0:
-			PLAYER_SET_SPEED = 4.0f;
-			PLAYER_SET_ROTATION_SPEED = 0.06f;
-			break;
-		case 1:
+		case DifficultyMenu::classic:
 			PLAYER_SET_SPEED = 5.0f;
 			PLAYER_SET_ROTATION_SPEED = 0.07f;
 			break;
-		case 2:
+		case DifficultyMenu::hardcore:
 			PLAYER_SET_SPEED = 6.0f;
 			PLAYER_SET_ROTATION_SPEED = 0.08f;
 			break;
@@ -45,16 +43,45 @@ void Player::handleInput()
 
 	// Calculate rotation
 	// DPAD controls
-	if ( pad.buttons & SCE_CTRL_LEFT )
+	if( pad.buttons & SCE_CTRL_LEFT )
 		rotation -= PLAYER_SET_ROTATION_SPEED;
-	else if ( pad.buttons & SCE_CTRL_RIGHT )
+	else if( pad.buttons & SCE_CTRL_RIGHT )
 		rotation += PLAYER_SET_ROTATION_SPEED;
 
 	// Analog stick controls with deadzone
 	float analogInput = (float)( ( pad.lx - 128.0f ) / 128.0f );
 	if( analogInput > ANALOG_DEADZONE || analogInput < -ANALOG_DEADZONE )
 	{
-		rotation += analogInput * PLAYER_SET_ROTATION_SPEED;
+		if( CONTROL_STYLE == 0 )
+		{
+			rotation += analogInput * PLAYER_SET_ROTATION_SPEED;
+		}
+		else if( CONTROL_STYLE == 1 )
+		{
+			float analogX = pad.lx - 128;
+			float analogY = pad.ly - 128;
+
+			float analogAngle = atan2( analogY, analogX ) + ( M_PI / 2 );
+			if( analogAngle < 0 ) analogAngle += M_PI * 2;	
+
+			if( rotation < M_PI )
+			{
+				if( analogAngle > rotation && analogAngle < ( rotation + M_PI ) )
+					rotation += PLAYER_SET_ROTATION_SPEED;
+				else
+					rotation -= PLAYER_SET_ROTATION_SPEED;
+			}
+			else if( rotation > M_PI )
+			{
+				if( analogAngle < ( rotation - M_PI ) )
+					analogAngle += 2 * M_PI;
+
+				if( analogAngle > rotation && analogAngle < ( rotation + M_PI ) )
+					rotation += PLAYER_SET_ROTATION_SPEED;
+				else
+					rotation -= PLAYER_SET_ROTATION_SPEED;
+			}
+		}
 	}
 
 	// Boost snake speed with X
@@ -67,27 +94,34 @@ void Player::handleInput()
 // Move the player
 void Player::move()
 {
+	if( rotation < 0 )
+		rotation += ( 2 * M_PI );
+	else if( rotation > ( 2 * M_PI ) )
+		rotation = rotation - ( 2 * M_PI );
+
 	// Calcule player position
 	xPos -= sin( rotation ) * speed;
 	yPos += cos( rotation ) * speed;
 
-	if( GAME_DIFFICULTY != 2 )
-	{
-		// Trap the player inside the screen
-		if( xPos < PLAYER_HEIGHT / 2 )
-			xPos = PLAYER_HEIGHT / 2;
-		else if( xPos > SCREEN_WIDTH - PLAYER_HEIGHT / 2 )
-			xPos = SCREEN_WIDTH - PLAYER_HEIGHT / 2;
-		if( yPos < PLAYER_HEIGHT / 2 )
-			yPos = PLAYER_HEIGHT / 2;
-		else if( yPos > SCREEN_HEIGHT - PLAYER_HEIGHT / 2 )
-			yPos = SCREEN_HEIGHT - PLAYER_HEIGHT / 2;
-	}
+	// Trap the player inside the screen
+	if( xPos < PLAYER_HEIGHT * 0.45 )
+		xPos = PLAYER_HEIGHT * 0.45;
+	else if( xPos > SCREEN_WIDTH - PLAYER_HEIGHT * 0.45 )
+		xPos = SCREEN_WIDTH - PLAYER_HEIGHT * 0.45;
+	if( yPos < PLAYER_HEIGHT * 0.45 )
+		yPos = PLAYER_HEIGHT * 0.45;
+	else if( yPos > SCREEN_HEIGHT - PLAYER_HEIGHT * 0.45 )
+		yPos = SCREEN_HEIGHT - PLAYER_HEIGHT * 0.45;
 }
 
 // Move the body parts
 void Player::follow( Player part )
 {
+	if( rotation < 0 )
+		rotation += ( 2 * M_PI );
+	else if( rotation > ( 2 * M_PI ) )
+		rotation = rotation - ( 2 * M_PI );
+
 	// Calculate distance to previous part
 	float distance = sqrt( pow( ( part.get_xPos() - xPos ), 2) + pow( ( part.get_yPos() - yPos ), 2 ) );
 
@@ -122,36 +156,31 @@ bool Player::checkCollision( Player part )
 		return false;
 }
 
-// Die from touching a wall on HARD
+// Die from touching a wall on hardcore
 bool Player::wallDeath()
 {
-	if( xPos < PLAYER_HEIGHT / 4 )
-		return true;
-	else if( xPos > SCREEN_WIDTH - PLAYER_HEIGHT / 4 )
-		return true;
-	if( yPos < PLAYER_HEIGHT / 4 )
-		return true;
-	else if( yPos > SCREEN_HEIGHT - PLAYER_HEIGHT / 4 )
-		return true;
-	else
-		return false;
+	if( GAME_DIFFICULTY == DifficultyMenu::hardcore )
+	{
+		if( xPos <= PLAYER_HEIGHT * 0.45 )
+			return true;
+		else if( xPos >= SCREEN_WIDTH - PLAYER_HEIGHT * 0.45 )
+			return true;
+		if( yPos <= PLAYER_HEIGHT * 0.45 )
+			return true;
+		else if( yPos >= SCREEN_HEIGHT - PLAYER_HEIGHT * 0.45 )
+			return true;
+	}
+
+	return false;
 }
 
 // Render head or body
 void Player::render( part part )
 {
-	switch( part )
-	{
-		case head:
-			vita2d_draw_texture_rotate( gSnakeHeadTexture.texture, xPos, yPos, rotation );
-			break;
-		case body:
-			vita2d_draw_texture_rotate( gSnakeBodyTexture.texture, xPos, yPos, rotation );
-			break;
-		case tail:
-			vita2d_draw_texture_rotate( gSnakeTailTexture.texture, xPos, yPos, rotation );
-			break;
-	}
+	if( part == head && isClose)
+		drawPlayer( headOpen, xPos, yPos, rotation);
+	else
+		drawPlayer( part, xPos, yPos, rotation );
 }
 
 // Reset player position

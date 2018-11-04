@@ -55,7 +55,7 @@ extern unsigned int MAIN_FONT_COLOR;
 
 
 // Textures
-const int NR_PLAYER_TEXTURES = 4;
+const int NR_PLAYER_TEXTURES = 3;
 extern Texture gSnakeSheet[ NR_PLAYER_TEXTURES ];
 
 extern Texture gAppleTexture;
