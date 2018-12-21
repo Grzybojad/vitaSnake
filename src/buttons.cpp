@@ -90,7 +90,19 @@ bool Input::wasPressed( buttonIndex id )
 				button[id] = false;
 			}
 		}
-		else if( id == lAnalogRight )
+		else if (id == lAnalogDown)
+		{
+			if ((lAnalogY > ANALOG_DEADZONE) && !button[id])
+			{
+				button[id] = true;
+				return true;
+			}
+			else if (!(lAnalogY > ANALOG_DEADZONE))
+			{
+				button[id] = false;
+			}
+		}
+		else if( id == lAnalogLeft )
 		{
 			if( ( lAnalogX < -ANALOG_DEADZONE ) && !button[id] )
 			{
@@ -102,19 +114,7 @@ bool Input::wasPressed( buttonIndex id )
 				button[id] = false;
 			}
 		}
-		else if( id == lAnalogDown )
-		{
-			if( ( lAnalogY > ANALOG_DEADZONE ) && !button[id] )
-			{
-				button[id] = true;
-				return true;
-			}
-			else if( !( lAnalogY > ANALOG_DEADZONE ) )
-			{
-				button[id] = false;
-			}
-		}
-		else if( id == lAnalogLeft )
+		else if( id == lAnalogRight )
 		{
 			if( ( lAnalogX > ANALOG_DEADZONE ) && !button[id] )
 			{

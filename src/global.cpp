@@ -66,21 +66,21 @@ void loadPlayerTextures()
 
 void loadCollectableTextures()
 {
-	gAppleTexture.texture			= vita2d_load_PNG_file( "app0:/img/apple.png" );
-	gSparkleTexture.texture			= vita2d_load_PNG_file( "app0:/img/sparkle.png" );
+	gAppleTexture.texture		= vita2d_load_PNG_file( "app0:/img/apple.png" );
+	gSparkleTexture.texture		= vita2d_load_PNG_file( "app0:/img/sparkle.png" );
 }
 
 void loadMenuTextures()
 {
-	gMenuButtonTexture.texture		= vita2d_load_PNG_file( "app0:/img/menuButton.png" );
-	gCursorTexture.texture			= vita2d_load_PNG_file( "app0:/img/cursor.png" );
-	gCrossTexture.texture			= vita2d_load_PNG_file( "app0:/img/button_cross.png" );
-	gCircleTexture.texture			= vita2d_load_PNG_file( "app0:/img/button_circle.png" );
+	gMenuButtonTexture.texture	= vita2d_load_PNG_file( "app0:/img/menuButton.png" );
+	gCursorTexture.texture		= vita2d_load_PNG_file( "app0:/img/cursor.png" );
+	gCrossTexture.texture		= vita2d_load_PNG_file( "app0:/img/button_cross.png" );
+	gCircleTexture.texture		= vita2d_load_PNG_file( "app0:/img/button_circle.png" );
 }
 
 void loadGameTextures()
 {
-	gBgTexture[ 0 ].texture	 = vita2d_load_PNG_file( "app0:/img/bgDesertTile.png" );
+	gBgTexture[ 0 ].texture	= vita2d_load_PNG_file( "app0:/img/bgDesertTile.png" );
 	gBgTexture[ 1 ].texture = vita2d_load_PNG_file( "app0:/img/bgRPPHSFull.png" );
 }
 
