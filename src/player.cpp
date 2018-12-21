@@ -41,6 +41,8 @@ void Player::handleInput()
 {
 	sceCtrlPeekBufferPositive( 0, &pad, 1 );
 
+	float analogInput = (float)((pad.lx - 128.0f) / 128.0f);
+
 	// Calculate rotation
 	// DPAD controls
 	if( pad.buttons & SCE_CTRL_LEFT )
@@ -49,8 +51,7 @@ void Player::handleInput()
 		rotation += PLAYER_SET_ROTATION_SPEED;
 
 	// Analog stick controls with deadzone
-	float analogInput = (float)( ( pad.lx - 128.0f ) / 128.0f );
-	if( analogInput > ANALOG_DEADZONE || analogInput < -ANALOG_DEADZONE )
+	else if( analogInput > ANALOG_DEADZONE || analogInput < -ANALOG_DEADZONE )
 	{
 		if( CONTROL_STYLE == 0 )
 		{
