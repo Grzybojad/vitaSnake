@@ -45,10 +45,89 @@ void Player::handleInput()
 
 	// Calculate rotation
 	// DPAD controls
-	if( pad.buttons & SCE_CTRL_LEFT )
-		rotation -= PLAYER_SET_ROTATION_SPEED;
-	else if( pad.buttons & SCE_CTRL_RIGHT )
-		rotation += PLAYER_SET_ROTATION_SPEED;
+
+	if (CONTROL_STYLE == 0)
+	{
+		if (pad.buttons & SCE_CTRL_LEFT)
+			rotation -= PLAYER_SET_ROTATION_SPEED;
+		else if (pad.buttons & SCE_CTRL_RIGHT)
+			rotation += PLAYER_SET_ROTATION_SPEED;
+
+		else if( analogInput > ANALOG_DEADZONE || analogInput < -ANALOG_DEADZONE )
+				rotation += analogInput * PLAYER_SET_ROTATION_SPEED;
+	}
+	else if (CONTROL_STYLE == 1)
+	{
+		// Find the "angle" at which the dpad was pressed
+		float dpadAngle = -1;
+
+		if( pad.buttons & SCE_CTRL_LEFT && pad.buttons & SCE_CTRL_UP )
+			dpadAngle = ( 7 * M_PI ) / 4;
+		else if( pad.buttons & SCE_CTRL_LEFT && pad.buttons & SCE_CTRL_DOWN )
+			dpadAngle = ( 5 * M_PI ) / 4;
+		else if( pad.buttons & SCE_CTRL_RIGHT && pad.buttons & SCE_CTRL_UP )
+			dpadAngle = M_PI / 4;
+		else if( pad.buttons & SCE_CTRL_RIGHT && pad.buttons & SCE_CTRL_DOWN )
+			dpadAngle = ( 3 * M_PI ) / 4;
+
+		else if( pad.buttons & SCE_CTRL_LEFT )
+			dpadAngle = 3 * M_PI / 2;
+		else if( pad.buttons & SCE_CTRL_RIGHT )
+			dpadAngle = M_PI / 2;
+		else if( pad.buttons & SCE_CTRL_UP )
+			dpadAngle = 0;
+		else if( pad.buttons & SCE_CTRL_DOWN )
+			dpadAngle = M_PI;
+
+		else if( analogInput > ANALOG_DEADZONE || analogInput < -ANALOG_DEADZONE )
+		{
+			float analogX = pad.lx - 128;
+			float analogY = pad.ly - 128;
+
+			float analogAngle = atan2( analogY, analogX ) + (M_PI / 2);
+			if( analogAngle < 0 ) analogAngle += M_PI * 2;
+
+			if( rotation < M_PI )
+			{
+				if( analogAngle > rotation && analogAngle < (rotation + M_PI) )
+					rotation += PLAYER_SET_ROTATION_SPEED;
+				else
+					rotation -= PLAYER_SET_ROTATION_SPEED;
+			}
+			else if( rotation > M_PI )
+			{
+				if( analogAngle < (rotation - M_PI) )
+					analogAngle += 2 * M_PI;
+
+				if( analogAngle > rotation && analogAngle < (rotation + M_PI) )
+					rotation += PLAYER_SET_ROTATION_SPEED;
+				else
+					rotation -= PLAYER_SET_ROTATION_SPEED;
+			}
+		}
+
+		// Calculate player rotation based on dpad input
+		if( dpadAngle != -1 )
+		{
+			if( rotation < M_PI )
+			{
+				if( dpadAngle > rotation && dpadAngle < (rotation + M_PI) )
+					rotation += PLAYER_SET_ROTATION_SPEED;
+				else
+					rotation -= PLAYER_SET_ROTATION_SPEED;
+			}
+			else if( rotation > M_PI )
+			{
+				if( dpadAngle < (rotation - M_PI) )
+					dpadAngle += 2 * M_PI;
+
+				if( dpadAngle > rotation && dpadAngle < (rotation + M_PI) )
+					rotation += PLAYER_SET_ROTATION_SPEED;
+				else
+					rotation -= PLAYER_SET_ROTATION_SPEED;
+			}
+		}
+	}
 
 	// Analog stick controls with deadzone
 	else if( analogInput > ANALOG_DEADZONE || analogInput < -ANALOG_DEADZONE )
@@ -95,6 +174,7 @@ void Player::handleInput()
 // Move the player
 void Player::move()
 {
+	// Normalize player rotation
 	if( rotation < 0 )
 		rotation += ( 2 * M_PI );
 	else if( rotation > ( 2 * M_PI ) )
