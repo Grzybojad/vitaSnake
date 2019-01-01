@@ -43,6 +43,9 @@ private:
 
 	static const int ITEM_X = 400;
 	static const int DESC_X = 550;
+
+	int drawSelectable( const char *name, int y );
+	void drawPlayerModel();
 };
 
 

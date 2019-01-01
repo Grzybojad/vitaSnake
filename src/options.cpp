@@ -185,14 +185,12 @@ void OptionsMenu::renderOptions()
 	switch( option[ 0 ].selected )
 	{
 		case 0:
-			text_width = vita2d_font_text_width( gFont[ (int)(30 * FONT_SCALE) ], (int)(30 * FONT_SCALE), "< classic >" );
-			vita2d_font_draw_text( gFont[ (int)(30 * FONT_SCALE) ], ITEM_X - (text_width / 2), option[ 0 ].slct_y, MAIN_FONT_COLOR, (int)(30 * FONT_SCALE), "< classic >" );
+			text_width = drawSelectable( "< classic >", option[ 0 ].slct_y );
 			vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], DESC_X, 180, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "Move the left stick left or right" );
 			vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], DESC_X, 210, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "to turn the snake." );
 			break;
 		case 1:
-			text_width = vita2d_font_text_width( gFont[ (int)(30 * FONT_SCALE) ], (int)(30 * FONT_SCALE), "< simplified >" );
-			vita2d_font_draw_text( gFont[ (int)(30 * FONT_SCALE) ], ITEM_X - (text_width / 2), option[ 0 ].slct_y, MAIN_FONT_COLOR, (int)(30 * FONT_SCALE), "< simplified >" );
+			text_width = drawSelectable( "< simplified >", option[ 0 ].slct_y );
 			vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], DESC_X, 180, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "Move the left in the direction you " );
 			vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], DESC_X, 210, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "want the snake to go." );
 			break;
@@ -205,30 +203,20 @@ void OptionsMenu::renderOptions()
 	switch( option[ 1 ].selected )
 	{
 		case 0:
-			text_width = vita2d_font_text_width( gFont[ (int)(30 * FONT_SCALE) ], (int)(30 * FONT_SCALE), "< Brown >" );
-			vita2d_font_draw_text( gFont[ (int)(30 * FONT_SCALE) ], ITEM_X - (text_width / 2), option[ 1 ].slct_y, MAIN_FONT_COLOR, (int)(30 * FONT_SCALE), "< Brown >" );
-			for( int i = 0; i < 3; ++i )
-				drawPlayer( (part)i, DESC_X + (i * 30) + 15, option[ 1 ].slct_y - 15, M_PI / 2 );
+			text_width = drawSelectable( "< Brown >", option[ 1 ].slct_y );
 			break;
 		case 1:
-			text_width = vita2d_font_text_width( gFont[ (int)(30 * FONT_SCALE) ], (int)(30 * FONT_SCALE), "< Classic >" );
-			vita2d_font_draw_text( gFont[ (int)(30 * FONT_SCALE) ], ITEM_X - (text_width / 2), option[ 1 ].slct_y, MAIN_FONT_COLOR, (int)(30 * FONT_SCALE), "< Classic >" );
-			for( int i = 0; i < 3; ++i )
-				drawPlayer( (part)i, DESC_X + (i * 30) + 15, option[ 1 ].slct_y - 15, M_PI / 2 );
+			text_width = drawSelectable( "< Classic >", option[ 1 ].slct_y );
 			break;
 		case 2:
-			text_width = vita2d_font_text_width( gFont[ (int)(30 * FONT_SCALE) ], (int)(30 * FONT_SCALE), "< RPPHS >" );
-			vita2d_font_draw_text( gFont[ (int)(30 * FONT_SCALE) ], ITEM_X - (text_width / 2), option[ 1 ].slct_y, MAIN_FONT_COLOR, (int)(30 * FONT_SCALE), "< RPPHS >" );
-			for( int i = 0; i < 3; ++i )
-				drawPlayer( (part)i, DESC_X + (i * 30) + 15, option[ 1 ].slct_y - 15, M_PI / 2 );
+			text_width = drawSelectable( "< RPPHS >", option[ 1 ].slct_y );
 			break;
 		case 3:
-			text_width = vita2d_font_text_width( gFont[ (int)(30 * FONT_SCALE) ], (int)(30 * FONT_SCALE), "< Nokia >" );
-			vita2d_font_draw_text( gFont[ (int)(30 * FONT_SCALE) ], ITEM_X - (text_width / 2), option[ 1 ].slct_y, MAIN_FONT_COLOR, (int)(30 * FONT_SCALE), "< Nokia >" );
-			for( int i = 0; i < 3; ++i )
-				drawPlayer( (part)i, DESC_X + (i * 30) + 15, option[ 1 ].slct_y - 15, M_PI / 2 );
+			text_width = drawSelectable( "< Nokia >", option[ 1 ].slct_y );
 			break;
 	}
+	drawPlayerModel();
+
 	if( cursor == 1 )
 		renderCursor( option[ cursor ], text_width );
 
@@ -237,25 +225,34 @@ void OptionsMenu::renderOptions()
 	switch( option[ 2 ].selected )
 	{
 	case 0:
-		text_width = vita2d_font_text_width( gFont[ (int)(30 * FONT_SCALE) ], (int)(30 * FONT_SCALE), "< Desert >" );
-		vita2d_font_draw_text( gFont[ (int)(30 * FONT_SCALE) ], ITEM_X - (text_width / 2), option[ 2 ].slct_y, MAIN_FONT_COLOR, (int)(30 * FONT_SCALE), "< Desert >" );
+		text_width = drawSelectable( "< Desert >", option[ 2 ].slct_y );
 		break;
 	case 1:
-		text_width = vita2d_font_text_width( gFont[ (int)(30 * FONT_SCALE) ], (int)(30 * FONT_SCALE), "< Classic >" );
-		vita2d_font_draw_text( gFont[ (int)(30 * FONT_SCALE) ], ITEM_X - (text_width / 2), option[ 2 ].slct_y, MAIN_FONT_COLOR, (int)(30 * FONT_SCALE), "< Classic >" );
+		text_width = drawSelectable( "< Classic >", option[ 2 ].slct_y );
 		break;
 	case 2:
-		text_width = vita2d_font_text_width( gFont[ (int)(30 * FONT_SCALE) ], (int)(30 * FONT_SCALE), "< RPPHS >" );
-		vita2d_font_draw_text( gFont[ (int)(30 * FONT_SCALE) ], ITEM_X - (text_width / 2), option[ 2 ].slct_y, MAIN_FONT_COLOR, (int)(30 * FONT_SCALE), "< RPPHS >" );
+		text_width = drawSelectable( "< RPPHS >", option[ 2 ].slct_y );
 		break;
 	case 3:
-		text_width = vita2d_font_text_width( gFont[ (int)(30 * FONT_SCALE) ], (int)(30 * FONT_SCALE), "< Nokia >" );
-		vita2d_font_draw_text( gFont[ (int)(30 * FONT_SCALE) ], ITEM_X - (text_width / 2), option[ 2 ].slct_y, MAIN_FONT_COLOR, (int)(30 * FONT_SCALE), "< Nokia >" );
+		text_width = drawSelectable( "< Nokia >", option[ 2 ].slct_y );
 		break;
 	}
 	if( cursor == 2 )
 		renderCursor( option[ cursor ], text_width );
 
-
 	drawBackText();
+}
+
+int OptionsMenu::drawSelectable( const char *name, int y )
+{
+	int text_width = vita2d_font_text_width( gFont[ (int)(30 * FONT_SCALE) ], (int)(30 * FONT_SCALE), name );
+	vita2d_font_draw_text( gFont[ (int)(30 * FONT_SCALE) ], ITEM_X - (text_width / 2), y, MAIN_FONT_COLOR, (int)(30 * FONT_SCALE), name );
+
+	return text_width;
+}
+
+void OptionsMenu::drawPlayerModel()
+{
+	for( int i = 0; i < 3; ++i )
+		drawPlayer( (part)i, DESC_X + (i * 30) + 15, option[ 1 ].slct_y - 15, M_PI / 2 );
 }
