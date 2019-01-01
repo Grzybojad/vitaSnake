@@ -44,8 +44,6 @@ void Player::handleInput()
 	float analogInput = (float)((pad.lx - 128.0f) / 128.0f);
 
 	// Calculate rotation
-	// DPAD controls
-
 	if (CONTROL_STYLE == 0)
 	{
 		if (pad.buttons & SCE_CTRL_LEFT)
@@ -55,6 +53,31 @@ void Player::handleInput()
 
 		else if( analogInput > ANALOG_DEADZONE || analogInput < -ANALOG_DEADZONE )
 				rotation += analogInput * PLAYER_SET_ROTATION_SPEED;
+
+		else if( gInput.isTouched() )
+		{
+			// Touch steering uses the same logic as analog steering
+			float touchAngle = atan2( gInput.getTouchY()-yPos, gInput.getTouchX()-xPos ) + (M_PI / 2);
+			if( touchAngle < 0 ) touchAngle += M_PI * 2;
+
+			if( rotation < M_PI )
+			{
+				if( touchAngle > rotation && touchAngle < (rotation + M_PI) )
+					rotation += PLAYER_SET_ROTATION_SPEED;
+				else
+					rotation -= PLAYER_SET_ROTATION_SPEED;
+			}
+			else if( rotation > M_PI )
+			{
+				if( touchAngle < (rotation - M_PI) )
+					touchAngle += 2 * M_PI;
+
+				if( touchAngle > rotation && touchAngle < (rotation + M_PI) )
+					rotation += PLAYER_SET_ROTATION_SPEED;
+				else
+					rotation -= PLAYER_SET_ROTATION_SPEED;
+			}
+		}
 	}
 	else if (CONTROL_STYLE == 1)
 	{
@@ -100,6 +123,31 @@ void Player::handleInput()
 					analogAngle += 2 * M_PI;
 
 				if( analogAngle > rotation && analogAngle < (rotation + M_PI) )
+					rotation += PLAYER_SET_ROTATION_SPEED;
+				else
+					rotation -= PLAYER_SET_ROTATION_SPEED;
+			}
+		}
+
+		else if( gInput.isTouched() )
+		{
+			// Touch steering uses the same logic as analog steering
+			float touchAngle = atan2( gInput.getTouchY() - yPos, gInput.getTouchX() - xPos ) + (M_PI / 2);
+			if( touchAngle < 0 ) touchAngle += M_PI * 2;
+
+			if( rotation < M_PI )
+			{
+				if( touchAngle > rotation && touchAngle < (rotation + M_PI) )
+					rotation += PLAYER_SET_ROTATION_SPEED;
+				else
+					rotation -= PLAYER_SET_ROTATION_SPEED;
+			}
+			else if( rotation > M_PI )
+			{
+				if( touchAngle < (rotation - M_PI) )
+					touchAngle += 2 * M_PI;
+
+				if( touchAngle > rotation && touchAngle < (rotation + M_PI) )
 					rotation += PLAYER_SET_ROTATION_SPEED;
 				else
 					rotation -= PLAYER_SET_ROTATION_SPEED;

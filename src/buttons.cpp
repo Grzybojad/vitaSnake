@@ -147,3 +147,27 @@ bool Input::wasPressed( buttonIndex id )
 
 	return false;
 }
+
+bool Input::isTouched()
+{
+	memcpy( touch_old, touch, sizeof( touch_old ) );
+	sceTouchPeek( 0, &touch[ 0 ], 1 );
+
+	return ( touch[ 0 ].reportNum > 0 );
+}
+
+int Input::getTouchX()
+{
+	memcpy( touch_old, touch, sizeof( touch_old ) );
+	sceTouchPeek( 0, &touch[ 0 ], 1 );
+
+	return touch[ 0 ].report[ 0 ].x / 2;
+}
+
+int Input::getTouchY()
+{
+	memcpy( touch_old, touch, sizeof( touch_old ) );
+	sceTouchPeek( 0, &touch[ 0 ], 1 );
+
+	return touch[ 0 ].report[ 0 ].y / 2;
+}

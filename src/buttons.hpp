@@ -41,6 +41,10 @@ class Input
 		// Update button states
 		bool wasPressed( buttonIndex id );
 
+		bool isTouched();
+		int getTouchX();
+		int getTouchY();
+
 	private:
 		// Inputs
 		SceCtrlData pad;
