@@ -106,7 +106,7 @@ void OptionsMenu::renderCursor( Option option, int text_width )
 			break;
 	}
 	
-	vita2d_draw_rectangle( option.slct_x - (text_width / 2) - 20, option.slct_y - 35, text_width + 40, 40, cursor_color );
+	vita2d_draw_rectangle( option.slct_x - (text_width / 2) - 20, option.slct_y - 30, text_width + 40, 40, cursor_color );
 }
 
 
@@ -190,7 +190,7 @@ bool OptionsMenu::touchSelect( Option option )
 	int y = gInput.getTouchY();
 
 	if( (x > 0) && (x < 550) &&
-		(y > option.slct_y-30) && (y < option.slct_y + 30)
+		(y > option.slct_y-30) && (y < option.slct_y + 20)
 		)
 
 		return true;
@@ -315,5 +315,5 @@ void OptionsMenu::drawPlayerModel()
 
 void OptionsMenu::drawAppleModel()
 {
-	gAppleTexture[ APPLE_TEXTURE ].draw( DESC_X, option[ 3 ].slct_y - 25 );
+	gAppleTexture[ APPLE_TEXTURE ].draw( DESC_X, option[ 3 ].slct_y - 28 );
 }
