@@ -530,12 +530,11 @@ void Game::gameHTP()
 
 
 	vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], 15, 260, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "- The snake moves forward by itself." );
-	vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], 15, 310, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "- Steer the snake left and right using the left analog stick or DPAD" );
-	vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], 15, 340, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "  buttons." );
-	vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], 15, 390, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "- You can boost the snake's speed by holding the   button." );
+	vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], 15, 310, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "- Use the left stick, DPAD or touch to control the snake" );
+	vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], 15, 360, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "- You can boost the snake's speed by holding the   button." );
 
 	text_width = vita2d_font_text_width( gFont[ (int)(20 * FONT_SCALE) ], (int)(20 * FONT_SCALE), "- You can boost the snake's speed by holding the " );
-	gCrossTexture.draw_scale( text_width + 12, 395 - (gCrossTexture.get_height()*0.30), 0.30, 0.30 );
+	gCrossTexture.draw_scale( text_width + 12, 365 - (gCrossTexture.get_height()*0.30), 0.30, 0.30 );
 
 	vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], 15, 440, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "- Pause the game with the START button." );
 
