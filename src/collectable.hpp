@@ -40,6 +40,8 @@ class Collectable
 		void resetScore();		// Reset the score counter
 		void renderScore();		// Render the score text
 
+		void setPos( float x, float y );
+
 	private:
 		// Collectable dimensions
 		static const int COLLECT_WIDTH = 30;

@@ -7,6 +7,8 @@
 #include <psp2/io/stat.h> 
 #include <vita2d.h>
 
+#include "collectable.hpp"
+
 class OptionsMenu
 {
 public:
@@ -46,7 +48,9 @@ private:
 
 	int drawSelectable( const char *name, int y );
 	void drawPlayerModel();
-	void drawAppleModel();
+
+	// A collectable object for displaying the selected apple style
+	Collectable appleModel;
 };
 
 

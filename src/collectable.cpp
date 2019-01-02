@@ -172,3 +172,9 @@ void Collectable::renderMenuScores()
 	vita2d_font_draw_textf( gFont[ (int)(40 * FONT_SCALE) ], 660, 250, MAIN_FONT_COLOR, (int)(40 * FONT_SCALE), "HIGH: %d", classicHighscore );
 	vita2d_font_draw_textf( gFont[ (int)(40 * FONT_SCALE) ], 660, 350, MAIN_FONT_COLOR, (int)(40 * FONT_SCALE), "HIGH: %d", hardcoreHighscore );
 }
+
+void Collectable::setPos( float x, float y )
+{
+	xPos = x;
+	yPos = y;
+}

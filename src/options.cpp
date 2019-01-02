@@ -59,6 +59,9 @@ OptionsMenu::OptionsMenu()
 
 	// Initialize cursor
 	cursor = 0;
+
+	// Initialize collectable to show the selected texture
+	appleModel.setPos( DESC_X, option[ 3 ].slct_y - 28 );
 }
 
 void OptionsMenu::selectUp()
@@ -309,7 +312,7 @@ void OptionsMenu::renderOptions()
 			text_width = drawSelectable( "< Battery >", option[ 3 ].slct_y );
 			break;
 	}
-	drawAppleModel();
+	appleModel.render();
 
 	if( cursor == 3 )
 		renderCursor( option[ cursor ], text_width );
@@ -329,9 +332,4 @@ void OptionsMenu::drawPlayerModel()
 {
 	for( int i = 0; i < 3; ++i )
 		drawPlayer( (part)i, DESC_X + (i * 30) + 15, option[ 1 ].slct_y - 15, M_PI / 2 );
-}
-
-void OptionsMenu::drawAppleModel()
-{
-	gAppleTexture[ APPLE_TEXTURE ].draw( DESC_X, option[ 3 ].slct_y - 28 );
 }
