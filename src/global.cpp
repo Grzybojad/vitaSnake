@@ -69,8 +69,11 @@ void loadPlayerTextures()
 void loadCollectableTextures()
 {
 	gAppleTexture[ 0 ].texture	= vita2d_load_PNG_file( "app0:/img/appleDefault.png" );
-	gAppleTexture[ 1 ].texture  = vita2d_load_PNG_file( "app0:/img/appleBattery.png" );
+	gAppleTexture[ 1 ].texture  = vita2d_load_PNG_file( "app0:/img/appleClassic.png" );
 	gAppleTexture[ 2 ].texture  = vita2d_load_PNG_file( "app0:/img/appleRPPHS.png" );
+	gAppleTexture[ 3 ].texture = vita2d_load_PNG_file( "app0:/img/appleNokia.png" );
+	gAppleTexture[ 4 ].texture = vita2d_load_PNG_file( "app0:/img/appleBattery.png" );
+
 	gSparkleTexture.texture		= vita2d_load_PNG_file( "app0:/img/sparkle.png" );
 }
 

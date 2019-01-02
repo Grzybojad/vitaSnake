@@ -70,7 +70,7 @@ extern Texture gCircleTexture;
 const int NR_BACKGROUND_TEXTURES = 4;
 extern Texture gBgTexture[ NR_BACKGROUND_TEXTURES ];
 
-const int NR_APPLE_TEXTURES = 3;
+const int NR_APPLE_TEXTURES = 5;
 extern Texture gAppleTexture[ NR_APPLE_TEXTURES ];
 
 

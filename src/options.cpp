@@ -279,10 +279,16 @@ void OptionsMenu::renderOptions()
 			text_width = drawSelectable( "< Default >", option[ 3 ].slct_y );
 			break;
 		case 1:
-			text_width = drawSelectable( "< Battery >", option[ 3 ].slct_y );
+			text_width = drawSelectable( "< Classic >", option[ 3 ].slct_y );
 			break;
 		case 2:
 			text_width = drawSelectable( "< RPPHS >", option[ 3 ].slct_y );
+			break;
+		case 3:
+			text_width = drawSelectable( "< Nokia >", option[ 3 ].slct_y );
+			break;
+		case 4:
+			text_width = drawSelectable( "< Battery >", option[ 3 ].slct_y );
 			break;
 	}
 	drawAppleModel();
