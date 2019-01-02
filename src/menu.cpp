@@ -61,19 +61,25 @@ bool Menu::touchSelect( MenuItem item )
 
 void Menu::renderCursor( MenuItem item )
 {
-	vita2d_draw_texture( gCursorTexture.texture, item.x, item.y );
+	//vita2d_draw_texture( gCursorTexture.texture, item.x, item.y );
+	vita2d_draw_rectangle( item.x, item.y, BUTTON_WIDTH, BUTTON_HEIGHT, RGBA8( 30, 30, 30, 140 ) );
+
+	int border_thickness = 4;
+
+	vita2d_draw_rectangle( item.x, item.y, BUTTON_WIDTH, border_thickness, MAIN_FONT_COLOR );
+	vita2d_draw_rectangle( item.x + BUTTON_WIDTH - border_thickness, item.y, border_thickness, BUTTON_HEIGHT, MAIN_FONT_COLOR );
+	vita2d_draw_rectangle( item.x, item.y + BUTTON_HEIGHT - border_thickness, BUTTON_WIDTH, border_thickness, MAIN_FONT_COLOR );
+	vita2d_draw_rectangle( item.x, item.y, border_thickness, BUTTON_HEIGHT, MAIN_FONT_COLOR );
 }
 
 void Menu::renderCursor( int x, int y, int w, int h )
 {
-	vita2d_draw_rectangle( x, y, w, h, RGBA8( 0, 0, 0, 100 ) );
+	vita2d_draw_rectangle( x, y, w, h, RGBA8( 30, 30, 30, 100 ) );
 }
 
 
 void Menu::renderButton( MenuItem item )
 {
-	vita2d_draw_texture( gMenuButtonTexture.texture, item.x, item.y );
-
 	int text_w = vita2d_font_text_width( gFont[ 25 ], 25, item.name );
 	int text_h = vita2d_font_text_height( gFont[ 25 ], 25, item.name );
 	int text_x = item.x + ( ( BUTTON_WIDTH - text_w ) / 2 );

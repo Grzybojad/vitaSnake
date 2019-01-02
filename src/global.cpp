@@ -79,8 +79,8 @@ void loadCollectableTextures()
 
 void loadMenuTextures()
 {
-	gMenuButtonTexture.texture	= vita2d_load_PNG_file( "app0:/img/menuButton.png" );
-	gCursorTexture.texture		= vita2d_load_PNG_file( "app0:/img/cursor.png" );
+	//gMenuButtonTexture.texture	= vita2d_load_PNG_file( "app0:/img/menuButton.png" );
+	//gCursorTexture.texture		= vita2d_load_PNG_file( "app0:/img/cursor.png" );
 	gCrossTexture.texture		= vita2d_load_PNG_file( "app0:/img/button_cross.png" );
 	gCircleTexture.texture		= vita2d_load_PNG_file( "app0:/img/button_circle.png" );
 }

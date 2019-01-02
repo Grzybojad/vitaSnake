@@ -62,8 +62,8 @@ extern Texture gSnakeSheet[ NR_PLAYER_TEXTURES ];
 //extern Texture gAppleTexture;
 extern Texture gSparkleTexture;
 
-extern Texture gMenuButtonTexture;
-extern Texture gCursorTexture;
+//extern Texture gMenuButtonTexture;
+//extern Texture gCursorTexture;
 extern Texture gCrossTexture;
 extern Texture gCircleTexture;
 

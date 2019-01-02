@@ -96,8 +96,6 @@ vita_create_vpk(${SHORT_NAME}.vpk ${VITA_TITLEID} ${SHORT_NAME}.self
   
   FILE img/sparkle.png 				img/sparkle.png
   
-  FILE img/menuButton.png		img/menuButton.png
-  FILE img/cursor.png 				img/cursor.png
   FILE img/button_cross.png		img/button_cross.png
   FILE img/button_circle.png		img/button_circle.png
   

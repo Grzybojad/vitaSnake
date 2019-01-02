@@ -143,10 +143,10 @@ void Game::gameMenu()
 	int text_width = vita2d_font_text_width( gFont[ (int)( 60 * FONT_SCALE ) ], (int)(60 * FONT_SCALE), "vitaSnake" );
 	vita2d_font_draw_text( gFont[ (int)(60 * FONT_SCALE) ], (SCREEN_WIDTH - text_width)/2, 110, MAIN_FONT_COLOR, (int)(60 * FONT_SCALE), "vitaSnake" );
 
-	for( int i = 0; i < mainMenu.MENU_ITEMS; ++i )			
-		mainMenu.renderButton( mainMenu.item[ i ] );
-
 	mainMenu.renderCursor( mainMenu.item[ mainMenu.cursor ] );	
+
+	for( int i = 0; i < mainMenu.MENU_ITEMS; ++i )
+		mainMenu.renderButton( mainMenu.item[ i ] );
 
 	vita2d_end_drawing();
 	vita2d_wait_rendering_done();
@@ -206,12 +206,12 @@ void Game::gameDifficulty()
 	int topText_width = vita2d_font_text_width( gFont[ (int)(60 * FONT_SCALE) ], (int)(60 * FONT_SCALE), "Choose the difficulty");
 	vita2d_font_draw_text( gFont[ (int)(60 * FONT_SCALE) ], (SCREEN_WIDTH - topText_width)/2, 110, MAIN_FONT_COLOR, (int)(60 * FONT_SCALE), "Choose the difficulty" );
 
+	difficultyMenu.renderCursor( difficultyMenu.item[ difficultyMenu.cursor ] );	// Draw cursor
+
 	for( int i = 0; i < difficultyMenu.MENU_ITEMS; ++i )			
 		difficultyMenu.renderButton( difficultyMenu.item[ i ] );
 
 	difficultyMenu.renderDescription();
-
-	difficultyMenu.renderCursor( difficultyMenu.item[ difficultyMenu.cursor ] );	// Draw cursor
 	difficultyMenu.renderSnake();
 	collectable.renderMenuScores();													// Render highscores in the menu
 
@@ -337,10 +337,10 @@ void Game::gamePaused()
 	int topText_width = vita2d_font_text_width( gFont[ (int)(60 * FONT_SCALE) ], (int)(60 * FONT_SCALE), "Paused" );
 	vita2d_font_draw_text( gFont[ (int)(60 * FONT_SCALE) ], (SCREEN_WIDTH - topText_width)/2, 110, MAIN_FONT_COLOR, (int)(60 * FONT_SCALE), "Paused" );
 
+	pauseMenu.renderCursor( pauseMenu.item[ pauseMenu.cursor ] );
+
 	for( int i = 0; i < pauseMenu.MENU_ITEMS; ++i )			
 		pauseMenu.renderButton( pauseMenu.item[ i ] );
-
-	pauseMenu.renderCursor( pauseMenu.item[ pauseMenu.cursor ] );
 
 	// TODO add a sleeping snake texture
 	drawPlayer( body, SCREEN_WIDTH - (SCREEN_HEIGHT*0.04), SCREEN_HEIGHT - (SCREEN_HEIGHT*0.04), 2.3, 2.3, (-45 * M_PI) / 180 );
@@ -375,10 +375,10 @@ void Game::gameEnd()
 	int topText_width = vita2d_font_text_width( gFont[ 60 ], 60, "Game Over");
 	vita2d_font_draw_text( gFont[ 60 ], (SCREEN_WIDTH - topText_width)/2, 110, MAIN_FONT_COLOR, 60, "Game Over" );
 
+	gameOverMenu.renderCursor( gameOverMenu.item[ gameOverMenu.cursor ] );
+
 	for( int i = 0; i < gameOverMenu.MENU_ITEMS; ++i )			
 		gameOverMenu.renderButton( gameOverMenu.item[ i ] );
-
-	gameOverMenu.renderCursor( gameOverMenu.item[ gameOverMenu.cursor ] );
 
 	// If the player set a new highscore
 	if( highscore )
@@ -451,11 +451,8 @@ void Game::gameQuit()
 	for( int i = 0; i < NR_PLAYER_TEXTURES; ++i )
 		gSnakeSheet[ i ].freeTexture();
 
-	
-	gSparkleTexture.freeTexture();
-
-	gMenuButtonTexture.freeTexture();
-	gCursorTexture.freeTexture();
+	//gMenuButtonTexture.freeTexture();
+	//gCursorTexture.freeTexture();
 
 	// Free background textures
 	for( int i = 0; i < NR_BACKGROUND_TEXTURES; ++i )
@@ -467,6 +464,8 @@ void Game::gameQuit()
 	// Free apple textures
 	for( int i = 0; i < NR_APPLE_TEXTURES; ++i )
 		gAppleTexture[ i ].freeTexture();
+
+	gSparkleTexture.freeTexture();
 		
 
 	// Free fonts
