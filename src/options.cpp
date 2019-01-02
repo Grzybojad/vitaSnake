@@ -7,7 +7,7 @@ OptionsMenu::OptionsMenu()
 	sceTouchEnableTouchForce( SCE_TOUCH_PORT_FRONT );
 
 	// Nr of selectable menu items
-	MENU_ITEMS = 3;
+	MENU_ITEMS = 4;
 
 	// Initialize the "control type" selectable
 	option[ 0 ].id		= 0;
@@ -44,6 +44,18 @@ OptionsMenu::OptionsMenu()
 	option[ 2 ].desc_y = option[ 2 ].name_y;
 	option[ 2 ].selected = 0;
 	option[ 2 ].nr_selectables = NR_BACKGROUND_TEXTURES;
+
+	// Initialize the "apple style" selectable
+	option[ 3 ].id = 3;
+	option[ 3 ].name = "Apple style:";
+	option[ 3 ].name_x = 20.0;
+	option[ 3 ].name_y = 410.0f;
+	option[ 3 ].slct_x = ITEM_X;
+	option[ 3 ].slct_y = option[ 3 ].name_y;
+	option[ 3 ].desc_x = DESC_X;
+	option[ 3 ].desc_y = option[ 3 ].name_y;
+	option[ 3 ].selected = 0;
+	option[ 3 ].nr_selectables = NR_APPLE_TEXTURES;
 
 	// Initialize cursor
 	cursor = 0;
@@ -165,6 +177,25 @@ void OptionsMenu::changeSelectable( Option & option )
 				break;
 		}
 	}
+	else if( option.id = 3 )
+	{
+		APPLE_TEXTURE = option.selected;
+	}
+}
+
+
+bool OptionsMenu::touchSelect( Option option )
+{
+	int x = gInput.getTouchX();
+	int y = gInput.getTouchY();
+
+	if( (x > 0) && (x < 550) &&
+		(y > option.slct_y-30) && (y < option.slct_y + 30)
+		)
+
+		return true;
+	else
+		return false;
 }
 
 
@@ -240,6 +271,25 @@ void OptionsMenu::renderOptions()
 	if( cursor == 2 )
 		renderCursor( option[ cursor ], text_width );
 
+	// Apple style option
+	vita2d_font_draw_text( gFont[ (int)(30 * FONT_SCALE) ], 20, option[ 3 ].slct_y, MAIN_FONT_COLOR, (int)(30 * FONT_SCALE), option[ 3 ].name );
+	switch( option[ 3 ].selected )
+	{
+		case 0:
+			text_width = drawSelectable( "< Default >", option[ 3 ].slct_y );
+			break;
+		case 1:
+			text_width = drawSelectable( "< Battery >", option[ 3 ].slct_y );
+			break;
+		case 2:
+			text_width = drawSelectable( "< RPPHS >", option[ 3 ].slct_y );
+			break;
+	}
+	drawAppleModel();
+
+	if( cursor == 3 )
+		renderCursor( option[ cursor ], text_width );
+
 	drawBackText();
 }
 
@@ -255,4 +305,9 @@ void OptionsMenu::drawPlayerModel()
 {
 	for( int i = 0; i < 3; ++i )
 		drawPlayer( (part)i, DESC_X + (i * 30) + 15, option[ 1 ].slct_y - 15, M_PI / 2 );
+}
+
+void OptionsMenu::drawAppleModel()
+{
+	gAppleTexture[ APPLE_TEXTURE ].draw( DESC_X, option[ 3 ].slct_y - 25 );
 }

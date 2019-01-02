@@ -50,6 +50,7 @@ enum part
 extern int CONTROL_STYLE;
 extern int PLAYER_TEXTURES;
 extern int BACKGROUND_TEXTURE;
+extern int APPLE_TEXTURE;
 extern float FONT_SCALE;
 extern unsigned int MAIN_FONT_COLOR;
 
@@ -58,7 +59,7 @@ extern unsigned int MAIN_FONT_COLOR;
 const int NR_PLAYER_TEXTURES = 4;
 extern Texture gSnakeSheet[ NR_PLAYER_TEXTURES ];
 
-extern Texture gAppleTexture;
+//extern Texture gAppleTexture;
 extern Texture gSparkleTexture;
 
 extern Texture gMenuButtonTexture;
@@ -68,6 +69,9 @@ extern Texture gCircleTexture;
 
 const int NR_BACKGROUND_TEXTURES = 4;
 extern Texture gBgTexture[ NR_BACKGROUND_TEXTURES ];
+
+const int NR_APPLE_TEXTURES = 3;
+extern Texture gAppleTexture[ NR_APPLE_TEXTURES ];
 
 
 // Sounds

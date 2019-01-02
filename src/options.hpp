@@ -22,7 +22,7 @@ public:
 		int selected;
 		int nr_selectables;
 	};
-	Option option[ 3 ];
+	Option option[ 4 ];
 
 	int MENU_ITEMS;
 	int cursor;
@@ -46,6 +46,7 @@ private:
 
 	int drawSelectable( const char *name, int y );
 	void drawPlayerModel();
+	void drawAppleModel();
 };
 
 

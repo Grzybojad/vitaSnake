@@ -52,7 +52,7 @@ void Collectable::collect()
 // Render the collectable
 void Collectable::render()
 {
-	vita2d_draw_texture( gAppleTexture.texture, xPos, yPos );
+	vita2d_draw_texture( gAppleTexture[ APPLE_TEXTURE ].texture, xPos, yPos );
 
 	renderParticles();
 }

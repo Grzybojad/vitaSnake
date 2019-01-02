@@ -447,21 +447,26 @@ void Game::gameQuit()
 {
 	vita2d_fini();
 
-	// Free textures
+	// Free player textures
 	for( int i = 0; i < NR_PLAYER_TEXTURES; ++i )
 		gSnakeSheet[ i ].freeTexture();
 
-	gAppleTexture.freeTexture();
+	
 	gSparkleTexture.freeTexture();
 
 	gMenuButtonTexture.freeTexture();
 	gCursorTexture.freeTexture();
 
+	// Free background textures
 	for( int i = 0; i < NR_BACKGROUND_TEXTURES; ++i )
 	{
 		if( i != 1 && i != 3 )	// 1 and 3 aren't textures
 			gBgTexture[ i ].freeTexture();
 	}
+
+	// Free apple textures
+	for( int i = 0; i < NR_APPLE_TEXTURES; ++i )
+		gAppleTexture[ i ].freeTexture();
 		
 
 	// Free fonts
@@ -567,6 +572,22 @@ void Game::gameOptions()
 	optionsMenu.menuNav();
 
 	optionsMenu.changeSelectable( optionsMenu.option[ optionsMenu.cursor ] );
+
+	if( gInput.wasPressed( Input::frontTouch ) )
+	{
+		for( int i = 0; i < optionsMenu.MENU_ITEMS; ++i )
+		{
+			if( optionsMenu.touchSelect( optionsMenu.option[ i ] ) )
+			{
+				optionsMenu.cursor = i;
+
+				if( optionsMenu.option[ i ].selected != optionsMenu.option[ i ].nr_selectables - 1 )
+					optionsMenu.option[ i ].selected++;
+				else
+					optionsMenu.option[ i ].selected = 0;
+			}
+		}
+	}
 
 	// Press O to go back
 	if( gInput.wasPressed( Input::circle ) )

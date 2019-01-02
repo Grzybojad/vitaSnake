@@ -88,7 +88,9 @@ vita_create_vpk(${SHORT_NAME}.vpk ${VITA_TITLEID} ${SHORT_NAME}.self
   FILE img/playerRPPHS.png		img/playerRPPHS.png
   FILE img/playerNokia.png			img/playerNokia.png
   
-  FILE img/apple.png 					img/apple.png
+  FILE img/appleDefault.png 		img/appleDefault.png
+  FILE img/appleBattery.png 		img/appleBattery.png
+  FILE img/appleRPPHS.png 		img/appleRPPHS.png
   FILE img/sparkle.png 				img/sparkle.png
   
   FILE img/menuButton.png		img/menuButton.png

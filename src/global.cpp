@@ -18,6 +18,7 @@ Input gInput;
 int CONTROL_STYLE = 0;
 int PLAYER_TEXTURES = 0;
 int BACKGROUND_TEXTURE = 0;
+int APPLE_TEXTURE = 0;
 float FONT_SCALE = 0.6;
 int unsigned MAIN_FONT_COLOR = RGBA8( 0, 0, 0, 255 );
 
@@ -25,7 +26,7 @@ int unsigned MAIN_FONT_COLOR = RGBA8( 0, 0, 0, 255 );
 // Textures
 Texture gSnakeSheet[ NR_PLAYER_TEXTURES ];
 
-Texture gAppleTexture;
+//Texture gAppleTexture;
 Texture gSparkleTexture;
 
 Texture gMenuButtonTexture;
@@ -37,7 +38,8 @@ Texture gSnakeHard;
 Texture gSnakeSleep;
 
 Texture gBgTexture[ NR_BACKGROUND_TEXTURES ];
-//Texture gBgTexture;
+
+Texture gAppleTexture[ NR_APPLE_TEXTURES ];
 
 
 // Sounds
@@ -66,7 +68,9 @@ void loadPlayerTextures()
 
 void loadCollectableTextures()
 {
-	gAppleTexture.texture		= vita2d_load_PNG_file( "app0:/img/apple.png" );
+	gAppleTexture[ 0 ].texture	= vita2d_load_PNG_file( "app0:/img/appleDefault.png" );
+	gAppleTexture[ 1 ].texture  = vita2d_load_PNG_file( "app0:/img/appleBattery.png" );
+	gAppleTexture[ 2 ].texture  = vita2d_load_PNG_file( "app0:/img/appleRPPHS.png" );
 	gSparkleTexture.texture		= vita2d_load_PNG_file( "app0:/img/sparkle.png" );
 }
 
