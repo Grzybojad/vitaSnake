@@ -573,22 +573,6 @@ void Game::gameOptions()
 
 	optionsMenu.changeSelectable( optionsMenu.option[ optionsMenu.cursor ] );
 
-	if( gInput.wasPressed( Input::frontTouch ) )
-	{
-		for( int i = 0; i < optionsMenu.MENU_ITEMS; ++i )
-		{
-			if( optionsMenu.touchSelect( optionsMenu.option[ i ] ) )
-			{
-				optionsMenu.cursor = i;
-
-				if( optionsMenu.option[ i ].selected != optionsMenu.option[ i ].nr_selectables - 1 )
-					optionsMenu.option[ i ].selected++;
-				else
-					optionsMenu.option[ i ].selected = 0;
-			}
-		}
-	}
-
 	// Press O to go back
 	if( gInput.wasPressed( Input::circle ) || gInput.backTouch() )
 	{

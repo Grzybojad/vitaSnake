@@ -120,6 +120,24 @@ void OptionsMenu::menuNav()
 	{
 		selectDown();
 	}
+
+	if( gInput.wasPressed( Input::frontTouch ) )
+	{
+		for( int i = 0; i < MENU_ITEMS; ++i )
+		{
+			if( touchSelect( option[ i ] ) )
+			{
+				gSoloud.play( gMenuSelect );
+
+				cursor = i;
+
+				if( option[ i ].selected != option[ i ].nr_selectables - 1 )
+					option[ i ].selected++;
+				else
+					option[ i ].selected = 0;
+			}
+		}
+	}
 }
 
 
