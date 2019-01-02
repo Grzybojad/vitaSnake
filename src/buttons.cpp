@@ -171,3 +171,17 @@ int Input::getTouchY()
 
 	return touch[ 0 ].report[ 0 ].y / 2;
 }
+
+bool Input::backTouch()
+{
+	memcpy( touch_old, touch, sizeof( touch_old ) );
+	sceTouchPeek( 0, &touch[ 0 ], 1 );
+
+	int x = touch[ 0 ].report[ 0 ].x / 2;
+	int y = touch[ 0 ].report[ 0 ].y / 2;
+
+	if( (x > 660) && (y > 500) )
+		return true;
+	else
+		return false;
+}

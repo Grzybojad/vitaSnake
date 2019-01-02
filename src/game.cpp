@@ -508,7 +508,7 @@ void Game::gameHTP()
 	sceCtrlPeekBufferPositive( 0, &pad, 1 );
 
 	// Press O to go back
-	if( gInput.wasPressed(Input::circle) )
+	if( gInput.wasPressed(Input::circle) || gInput.backTouch() )
 	{
 		gSoloud.play( gMenuSelect );
 		_gameState = showingMenu;
@@ -590,7 +590,7 @@ void Game::gameOptions()
 	}
 
 	// Press O to go back
-	if( gInput.wasPressed( Input::circle ) )
+	if( gInput.wasPressed( Input::circle ) || gInput.backTouch() )
 	{
 		gSoloud.play( gMenuSelect );
 		_gameState = showingMenu;

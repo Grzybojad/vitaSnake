@@ -45,6 +45,9 @@ class Input
 		int getTouchX();
 		int getTouchY();
 
+		// Checks if the location of "Press O to go back" was touched
+		bool backTouch();
+
 	private:
 		// Inputs
 		SceCtrlData pad;
