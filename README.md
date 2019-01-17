@@ -4,7 +4,7 @@ Turn left and right to collect as many apples as you can, but avoid biting your 
 
 # Screenshots
 ![vitaSnake gameplay screenshot](https://i.imgur.com/O2y1mKT.png)
-![vitaSnake pause screenshot](https://i.imgur.com/SqikWAU.png)
+![vitaSnake pause screenshot](https://i.imgur.com/WhOjVhQ.png)
 ![vitaSnake menu screenshot](https://i.imgur.com/o0BhtG4.png)
 
 # Controls
