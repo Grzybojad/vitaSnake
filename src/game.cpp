@@ -99,6 +99,8 @@ void Game::gameMenu()
 {
 	sceCtrlPeekBufferPositive( 0, &pad, 1 );
 
+	GAME_DIFFICULTY = 0;
+
 	mainMenu.menuNav();
 
 	bool select = false;

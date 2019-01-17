@@ -155,30 +155,42 @@ extern void drawBackground()
 			break;
 	}
 
+	int unsigned border_color = 0;
+
 	if( GAME_DIFFICULTY == 1 )
 	{
-		// Change the color of the border for dramatic effect
-		if( border_red >= 254 )
+		if( BACKGROUND_TEXTURE == 3 )
 		{
-			border_red = 255;
-			color_plus = false;
+			border_color = MAIN_FONT_COLOR;
 		}
-		else if( border_red <= 170 )
-		{
-			border_red = 170;
-			color_plus = true;
-		}
-
-		if( color_plus )
-			border_red += COLOR_CYCLE_SPEED;
 		else
-			border_red -= COLOR_CYCLE_SPEED;
+		{
+			// Change the color of the border for dramatic effect
+			if( border_red >= 254 )
+			{
+				border_red = 255;
+				color_plus = false;
+			}
+			else if( border_red <= 170 )
+			{
+				border_red = 170;
+				color_plus = true;
+			}
+
+			if( color_plus )
+				border_red += COLOR_CYCLE_SPEED;
+			else
+				border_red -= COLOR_CYCLE_SPEED;
+
+			border_color = RGBA8( border_red, 0, 0, 255 );
+		}
+		
 	
-		// Draw a red border
-		vita2d_draw_rectangle( 0, 0, SCREEN_WIDTH, BORDER_THICKNESS, RGBA8( border_red, 0, 0, 255 ) );
-		vita2d_draw_rectangle( SCREEN_WIDTH - BORDER_THICKNESS, 0, BORDER_THICKNESS, SCREEN_HEIGHT, RGBA8( border_red, 0, 0, 255 ) );
-		vita2d_draw_rectangle( 0, SCREEN_HEIGHT - BORDER_THICKNESS, SCREEN_WIDTH, BORDER_THICKNESS, RGBA8( border_red, 0, 0, 255 ) );
-		vita2d_draw_rectangle( 0, 0, BORDER_THICKNESS, SCREEN_HEIGHT, RGBA8( border_red, 0, 0, 255 ) );
+		// Draw a border
+		vita2d_draw_rectangle( 0, 0, SCREEN_WIDTH, BORDER_THICKNESS, border_color );
+		vita2d_draw_rectangle( SCREEN_WIDTH - BORDER_THICKNESS, 0, BORDER_THICKNESS, SCREEN_HEIGHT, border_color );
+		vita2d_draw_rectangle( 0, SCREEN_HEIGHT - BORDER_THICKNESS, SCREEN_WIDTH, BORDER_THICKNESS, border_color );
+		vita2d_draw_rectangle( 0, 0, BORDER_THICKNESS, SCREEN_HEIGHT, border_color );
 	}
 }
 
