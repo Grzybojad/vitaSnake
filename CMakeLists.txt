@@ -14,7 +14,7 @@ include("${VITASDK}/share/vita.cmake" REQUIRED)
 set(VITA_APP_NAME "vitaSnake")
 set(SHORT_NAME vitaSnake)
 set(VITA_TITLEID  "GRZB00002")
-set(VITA_VERSION  "01.20")
+set(VITA_VERSION  "01.30")
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
