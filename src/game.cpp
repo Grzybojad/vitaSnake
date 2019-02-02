@@ -238,11 +238,8 @@ void Game::gameLoop()
 	// Calcule player position
 	snake.move();
 
-	// Check snake collisions
-	snake.checkCollision();
-
-	// Check wall collisions
-	if( snake.wallDeath() )
+	// Check wall and snake collisions
+	if( snake.wallDeath() || snake.checkCollision() )
 	{
 		gSoloud.play( gSnakeDeath );
 		_gameState = gameOver;

@@ -297,11 +297,14 @@ bool Player::checkCollision( Player part )
 // Tail collision
 bool Player::checkCollision()
 {
-	for( int i = 1; i < snakeParts.size()-1; ++i )
+	if( snakeParts.size() > START_SNAKE_LENGTH )
 	{
-		float distance = sqrt( pow( ( snakeParts[i].x - snakeParts[0].x ), 2) + pow( ( snakeParts[i].y - snakeParts[0].y ), 2 ) );
-		if( distance < COLLISION_DISTANCE )
-			return true;
+		for( int i = START_SNAKE_LENGTH+1; i < snakeParts.size(); ++i )
+		{
+			float distance = sqrt( pow( ( snakeParts[i].x - snakeParts[0].x ), 2) + pow( ( snakeParts[i].y - snakeParts[0].y ), 2 ) );
+			if( distance < COLLISION_DISTANCE )
+				return true;
+		}
 	}
 	
 	return false;

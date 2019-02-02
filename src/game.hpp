@@ -36,8 +36,6 @@ class Game
 		
 		void gameDraw();			// Draw all gameplay elements
 
-		static const int START_SNAKE_LENGTH = 3;
-
 		bool score_read = false;
 
 		MainMenu mainMenu;

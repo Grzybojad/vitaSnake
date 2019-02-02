@@ -4,17 +4,11 @@
 const int SCREEN_WIDTH = 960;
 const int SCREEN_HEIGHT = 544;
 
-gameState _gameState;
-
-// SoLoud engine
 SoLoud::Soloud gSoloud;
-
-// Game difficulty
-int GAME_DIFFICULTY = 0;
-
-// Input
 Input gInput;
 
+int GAME_DIFFICULTY = 0;
+gameState _gameState;
 
 /* Options */
 int CONTROL_STYLE = 0;

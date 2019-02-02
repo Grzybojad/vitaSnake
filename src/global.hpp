@@ -29,11 +29,15 @@ extern const int SCREEN_HEIGHT;
 // SoLoud engine
 extern SoLoud::Soloud gSoloud;
 
+// Input
+extern Input gInput;
+
 // Game difficulty
 extern int GAME_DIFFICULTY;
 
-// Input
-extern Input gInput;
+// The length at the start of the game;
+static const int START_SNAKE_LENGTH = 3;
+
 
 enum gameState
 {
