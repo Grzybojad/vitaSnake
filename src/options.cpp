@@ -119,11 +119,18 @@ void OptionsMenu::menuNav()
 	{
 		selectUp();
 	}
-	if( gInput.wasPressed( Input::down ) || gInput.wasPressed( Input::lAnalogDown ) )
+	else if( gInput.wasPressed( Input::down ) || gInput.wasPressed( Input::lAnalogDown ) )
 	{
 		selectDown();
 	}
+	// Press O to go back
+	if( gInput.wasPressed( Input::circle ) )
+	{
+		gSoloud.play( gMenuSelect );
+		_gameState = showingMenu;
+	}
 
+	// Touch 
 	if( gInput.wasPressed( Input::frontTouch ) )
 	{
 		for( int i = 0; i < MENU_ITEMS; ++i )
@@ -139,6 +146,12 @@ void OptionsMenu::menuNav()
 				else
 					option[ i ].selected = 0;
 			}
+		}
+		// Touch the "Press O to go back text"
+		if( gInput.backTouch() )
+		{
+			gSoloud.play( gMenuSelect );
+			_gameState = showingMenu;
 		}
 	}
 }

@@ -61,7 +61,6 @@ bool Menu::touchSelect( MenuItem item )
 
 void Menu::renderCursor( MenuItem item )
 {
-	//vita2d_draw_texture( gCursorTexture.texture, item.x, item.y );
 	vita2d_draw_rectangle( item.x, item.y, BUTTON_WIDTH, BUTTON_HEIGHT, RGBA8( 30, 30, 30, 140 ) );
 
 	int border_thickness = 4;

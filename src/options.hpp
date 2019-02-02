@@ -8,6 +8,7 @@
 #include <vita2d.h>
 
 #include "collectable.hpp"
+#include "global.hpp"
 
 class OptionsMenu
 {

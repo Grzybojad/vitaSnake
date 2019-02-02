@@ -4,6 +4,8 @@
 const int SCREEN_WIDTH = 960;
 const int SCREEN_HEIGHT = 544;
 
+gameState _gameState;
+
 // SoLoud engine
 SoLoud::Soloud gSoloud;
 

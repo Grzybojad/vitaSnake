@@ -22,11 +22,6 @@
 
 class Game
 {
-	public:
-		Game();
-
-		void gameStart();
-
 	private:
 		void gameMenu();			// Go to main menu
 		void gameDifficulty();		// Menu for choosing game difficulty
@@ -45,30 +40,13 @@ class Game
 
 		bool score_read = false;
 
-		enum gameState
-		{
-			initialized = 0,
-			showingMenu = 1,
-			choosingDifficulty = 2,
-			playing = 3,
-			paused = 4,
-			gameOver = 5,
-			exiting = 6,
-			needReinitialize = 7,
-			playAgain = 8,
-			showingHTP = 9,
-			options = 10
-		};
-		gameState _gameState;
-
 		MainMenu mainMenu;
 		DifficultyMenu difficultyMenu;
 		PauseMenu pauseMenu;
 		GameOverMenu gameOverMenu;
 		OptionsMenu optionsMenu;
 
-		int SNAKE_LENGTH = START_SNAKE_LENGTH;
-		Player snakePart[255];
+		Player snake;
 
 		Collectable collectable;
 
@@ -76,6 +54,11 @@ class Game
 
 		SceTouchData touch_old[SCE_TOUCH_PORT_MAX_NUM];
 		SceTouchData touch[SCE_TOUCH_PORT_MAX_NUM];
+
+	public:
+		Game();
+
+		void gameStart();
 };
 
 

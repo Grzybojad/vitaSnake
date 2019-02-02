@@ -189,7 +189,7 @@ void Game::gameDifficulty()
 	{
 		gSoloud.play( gMenuSelect );
 
-		snakePart[0].setDifficulty();
+		snake.setDifficulty();
 		_gameState = playing;
 	}
 	if( gInput.wasPressed(Input::circle) )
@@ -232,49 +232,41 @@ void Game::gameLoop()
 		_gameState = paused;
 
 	// Player controls
-	snakePart[0].handleInput();
+	snake.handleInput();
 
 	// Calcule player position
-	snakePart[0].move();
+	snake.move();
 
 	// Check snake collisions
-	for( int part = 4; part < SNAKE_LENGTH; ++part )
-	{
-		if( snakePart[0].checkCollision( snakePart[part] ) )
-		{
-			gSoloud.play( gSnakeDeath );
-			_gameState = gameOver;
-		}
-	}
+	snake.checkCollision();
 
 	// Check wall collisions
-	if( snakePart[0].wallDeath() )
+	if( snake.wallDeath() )
 	{
 		gSoloud.play( gSnakeDeath );
 		_gameState = gameOver;
 	}
 	
 	// Check if the player is close to the collectable
-	if( collectable.checkOpenDistance(snakePart[0]) )
+	if( collectable.checkOpenDistance( snake.get_pos() ) )
 	{
-		snakePart[0].isClose = true;
+		snake.isClose = true;
 
 		// Check collectable collision with snake head
-		if( collectable.checkCollision( snakePart[0] ) )
+		if( collectable.checkCollision( snake.get_pos() ) )
 		{
 			gSoloud.play( gBite );
 			collectable.collect();
-			SNAKE_LENGTH++;
+			snake.addParts(1);
 		}
 	}
 	else
 	{
-		snakePart[0].isClose = false;
+		snake.isClose = false;
 	}
 	
-	// Move the following parts
-	for( int part = 1; part < SNAKE_LENGTH; ++part )
-		snakePart[ part ].follow( snakePart[ part - 1 ] );
+	// Move the snake parts
+	snake.follow();
 
 	/* RENDERING */
 	vita2d_start_drawing();
@@ -453,9 +445,6 @@ void Game::gameQuit()
 	for( int i = 0; i < NR_PLAYER_TEXTURES; ++i )
 		gSnakeSheet[ i ].freeTexture();
 
-	//gMenuButtonTexture.freeTexture();
-	//gCursorTexture.freeTexture();
-
 	// Free background textures
 	for( int i = 0; i < NR_BACKGROUND_TEXTURES; ++i )
 	{
@@ -481,10 +470,10 @@ void Game::gameReinitialize()
 	// Reset the player and collectable
 	collectable.collect();
 	collectable.resetScore();
-	snakePart[0].resetPos();
+	snake.resetPos();
 
 	// The starting length of the snake
-	SNAKE_LENGTH = START_SNAKE_LENGTH;
+	snake.setSize( START_SNAKE_LENGTH );
 
 	_gameState = showingMenu;
 }
@@ -495,10 +484,10 @@ void Game::gamePlayAgain()
 	// Reset the player and collectable
 	collectable.collect();
 	collectable.resetScore();
-	snakePart[0].resetPos();
+	snake.resetPos();
 
 	// The starting length of the snake
-	SNAKE_LENGTH = START_SNAKE_LENGTH;
+	snake.setSize( START_SNAKE_LENGTH );
 
 	_gameState = choosingDifficulty;
 }
@@ -509,11 +498,20 @@ void Game::gameHTP()
 	sceCtrlPeekBufferPositive( 0, &pad, 1 );
 
 	// Press O to go back
-	if( gInput.wasPressed(Input::circle) || gInput.backTouch() )
+	if( gInput.wasPressed( Input::circle ) )
 	{
 		gSoloud.play( gMenuSelect );
 		_gameState = showingMenu;
-	}	
+	}
+	// Touch the "Press O to go back text" to go back
+	else if( gInput.wasPressed( Input::frontTouch) )
+	{
+		if( gInput.backTouch() )
+		{
+			gSoloud.play( gMenuSelect );
+			_gameState = showingMenu;
+		}
+	}
 
 	/* RENDERING */
 	vita2d_start_drawing();
@@ -554,11 +552,7 @@ void Game::gameDraw()
 
 	collectable.render();			
 
-	// Draw snake
-	for( int part = 1; part < SNAKE_LENGTH-1; ++part )
-		snakePart[ part ].render( body );
-	snakePart[ SNAKE_LENGTH-1 ].render( tail );
-	snakePart[ 0 ].render( head );
+	snake.render();
 
 	// Draw text
 	collectable.renderScore();
@@ -573,12 +567,6 @@ void Game::gameOptions()
 
 	optionsMenu.changeSelectable( optionsMenu.option[ optionsMenu.cursor ] );
 
-	// Press O to go back
-	if( gInput.wasPressed( Input::circle ) || gInput.backTouch() )
-	{
-		gSoloud.play( gMenuSelect );
-		_gameState = showingMenu;
-	}	
 
 	/* RENDERING */
 	vita2d_start_drawing();

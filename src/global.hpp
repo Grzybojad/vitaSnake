@@ -35,6 +35,21 @@ extern int GAME_DIFFICULTY;
 // Input
 extern Input gInput;
 
+enum gameState
+{
+	initialized = 0,
+	showingMenu = 1,
+	choosingDifficulty = 2,
+	playing = 3,
+	paused = 4,
+	gameOver = 5,
+	exiting = 6,
+	needReinitialize = 7,
+	playAgain = 8,
+	showingHTP = 9,
+	options = 10
+};
+extern gameState _gameState;
 
 enum part
 {
@@ -45,6 +60,19 @@ enum part
 	headAngry = 4
 };
 
+struct vec3
+{
+	float x;
+	float y;
+	float r;
+
+	vec3()
+	{ 
+		x = SCREEN_WIDTH / 6;
+		y = SCREEN_HEIGHT / 2;
+		r = M_PI / 2;
+	};
+};
 
 /* Options */
 extern int CONTROL_STYLE;
@@ -59,11 +87,8 @@ extern unsigned int MAIN_FONT_COLOR;
 const int NR_PLAYER_TEXTURES = 4;
 extern Texture gSnakeSheet[ NR_PLAYER_TEXTURES ];
 
-//extern Texture gAppleTexture;
 extern Texture gSparkleTexture;
 
-//extern Texture gMenuButtonTexture;
-//extern Texture gCursorTexture;
 extern Texture gCrossTexture;
 extern Texture gCircleTexture;
 

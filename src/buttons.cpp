@@ -182,6 +182,6 @@ bool Input::backTouch()
 
 	if( (x > 660) && (y > 500) )
 		return true;
-	else
-		return false;
+
+	return false;
 }

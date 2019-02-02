@@ -25,12 +25,14 @@ class Player
 		const float COLLISION_DISTANCE = 20.0f;		// The distance at which a collision occurs
 		const float ANALOG_DEADZONE = 0.2f;			// Analog stick deadzone
 
-		float xPos, yPos;	// Player coordinates
-		float rotation;		// Player rotation angle in radians ( 0 is up )
+		//float xPos, yPos;	// Player coordinates
+		//float rotation;		// Player rotation angle in radians ( 0 is up )
 		
 		float PLAYER_SET_SPEED;				// The speed set by the difficulty
 		float PLAYER_SET_ROTATION_SPEED;	// The rotation set by the difficulty
 		float speed;						// Player current speed
+
+		std::vector <vec3> snakeParts;
 
 		// Controls
 		SceCtrlData pad;
@@ -44,20 +46,22 @@ class Player
 
 		void handleInput();
 
-		void follow( Player part );
+		void follow();
 
 		void move();
 
-		bool checkCollision( Player part );		// Tail collision
+		bool checkCollision();		// Tail collision
 
-		bool wallDeath();						// Die from touching a wall
+		bool wallDeath();			// Die from touching a wall
 
-		void render( part part );
+		void render();
 
 		void resetPos();
 
-		float get_xPos();
-		float get_yPos();
+		vec3 get_pos();
+
+		void addParts( int i );
+		void setSize( int i );
 };
 
 

@@ -21,6 +21,8 @@ vitaSnake.vcxproj.filters
 vitaSnake.vcxproj.user
 vitaSnake.VC.VC.opendb
 
+.vscode
+
 vitaSnake.aps
 vitaSnake.rc
 resource.h

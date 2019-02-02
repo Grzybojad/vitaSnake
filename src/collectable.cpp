@@ -18,12 +18,12 @@ Collectable::Collectable()
 }
 
 // Player-collectable collision
-bool Collectable::checkCollision( Player part )
+bool Collectable::checkCollision( vec3 playerPos )
 {
 	float xMid = xPos + ( COLLECT_WIDTH / 2 );
 	float yMid = yPos + ( COLLECT_HEIGHT / 2 );
 
-	float distance = sqrt( pow( ( part.get_xPos() - xMid ), 2) + pow( ( part.get_yPos() - yMid ), 2 ) );
+	float distance = sqrt( pow( ( playerPos.x - xMid ), 2) + pow( ( playerPos.y - yMid ), 2 ) );
 	if( distance < COLLISION_DISTANCE )
 		return true;
 	else
@@ -31,9 +31,9 @@ bool Collectable::checkCollision( Player part )
 }
 
 // Check if the player is close to the collectable
-bool Collectable::checkOpenDistance( Player part )
+bool Collectable::checkOpenDistance( vec3 playerPos )
 {
-	float distance = sqrt( pow( ( part.get_xPos() - xPos ), 2) + pow( ( part.get_yPos() - yPos ), 2 ) );
+	float distance = sqrt( pow( ( playerPos.x - xPos ), 2) + pow( ( playerPos.y - yPos ), 2 ) );
 	if( distance < OPEN_DISTANCE )
 		return true;
 	else

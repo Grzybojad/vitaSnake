@@ -22,8 +22,8 @@ class Collectable
 		Collectable();			// Initializer
 		void setFont();			// Sets the score display font
 
-		bool checkCollision( Player part );		// Player-collectable collision
-		bool checkOpenDistance( Player part );	// Check if the player is close to the collectable
+		bool checkCollision( vec3 playerPos );		// Player-collectable collision
+		bool checkOpenDistance( vec3 playerPos );	// Check if the player is close to the collectable
 
 		void collect();			// Pick up the collectable
 		void render();			// Render the collectable
