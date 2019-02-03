@@ -13,7 +13,7 @@ Game::Game()
 
 	// Initialize vita2d and set clear color to black
 	//vita2d_init();
-	vita2d_init_advanced_with_msaa( (1 * 1024 * 1024), SCE_GXM_MULTISAMPLE_2X );
+	vita2d_init_advanced_with_msaa( (1 * 1024 * 1024), SCE_GXM_MULTISAMPLE_4X );
 	vita2d_set_clear_color( RGBA8( 0x00, 0x00, 0x00, 0xFF ) );
 
 	// Initialize SoLoud engine

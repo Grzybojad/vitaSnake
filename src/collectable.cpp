@@ -6,22 +6,22 @@ Collectable::Collectable()
 	srand( time( NULL ) );
 
 	// Random position on screen, but not too close to the edges
-	xPos = rand() % SCREEN_WIDTH*0.8 + SCREEN_WIDTH*0.1;
-	yPos = rand() % SCREEN_HEIGHT*0.8 + SCREEN_HEIGHT*0.1;
+	pos.x = rand() % SCREEN_WIDTH*0.8 + SCREEN_WIDTH*0.1;
+	pos.y = rand() % SCREEN_HEIGHT*0.8 + SCREEN_HEIGHT*0.1;
 
 	score = 0;
 
 	for( int i = 0; i < TOTAL_PARTICLES; ++i )
 	{
-		particles[i] = new Particle( xPos, yPos );
+		particles[i] = new Particle( pos.x, pos.y );
 	}
 }
 
 // Player-collectable collision
 bool Collectable::checkCollision( vec3 playerPos )
 {
-	float xMid = xPos + ( COLLECT_WIDTH / 2 );
-	float yMid = yPos + ( COLLECT_HEIGHT / 2 );
+	float xMid = pos.x + ( COLLECT_WIDTH / 2 );
+	float yMid = pos.y + ( COLLECT_HEIGHT / 2 );
 
 	float distance = sqrt( pow( ( playerPos.x - xMid ), 2) + pow( ( playerPos.y - yMid ), 2 ) );
 	if( distance < COLLISION_DISTANCE )
@@ -33,7 +33,7 @@ bool Collectable::checkCollision( vec3 playerPos )
 // Check if the player is close to the collectable
 bool Collectable::checkOpenDistance( vec3 playerPos )
 {
-	float distance = sqrt( pow( ( playerPos.x - xPos ), 2) + pow( ( playerPos.y - yPos ), 2 ) );
+	float distance = sqrt( pow( ( playerPos.x - pos.x ), 2) + pow( ( playerPos.y - pos.y ), 2 ) );
 	if( distance < OPEN_DISTANCE )
 		return true;
 	else
@@ -43,8 +43,8 @@ bool Collectable::checkOpenDistance( vec3 playerPos )
 // Pick up the collectable
 void Collectable::collect()
 {
-	xPos = rand() % SCREEN_WIDTH*0.8 + SCREEN_WIDTH*0.1;
-	yPos = rand() % SCREEN_HEIGHT*0.8 + SCREEN_HEIGHT*0.1;
+	pos.x = rand() % SCREEN_WIDTH*0.8 + SCREEN_WIDTH*0.1;
+	pos.y = rand() % SCREEN_HEIGHT*0.8 + SCREEN_HEIGHT*0.1;
 
 	score++;
 }
@@ -52,7 +52,14 @@ void Collectable::collect()
 // Render the collectable
 void Collectable::render()
 {
-	vita2d_draw_texture( gAppleTexture[ APPLE_TEXTURE ].texture, xPos, yPos );
+	float xMid = pos.x + ( COLLECT_WIDTH / 2 );
+	float yMid = pos.y + ( COLLECT_HEIGHT / 2 );
+
+	pos.r = sin( animation_step ) * M_PI/10;
+	animation_step += ANIMATION_SPEED;
+	if( animation_step > 2*M_PI ) animation_step -= 2*M_PI; 
+
+	vita2d_draw_texture_rotate( gAppleTexture[ APPLE_TEXTURE ].texture, xMid, yMid, pos.r );
 
 	renderParticles();
 }
@@ -82,7 +89,7 @@ void Collectable::renderParticles()
 		if( particles[i]->isDead() )
 		{
 			delete particles[i];
-			particles[i] = new Particle( xPos + ( COLLECT_WIDTH / 2), yPos + ( COLLECT_HEIGHT / 2) );
+			particles[i] = new Particle( pos.x + ( COLLECT_WIDTH / 2), pos.y + ( COLLECT_HEIGHT / 2) );
 		}
 	}
 
@@ -124,6 +131,8 @@ int Collectable::getHighscore( int difficulty )
 		case DifficultyMenu::hardcore:
 			return hardcoreHighscore;
 	}
+
+	return -1;
 }
 
 
@@ -175,6 +184,6 @@ void Collectable::renderMenuScores()
 
 void Collectable::setPos( float x, float y )
 {
-	xPos = x;
-	yPos = y;
+	pos.x = x;
+	pos.y = y;
 }

@@ -53,8 +53,8 @@ class Collectable
 		// The distance at which the snake opens it's mouth
 		const float OPEN_DISTANCE = 100.0f;
 
-		// Collectable coordinates
-		float xPos, yPos;
+		// Collectable position
+		vec3 pos;
 
 		// Score
 		int score;
@@ -66,6 +66,10 @@ class Collectable
 		// Sparkles to make the collectable more visible
 		static const int TOTAL_PARTICLES = 3;
 		Particle* particles[ TOTAL_PARTICLES ];
+
+		// "Animation"
+		const float ANIMATION_SPEED = 0.08f;
+		float animation_step = 0.0f;
 };
 
 
