@@ -28,3 +28,7 @@ vitaSnake.rc
 resource.h
 
 imgui.ini
+
+# WIP files
+theme.hpp
+theme.cpp

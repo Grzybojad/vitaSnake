@@ -17,7 +17,7 @@ void Particle::render()
 
 	vita2d_draw_texture_tint( gSparkleTexture.texture, xPos, yPos, RGBA8( 255, 255, 255, alpha ) );
 
-	lifespan++;
+	lifespan += timestep;
 }
 
 bool Particle::isDead()

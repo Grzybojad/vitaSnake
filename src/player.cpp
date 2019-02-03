@@ -50,12 +50,12 @@ void Player::handleInput()
 	if (CONTROL_STYLE == 0)
 	{
 		if (pad.buttons & SCE_CTRL_LEFT)
-			snakeParts[0].r -= PLAYER_SET_ROTATION_SPEED;
+			snakeParts[0].r -= PLAYER_SET_ROTATION_SPEED * timestep;
 		else if (pad.buttons & SCE_CTRL_RIGHT)
-			snakeParts[0].r += PLAYER_SET_ROTATION_SPEED;
+			snakeParts[0].r += PLAYER_SET_ROTATION_SPEED * timestep;
 
 		else if( analogInput > ANALOG_DEADZONE || analogInput < -ANALOG_DEADZONE )
-				snakeParts[0].r += analogInput * PLAYER_SET_ROTATION_SPEED;
+				snakeParts[0].r += analogInput * PLAYER_SET_ROTATION_SPEED * timestep;
 
 		else if( gInput.isTouched() )
 		{
@@ -66,9 +66,9 @@ void Player::handleInput()
 			if( snakeParts[0].r < M_PI )
 			{
 				if( touchAngle > snakeParts[0].r && touchAngle < (snakeParts[0].r + M_PI) )
-					snakeParts[0].r += PLAYER_SET_ROTATION_SPEED;
+					snakeParts[0].r += PLAYER_SET_ROTATION_SPEED * timestep;
 				else
-					snakeParts[0].r -= PLAYER_SET_ROTATION_SPEED;
+					snakeParts[0].r -= PLAYER_SET_ROTATION_SPEED * timestep;
 			}
 			else if( snakeParts[0].r > M_PI )
 			{
@@ -76,9 +76,9 @@ void Player::handleInput()
 					touchAngle += 2 * M_PI;
 
 				if( touchAngle > snakeParts[0].r && touchAngle < (snakeParts[0].r + M_PI) )
-					snakeParts[0].r += PLAYER_SET_ROTATION_SPEED;
+					snakeParts[0].r += PLAYER_SET_ROTATION_SPEED * timestep;
 				else
-					snakeParts[0].r -= PLAYER_SET_ROTATION_SPEED;
+					snakeParts[0].r -= PLAYER_SET_ROTATION_SPEED * timestep;
 			}
 		}
 	}
@@ -116,9 +116,9 @@ void Player::handleInput()
 			if( snakeParts[0].r < M_PI )
 			{
 				if( analogAngle > snakeParts[0].r && analogAngle < (snakeParts[0].r + M_PI) )
-					snakeParts[0].r += PLAYER_SET_ROTATION_SPEED;
+					snakeParts[0].r += PLAYER_SET_ROTATION_SPEED * timestep;
 				else
-					snakeParts[0].r -= PLAYER_SET_ROTATION_SPEED;
+					snakeParts[0].r -= PLAYER_SET_ROTATION_SPEED * timestep;
 			}
 			else if( snakeParts[0].r > M_PI )
 			{
@@ -126,9 +126,9 @@ void Player::handleInput()
 					analogAngle += 2 * M_PI;
 
 				if( analogAngle > snakeParts[0].r && analogAngle < (snakeParts[0].r + M_PI) )
-					snakeParts[0].r += PLAYER_SET_ROTATION_SPEED;
+					snakeParts[0].r += PLAYER_SET_ROTATION_SPEED * timestep;
 				else
-					snakeParts[0].r -= PLAYER_SET_ROTATION_SPEED;
+					snakeParts[0].r -= PLAYER_SET_ROTATION_SPEED * timestep;
 			}
 		}
 
@@ -141,9 +141,9 @@ void Player::handleInput()
 			if( snakeParts[0].r < M_PI )
 			{
 				if( touchAngle > snakeParts[0].r && touchAngle < (snakeParts[0].r + M_PI) )
-					snakeParts[0].r += PLAYER_SET_ROTATION_SPEED;
+					snakeParts[0].r += PLAYER_SET_ROTATION_SPEED * timestep;
 				else
-					snakeParts[0].r -= PLAYER_SET_ROTATION_SPEED;
+					snakeParts[0].r -= PLAYER_SET_ROTATION_SPEED * timestep;
 			}
 			else if( snakeParts[0].r > M_PI )
 			{
@@ -151,9 +151,9 @@ void Player::handleInput()
 					touchAngle += 2 * M_PI;
 
 				if( touchAngle > snakeParts[0].r && touchAngle < (snakeParts[0].r + M_PI) )
-					snakeParts[0].r += PLAYER_SET_ROTATION_SPEED;
+					snakeParts[0].r += PLAYER_SET_ROTATION_SPEED * timestep;
 				else
-					snakeParts[0].r -= PLAYER_SET_ROTATION_SPEED;
+					snakeParts[0].r -= PLAYER_SET_ROTATION_SPEED * timestep;
 			}
 		}
 
@@ -163,9 +163,9 @@ void Player::handleInput()
 			if( snakeParts[0].r < M_PI )
 			{
 				if( dpadAngle > snakeParts[0].r && dpadAngle < (snakeParts[0].r + M_PI) )
-					snakeParts[0].r += PLAYER_SET_ROTATION_SPEED;
+					snakeParts[0].r += PLAYER_SET_ROTATION_SPEED * timestep;
 				else
-					snakeParts[0].r -= PLAYER_SET_ROTATION_SPEED;
+					snakeParts[0].r -= PLAYER_SET_ROTATION_SPEED * timestep;
 			}
 			else if( snakeParts[0].r > M_PI )
 			{
@@ -173,9 +173,9 @@ void Player::handleInput()
 					dpadAngle += 2 * M_PI;
 
 				if( dpadAngle > snakeParts[0].r && dpadAngle < (snakeParts[0].r + M_PI) )
-					snakeParts[0].r += PLAYER_SET_ROTATION_SPEED;
+					snakeParts[0].r += PLAYER_SET_ROTATION_SPEED * timestep;
 				else
-					snakeParts[0].r -= PLAYER_SET_ROTATION_SPEED;
+					snakeParts[0].r -= PLAYER_SET_ROTATION_SPEED * timestep;
 			}
 		}
 	}
@@ -185,7 +185,7 @@ void Player::handleInput()
 	{
 		if( CONTROL_STYLE == 0 )
 		{
-			snakeParts[0].r += analogInput * PLAYER_SET_ROTATION_SPEED;
+			snakeParts[0].r += analogInput * PLAYER_SET_ROTATION_SPEED * timestep;
 		}
 		else if( CONTROL_STYLE == 1 )
 		{
@@ -198,9 +198,9 @@ void Player::handleInput()
 			if( snakeParts[0].r < M_PI )
 			{
 				if( analogAngle > snakeParts[0].r && analogAngle < ( snakeParts[0].r + M_PI ) )
-					snakeParts[0].r += PLAYER_SET_ROTATION_SPEED;
+					snakeParts[0].r += PLAYER_SET_ROTATION_SPEED * timestep;
 				else
-					snakeParts[0].r -= PLAYER_SET_ROTATION_SPEED;
+					snakeParts[0].r -= PLAYER_SET_ROTATION_SPEED * timestep;
 			}
 			else if( snakeParts[0].r > M_PI )
 			{
@@ -208,18 +208,18 @@ void Player::handleInput()
 					analogAngle += 2 * M_PI;
 
 				if( analogAngle > snakeParts[0].r && analogAngle < ( snakeParts[0].r + M_PI ) )
-					snakeParts[0].r += PLAYER_SET_ROTATION_SPEED;
+					snakeParts[0].r += PLAYER_SET_ROTATION_SPEED * timestep;
 				else
-					snakeParts[0].r -= PLAYER_SET_ROTATION_SPEED;
+					snakeParts[0].r -= PLAYER_SET_ROTATION_SPEED * timestep;
 			}
 		}
 	}
 
 	// Boost snake speed with X
 	if( pad.buttons & SCE_CTRL_CROSS )
-		speed = 1.5f * -PLAYER_SET_SPEED;
+		speed = 1.5f * -PLAYER_SET_SPEED * timestep;
 	else
-		speed = -PLAYER_SET_SPEED;
+		speed = -PLAYER_SET_SPEED * timestep;
 }
 
 
@@ -283,17 +283,6 @@ void Player::follow()
 	}
 }
 
-/*
-// Tail collision
-bool Player::checkCollision( Player part )
-{
-	float distance = sqrt( pow( ( part.get_xPos() - xPos ), 2) + pow( ( part.get_yPos() - yPos ), 2 ) );
-	if( distance < COLLISION_DISTANCE )
-		return true;
-	else
-		return false;
-}
-*/
 // Tail collision
 bool Player::checkCollision()
 {
@@ -330,14 +319,18 @@ bool Player::wallDeath()
 
 void Player::render()
 {
+	// Render tail first
+	drawPlayer( tail, snakeParts[ snakeParts.size()-1 ].x, snakeParts[ snakeParts.size()-1 ].y, snakeParts[ snakeParts.size()-1 ].r );
+
+	// Render the body parts from tail to head
+	for( int i = snakeParts.size()-2; i > 0; --i )
+		drawPlayer( body, snakeParts[ i ].x, snakeParts[ i ].y, snakeParts[ i ].r );
+	
+	// Render the head
 	if( isClose )
 		drawPlayer( headOpen, snakeParts[ 0 ].x, snakeParts[ 0 ].y, snakeParts[ 0 ].r );
 	else
 		drawPlayer( head, snakeParts[ 0 ].x, snakeParts[ 0 ].y, snakeParts[ 0 ].r );
-
-	for( int i = 1; i < snakeParts.size()-1; ++i )
-		drawPlayer( body, snakeParts[ i ].x, snakeParts[ i ].y, snakeParts[ i ].r );
-	drawPlayer( tail, snakeParts[ snakeParts.size()-1 ].x, snakeParts[ snakeParts.size()-1 ].y, snakeParts[ snakeParts.size()-1 ].r );
 }
 
 // Reset player position
@@ -356,7 +349,6 @@ void Player::addParts( int i )
 {
 	for( ; i > 0; --i )
 	{
-		//vec3 newPart = { SCREEN_WIDTH / 6, SCREEN_HEIGHT / 2, M_PI / 2 };
 		vec3 newPart;
 		snakeParts.push_back( newPart );
 	}

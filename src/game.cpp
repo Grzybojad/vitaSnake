@@ -154,6 +154,8 @@ void Game::gameMenu()
 	vita2d_end_drawing();
 	vita2d_wait_rendering_done();
 	vita2d_swap_buffers();
+
+	calcFrameTime();
 }
 
 // Menu for choosing game difficulty
@@ -221,6 +223,8 @@ void Game::gameDifficulty()
 	vita2d_end_drawing();
 	vita2d_wait_rendering_done();
 	vita2d_swap_buffers();
+
+	calcFrameTime();
 }
 
 // Main game loop
@@ -275,6 +279,8 @@ void Game::gameLoop()
 	vita2d_end_drawing();
 	vita2d_wait_rendering_done();
 	vita2d_swap_buffers();
+
+	calcFrameTime();
 }
 
 // Game paused screen
@@ -341,6 +347,8 @@ void Game::gamePaused()
 	vita2d_end_drawing();
 	vita2d_wait_rendering_done();
 	vita2d_swap_buffers();
+
+	calcFrameTime();
 }
 
 // Game Over screen
@@ -432,6 +440,8 @@ void Game::gameEnd()
 		else if( gameOverMenu.cursor == GameOverMenu::returnToMenu )
 			_gameState = needReinitialize;
 	}
+
+	calcFrameTime();
 }
 
 // Destroy textures on game exit
@@ -541,6 +551,8 @@ void Game::gameHTP()
 	vita2d_end_drawing();
 	vita2d_wait_rendering_done();
 	vita2d_swap_buffers();
+
+	calcFrameTime();
 }
 
 // Draw every gameplay element
@@ -575,4 +587,6 @@ void Game::gameOptions()
 	vita2d_end_drawing();
 	vita2d_wait_rendering_done();
 	vita2d_swap_buffers();
+
+	calcFrameTime();
 }

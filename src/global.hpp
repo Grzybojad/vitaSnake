@@ -32,6 +32,10 @@ extern SoLoud::Soloud gSoloud;
 // Input
 extern Input gInput;
 
+extern SceUInt64 prevFrameClock; // The time between the start of the program and the previous frame
+extern SceUInt64 frameTime;		// Time between frames (in microseconds)
+extern float timestep;			// The multiplier for time sensitive actions (1.0 for 60FPS)
+
 // Game difficulty
 extern int GAME_DIFFICULTY;
 
@@ -112,6 +116,13 @@ extern SoLoud::Wav gMenuSelect;
 
 // Fonts
 extern vita2d_font *gFont[ 99 ];	// Font sizes 1-99
+
+
+// Calculate time between frames
+void calcFrameTime();
+
+// TimeStep is frameTime normalized in a way that it's 1 for 60 FPS
+void calcTimestep();
 
 
 // Texture loading functions

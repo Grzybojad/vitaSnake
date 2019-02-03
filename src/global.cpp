@@ -7,6 +7,10 @@ const int SCREEN_HEIGHT = 544;
 SoLoud::Soloud gSoloud;
 Input gInput;
 
+SceUInt64 prevFrameClock = 0;
+SceUInt64 frameTime = 0;
+float timestep = 0;
+
 int GAME_DIFFICULTY = 0;
 gameState _gameState;
 
@@ -22,7 +26,6 @@ int unsigned MAIN_FONT_COLOR = RGBA8( 0, 0, 0, 255 );
 // Textures
 Texture gSnakeSheet[ NR_PLAYER_TEXTURES ];
 
-//Texture gAppleTexture;
 Texture gSparkleTexture;
 
 Texture gMenuButtonTexture;
@@ -48,6 +51,19 @@ SoLoud::Wav gMenuSelect;
 // Fonts
 vita2d_font *gFont[99];
 
+
+void calcFrameTime()
+{	
+	frameTime = ( sceKernelGetProcessTimeWide() - prevFrameClock );
+	calcTimestep();
+
+	prevFrameClock = sceKernelGetProcessTimeWide();
+}
+
+void calcTimestep()
+{
+	timestep = frameTime / 16666.6666;
+}
 
 /* Texture loading functions */
 void loadPlayerTextures()
@@ -75,8 +91,6 @@ void loadCollectableTextures()
 
 void loadMenuTextures()
 {
-	//gMenuButtonTexture.texture	= vita2d_load_PNG_file( "app0:/img/menuButton.png" );
-	//gCursorTexture.texture		= vita2d_load_PNG_file( "app0:/img/cursor.png" );
 	gCrossTexture.texture		= vita2d_load_PNG_file( "app0:/img/button_cross.png" );
 	gCircleTexture.texture		= vita2d_load_PNG_file( "app0:/img/button_circle.png" );
 }

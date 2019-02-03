@@ -21,16 +21,13 @@ class Player
 		// Player dimensions
 		static const int PLAYER_WIDTH = 30;
 		static const int PLAYER_HEIGHT = 40;
-		const float FOLLOW_DISTANCE = 28.0f;		// Follow distanse
+		const float FOLLOW_DISTANCE = 28.0f;		// Distanse at which the parts follow
 		const float COLLISION_DISTANCE = 20.0f;		// The distance at which a collision occurs
 		const float ANALOG_DEADZONE = 0.2f;			// Analog stick deadzone
-
-		//float xPos, yPos;	// Player coordinates
-		//float rotation;		// Player rotation angle in radians ( 0 is up )
 		
 		float PLAYER_SET_SPEED;				// The speed set by the difficulty
 		float PLAYER_SET_ROTATION_SPEED;	// The rotation set by the difficulty
-		float speed;						// Player current speed
+		float speed;						// Current speed
 
 		std::vector <vec3> snakeParts;
 
