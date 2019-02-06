@@ -146,6 +146,10 @@ void Game::gameMenu()
 	int text_width = vita2d_font_text_width( gFont[ (int)( 60 * FONT_SCALE ) ], (int)(60 * FONT_SCALE), "vitaSnake" );
 	vita2d_font_draw_text( gFont[ (int)(60 * FONT_SCALE) ], (SCREEN_WIDTH - text_width)/2, 110, MAIN_FONT_COLOR, (int)(60 * FONT_SCALE), "vitaSnake" );
 
+	// Draw version in the lower-left corner
+	int text_height = vita2d_font_text_height( gFont[ (int)(24 * FONT_SCALE) ], (int)(24 * FONT_SCALE), "version: " );
+	vita2d_font_draw_textf( gFont[ (int)(24 * FONT_SCALE) ], 10, SCREEN_HEIGHT-(text_height/2)-5, MAIN_FONT_COLOR, (int)(24 * FONT_SCALE), "version: %s", VERSION );
+
 	mainMenu.renderCursor( mainMenu.item[ mainMenu.cursor ] );	
 
 	for( int i = 0; i < mainMenu.MENU_ITEMS; ++i )

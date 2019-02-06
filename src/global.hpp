@@ -42,6 +42,9 @@ extern int GAME_DIFFICULTY;
 // The length at the start of the game;
 static const int START_SNAKE_LENGTH = 3;
 
+// Game version
+static const char *VERSION = "1.4 WIP";
+
 
 enum gameState
 {
