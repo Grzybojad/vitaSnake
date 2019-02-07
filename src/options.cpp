@@ -31,7 +31,7 @@ OptionsMenu::OptionsMenu()
 	option[ 1 ].desc_x	= DESC_X;
 	option[ 1 ].desc_y	= option[ 1 ].name_y;
 	option[ 1 ].selected = 0;
-	option[ 1 ].nr_selectables = NR_PLAYER_TEXTURES;
+	option[ 1 ].nr_selectables = snakeTextures.size();
 
 	// Initialize the "background style" selectable
 	option[ 2 ].id = 2;
@@ -43,7 +43,7 @@ OptionsMenu::OptionsMenu()
 	option[ 2 ].desc_x = DESC_X;
 	option[ 2 ].desc_y = option[ 2 ].name_y;
 	option[ 2 ].selected = 0;
-	option[ 2 ].nr_selectables = NR_BACKGROUND_TEXTURES;
+	option[ 2 ].nr_selectables = bgTextures.size() + 2;
 
 	// Initialize the "apple style" selectable
 	option[ 3 ].id = 3;
@@ -55,7 +55,7 @@ OptionsMenu::OptionsMenu()
 	option[ 3 ].desc_x = DESC_X;
 	option[ 3 ].desc_y = option[ 3 ].name_y;
 	option[ 3 ].selected = 0;
-	option[ 3 ].nr_selectables = NR_APPLE_TEXTURES;
+	option[ 3 ].nr_selectables = collectableTextures.size();
 
 	// Initialize cursor
 	cursor = 0;
@@ -239,6 +239,7 @@ void OptionsMenu::renderOptions()
 	sceTouchEnableTouchForce( SCE_TOUCH_PORT_FRONT );
 
 	drawBackground();
+	updateNrTextures();
 
 	int text_width;
 
@@ -345,4 +346,14 @@ void OptionsMenu::drawPlayerModel()
 {
 	for( int i = 0; i < 3; ++i )
 		drawPlayer( (part)i, DESC_X + (i * 30) + 15, option[ 1 ].slct_y - 15, M_PI / 2 );
+}
+
+void OptionsMenu::updateNrTextures()
+{
+	if( option[ 1 ].nr_selectables == 0 || option[ 2 ].nr_selectables == 0 || option[ 3 ].nr_selectables == 0 )
+	{
+		option[ 1 ].nr_selectables = snakeTextures.size();
+		option[ 2 ].nr_selectables = bgTextures.size() + 2;	// There are 2 non texure backgrounds
+		option[ 3 ].nr_selectables = collectableTextures.size();
+	}
 }

@@ -22,6 +22,11 @@
 
 class Game
 {
+	public:
+		Game();
+
+		void gameStart();
+
 	private:
 		void gameMenu();			// Go to main menu
 		void gameDifficulty();		// Menu for choosing game difficulty
@@ -52,11 +57,6 @@ class Game
 
 		SceTouchData touch_old[SCE_TOUCH_PORT_MAX_NUM];
 		SceTouchData touch[SCE_TOUCH_PORT_MAX_NUM];
-
-	public:
-		Game();
-
-		void gameStart();
 };
 
 

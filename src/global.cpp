@@ -22,10 +22,7 @@ int APPLE_TEXTURE = 0;
 float FONT_SCALE = 0.6;
 int unsigned MAIN_FONT_COLOR = RGBA8( 0, 0, 0, 255 );
 
-
-// Textures
-Texture gSnakeSheet[ NR_PLAYER_TEXTURES ];
-
+/* Textures */
 Texture gSparkleTexture;
 
 Texture gMenuButtonTexture;
@@ -36,9 +33,9 @@ Texture gCircleTexture;
 Texture gSnakeHard;
 Texture gSnakeSleep;
 
-Texture gBgTexture[ NR_BACKGROUND_TEXTURES ];
-
-Texture gAppleTexture[ NR_APPLE_TEXTURES ];
+std::vector <Texture> snakeTextures;
+std::vector <Texture> bgTextures;
+std::vector <Texture> collectableTextures;
 
 
 // Sounds
@@ -68,37 +65,44 @@ void calcTimestep()
 /* Texture loading functions */
 void loadPlayerTextures()
 {
-	gSnakeSheet[ 0 ].texture = vita2d_load_PNG_file( "app0:/img/playerDefault.png" );
-	gSnakeSheet[ 1 ].texture = vita2d_load_PNG_file( "app0:/img/playerClassic.png" );
-	gSnakeSheet[ 2 ].texture = vita2d_load_PNG_file( "app0:/img/playerRPPHS.png" );
-	gSnakeSheet[ 3 ].texture = vita2d_load_PNG_file( "app0:/img/playerNokia.png" );
+	snakeTextures.push_back( loadTexture( "app0:/img/playerDefault.png" ) );
+	snakeTextures.push_back( loadTexture( "app0:/img/playerClassic.png" ) );
+	snakeTextures.push_back( loadTexture( "app0:/img/playerRPPHS.png" ) );
+	snakeTextures.push_back( loadTexture( "app0:/img/playerNokia.png" ) );
 
 	for( int i = 0; i < 5; ++i )
-		for( int j = 0; j < NR_PLAYER_TEXTURES; ++j )
-			gSnakeSheet[ j ].setClips( i, i * 30, 0, 30, 40 );
+		for( int j = 0; j < snakeTextures.size(); ++j )
+			snakeTextures[ j ].setClips( i, i * 30, 0, 30, 40 );
 }
 
 void loadCollectableTextures()
 {
-	gAppleTexture[ 0 ].texture	= vita2d_load_PNG_file( "app0:/img/appleDefault.png" );
-	gAppleTexture[ 1 ].texture  = vita2d_load_PNG_file( "app0:/img/appleClassic.png" );
-	gAppleTexture[ 2 ].texture  = vita2d_load_PNG_file( "app0:/img/appleRPPHS.png" );
-	gAppleTexture[ 3 ].texture = vita2d_load_PNG_file( "app0:/img/appleNokia.png" );
-	gAppleTexture[ 4 ].texture = vita2d_load_PNG_file( "app0:/img/appleBattery.png" );
+	collectableTextures.push_back( loadTexture( "app0:/img/appleDefault.png" ) );
+	collectableTextures.push_back( loadTexture( "app0:/img/appleClassic.png" ) );
+	collectableTextures.push_back( loadTexture( "app0:/img/appleRPPHS.png" ) );
+	collectableTextures.push_back( loadTexture( "app0:/img/appleNokia.png" ) );
+	collectableTextures.push_back( loadTexture( "app0:/img/appleBattery.png" ) );
 
-	gSparkleTexture.texture		= vita2d_load_PNG_file( "app0:/img/sparkle.png" );
+	gSparkleTexture.texture	= vita2d_load_PNG_file( "app0:/img/sparkle.png" );
 }
 
 void loadMenuTextures()
 {
-	gCrossTexture.texture		= vita2d_load_PNG_file( "app0:/img/button_cross.png" );
-	gCircleTexture.texture		= vita2d_load_PNG_file( "app0:/img/button_circle.png" );
+	gCrossTexture.texture = vita2d_load_PNG_file( "app0:/img/button_cross.png" );
+	gCircleTexture.texture = vita2d_load_PNG_file( "app0:/img/button_circle.png" );
 }
 
 void loadGameTextures()
 {
-	gBgTexture[ 0 ].texture	= vita2d_load_PNG_file( "app0:/img/bgDesertTile.png" );
-	gBgTexture[ 1 ].texture = vita2d_load_PNG_file( "app0:/img/bgRPPHSFull.png" );
+	bgTextures.push_back( loadTexture( "app0:/img/bgDesertTile.png" ) );
+	bgTextures.push_back( loadTexture( "app0:/img/bgRPPHSFull.png" ) );
+}
+
+Texture loadTexture( const char *path )
+{
+	Texture texture;
+	texture.texture = vita2d_load_PNG_file( path );
+	return texture;
 }
 
 
@@ -127,15 +131,15 @@ void loadFonts()
 // Draw player character in specified location
 void drawPlayer( part part, float x, float y, float rad )
 {
-	vita2d_draw_texture_part_scale_rotate( gSnakeSheet[ PLAYER_TEXTURES ].texture, x, y, gSnakeSheet[ PLAYER_TEXTURES ].clips[part].x, 
-		gSnakeSheet[ PLAYER_TEXTURES ].clips[part].y, gSnakeSheet[ PLAYER_TEXTURES ].clips[part].w, gSnakeSheet[ PLAYER_TEXTURES ].clips[part].h, 1, 1, rad );
+	vita2d_draw_texture_part_scale_rotate( snakeTextures[ PLAYER_TEXTURES ].texture, x, y, snakeTextures[ PLAYER_TEXTURES ].clips[part].x, 
+		snakeTextures[ PLAYER_TEXTURES ].clips[part].y, snakeTextures[ PLAYER_TEXTURES ].clips[part].w, snakeTextures[ PLAYER_TEXTURES ].clips[part].h, 1, 1, rad );
 }
 
 // Function overload with a scale factor
 void drawPlayer( part part, float x, float y, float scale_x, float scale_y, float rad )
 {
-	vita2d_draw_texture_part_scale_rotate( gSnakeSheet[ PLAYER_TEXTURES ].texture, x, y, gSnakeSheet[ PLAYER_TEXTURES ].clips[part].x,
-		gSnakeSheet[ PLAYER_TEXTURES ].clips[part].y, gSnakeSheet[ PLAYER_TEXTURES ].clips[part].w, gSnakeSheet[ PLAYER_TEXTURES ].clips[part].h, scale_x, scale_y, rad );
+	vita2d_draw_texture_part_scale_rotate( snakeTextures[ PLAYER_TEXTURES ].texture, x, y, snakeTextures[ PLAYER_TEXTURES ].clips[part].x,
+		snakeTextures[ PLAYER_TEXTURES ].clips[part].y, snakeTextures[ PLAYER_TEXTURES ].clips[part].w, snakeTextures[ PLAYER_TEXTURES ].clips[part].h, scale_x, scale_y, rad );
 }
 
 
@@ -149,7 +153,7 @@ extern void drawBackground()
 	switch( BACKGROUND_TEXTURE )
 	{
 		case 0:	// Desert
-			gBgTexture[ 0 ].fill_tile();
+			bgTextures[ 0 ].fill_tile();
 			break;
 
 		case 1:	// Classic
@@ -157,7 +161,7 @@ extern void drawBackground()
 			break;
 
 		case 2:	// RPPHS
-			gBgTexture[ 1 ].draw();
+			bgTextures[ 1 ].draw();
 			break;
 
 		case 3:	// Nokia

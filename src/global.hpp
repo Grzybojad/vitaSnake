@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <math.h>
+#include <vector>
 
 #include <psp2/ctrl.h>
 #include <psp2/audioout.h>
@@ -95,19 +96,16 @@ extern unsigned int MAIN_FONT_COLOR;
 
 
 // Textures
-const int NR_PLAYER_TEXTURES = 4;
-extern Texture gSnakeSheet[ NR_PLAYER_TEXTURES ];
+extern std::vector <Texture> snakeTextures;
 
 extern Texture gSparkleTexture;
 
 extern Texture gCrossTexture;
 extern Texture gCircleTexture;
 
-const int NR_BACKGROUND_TEXTURES = 4;
-extern Texture gBgTexture[ NR_BACKGROUND_TEXTURES ];
+extern std::vector <Texture> bgTextures;
 
-const int NR_APPLE_TEXTURES = 5;
-extern Texture gAppleTexture[ NR_APPLE_TEXTURES ];
+extern std::vector <Texture> collectableTextures;
 
 
 // Sounds
@@ -133,6 +131,7 @@ extern void loadPlayerTextures();
 extern void loadMenuTextures();
 extern void loadCollectableTextures();
 extern void loadGameTextures();
+extern Texture loadTexture( const char *path );
 
 // Sound loading functions
 extern void loadPlayerSounds();

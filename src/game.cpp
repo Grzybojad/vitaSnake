@@ -454,19 +454,19 @@ void Game::gameQuit()
 	vita2d_fini();
 
 	// Free player textures
-	for( int i = 0; i < NR_PLAYER_TEXTURES; ++i )
-		gSnakeSheet[ i ].freeTexture();
+	for( int i = 0; i < snakeTextures.size(); ++i )
+		snakeTextures[ i ].freeTexture();
 
 	// Free background textures
-	for( int i = 0; i < NR_BACKGROUND_TEXTURES; ++i )
+	for( int i = 0; i < bgTextures.size(); ++i )
 	{
 		if( i != 1 && i != 3 )	// 1 and 3 aren't textures
-			gBgTexture[ i ].freeTexture();
+			bgTextures[ i ].freeTexture();
 	}
 
 	// Free apple textures
-	for( int i = 0; i < NR_APPLE_TEXTURES; ++i )
-		gAppleTexture[ i ].freeTexture();
+	for( int i = 0; i < collectableTextures.size(); ++i )
+		collectableTextures[ i ].freeTexture();
 
 	gSparkleTexture.freeTexture();
 		

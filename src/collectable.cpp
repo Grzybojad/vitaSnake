@@ -59,7 +59,7 @@ void Collectable::render()
 	animation_step += ANIMATION_SPEED * timestep;
 	if( animation_step > 2*M_PI ) animation_step -= 2*M_PI; 
 
-	vita2d_draw_texture_rotate( gAppleTexture[ APPLE_TEXTURE ].texture, xMid, yMid, pos.r );
+	vita2d_draw_texture_rotate( collectableTextures[ APPLE_TEXTURE ].texture, xMid, yMid, pos.r );
 
 	renderParticles();
 }
