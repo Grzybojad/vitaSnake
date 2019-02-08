@@ -123,21 +123,21 @@ void Collectable::readHighscore()
 {
 	std::ifstream scoreList;
 	scoreList.open( "ux0:/data/vitaSnake/highscores.txt", std::ifstream::in );
-	// Classic
-	scoreList >> highscore[0].casual;
-	scoreList >> highscore[0].hardcore;
-	// Time Trial
-	scoreList >> highscore[1].casual;
-	scoreList >> highscore[1].hardcore;
-	// Hyper
-	scoreList >> highscore[2].casual;
-	scoreList >> highscore[2].hardcore;
-	// Fibonacci
-	scoreList >> highscore[3].casual;
-	scoreList >> highscore[3].hardcore;
-	// Lazy
-	scoreList >> highscore[4].casual;
-	scoreList >> highscore[4].hardcore;
+		// Classic
+		scoreList >> highscore[0].casual;
+		scoreList >> highscore[0].hardcore;
+		// Time Trial
+		scoreList >> highscore[1].casual;
+		scoreList >> highscore[1].hardcore;
+		// Hyper
+		scoreList >> highscore[2].casual;
+		scoreList >> highscore[2].hardcore;
+		// Fibonacci
+		scoreList >> highscore[3].casual;
+		scoreList >> highscore[3].hardcore;
+		// Lazy
+		scoreList >> highscore[4].casual;
+		scoreList >> highscore[4].hardcore;
 	scoreList.close();
 }
 
@@ -150,8 +150,23 @@ int Collectable::getHighscore()
 }
 
 
-// Write new highscore to file
+// Write highscore to file
 void Collectable::writeHighscore()
+{
+	std::ofstream scoreList;
+	sceIoMkdir("ux0:/data/vitaSnake", 0777);
+	scoreList.open( "ux0:/data/vitaSnake/highscores.txt" );
+
+	for( int i = 0; i < 5; ++i )
+	{
+		scoreList << highscore[i].casual << "\n";
+		scoreList << highscore[i].hardcore << "\n";
+	}
+	scoreList.close();
+}
+
+// Write new highscore to file
+void Collectable::writeNewHighscore()
 {
 	std::ofstream scoreList;
 	sceIoMkdir("ux0:/data/vitaSnake", 0777);

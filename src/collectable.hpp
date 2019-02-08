@@ -29,7 +29,8 @@ class Collectable
 		void render();			// Render the collectable
 
 		void readHighscore();		// Read highscore from file
-		void writeHighscore();		// Write new highscore to file
+		void writeHighscore();		// Write highscores to file
+		void writeNewHighscore();	// Write the new highscore to file
 		int getHighscore();			// Return highscore
 		void renderHighscore();		// Render the highscore text
 		void renderMenuScores();	// Render menu scores

@@ -382,7 +382,7 @@ void Game::gameEnd()
 	{
 		if( !score_read )
 		{
-			collectable.writeHighscore();
+			collectable.writeNewHighscore();
 			collectable.readHighscore();
 			score_read = true;
 		}
