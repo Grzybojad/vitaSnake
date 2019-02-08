@@ -100,7 +100,9 @@ vita_create_vpk(${SHORT_NAME}.vpk ${VITA_TITLEID} ${SHORT_NAME}.self
   FILE img/button_circle.png		img/button_circle.png
   
   FILE img/bgDesertTile.png 		img/bgDesertTile.png
+  FILE img/bgClassic.png 			img/bgClassic.png
   FILE img/bgRPPHSFull.png 		img/bgRPPHSFull.png
+  FILE img/bgNokia.png 				img/bgNokia.png
   
   FILE sound/menu_move.wav 	sound/menu_move.wav
   FILE sound/menu_select.wav 	sound/menu_select.wav

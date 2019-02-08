@@ -23,6 +23,10 @@ float FONT_SCALE = 0.6;
 int unsigned MAIN_FONT_COLOR = RGBA8( 0, 0, 0, 255 );
 
 /* Textures */
+std::vector <Texture> snakeTextures;
+std::vector <Texture> bgTextures;
+std::vector <Texture> collectableTextures;
+
 Texture gSparkleTexture;
 
 Texture gMenuButtonTexture;
@@ -30,22 +34,15 @@ Texture gCursorTexture;
 Texture gCrossTexture;
 Texture gCircleTexture;
 
-Texture gSnakeHard;
-Texture gSnakeSleep;
 
-std::vector <Texture> snakeTextures;
-std::vector <Texture> bgTextures;
-std::vector <Texture> collectableTextures;
-
-
-// Sounds
+/* Sounds */
 SoLoud::Wav gBite;
 SoLoud::Wav gSnakeDeath;
 SoLoud::Wav gMenuMove;
 SoLoud::Wav gMenuSelect;
 
 
-// Fonts
+/* Fonts */
 vita2d_font *gFont[99];
 
 
@@ -66,9 +63,13 @@ void calcTimestep()
 void loadPlayerTextures()
 {
 	snakeTextures.push_back( loadTexture( "app0:/img/playerDefault.png" ) );
+	snakeTextures.back().name = "Default";
 	snakeTextures.push_back( loadTexture( "app0:/img/playerClassic.png" ) );
+	snakeTextures.back().name = "Classic";
 	snakeTextures.push_back( loadTexture( "app0:/img/playerRPPHS.png" ) );
+	snakeTextures.back().name = "RPPHS";
 	snakeTextures.push_back( loadTexture( "app0:/img/playerNokia.png" ) );
+	snakeTextures.back().name = "Nokia";
 
 	for( int i = 0; i < 5; ++i )
 		for( int j = 0; j < snakeTextures.size(); ++j )
@@ -78,10 +79,15 @@ void loadPlayerTextures()
 void loadCollectableTextures()
 {
 	collectableTextures.push_back( loadTexture( "app0:/img/appleDefault.png" ) );
+	collectableTextures.back().name = "Default";
 	collectableTextures.push_back( loadTexture( "app0:/img/appleClassic.png" ) );
+	collectableTextures.back().name = "Classic";
 	collectableTextures.push_back( loadTexture( "app0:/img/appleRPPHS.png" ) );
+	collectableTextures.back().name = "RPPHS";
 	collectableTextures.push_back( loadTexture( "app0:/img/appleNokia.png" ) );
+	collectableTextures.back().name = "Nokia";
 	collectableTextures.push_back( loadTexture( "app0:/img/appleBattery.png" ) );
+	collectableTextures.back().name = "Battery";
 
 	gSparkleTexture.texture	= vita2d_load_PNG_file( "app0:/img/sparkle.png" );
 }
@@ -95,7 +101,13 @@ void loadMenuTextures()
 void loadGameTextures()
 {
 	bgTextures.push_back( loadTexture( "app0:/img/bgDesertTile.png" ) );
+	bgTextures.back().name = "Desert";
+	bgTextures.push_back( loadTexture( "app0:/img/bgClassic.png" ) );
+	bgTextures.back().name = "Classic";
 	bgTextures.push_back( loadTexture( "app0:/img/bgRPPHSFull.png" ) );
+	bgTextures.back().name = "RPPHS";
+	bgTextures.push_back( loadTexture( "app0:/img/bgNokia.png" ) );
+	bgTextures.back().name = "Nokia";
 }
 
 Texture loadTexture( const char *path )
@@ -106,7 +118,7 @@ Texture loadTexture( const char *path )
 }
 
 
-// Sound loading functions
+/* Sound loading functions */
 void loadPlayerSounds()
 {
 	gBite.load( "app0:/sound/bite.wav" );
@@ -120,7 +132,7 @@ void loadMenuSounds()
 }
 
 
-// Font loading functions
+/* Font loading functions */
 void loadFonts()
 {
 	for( int i = 0; i <= 99; ++i )
@@ -150,29 +162,13 @@ int border_red = 200;
 // Draw background
 extern void drawBackground()
 {
-	switch( BACKGROUND_TEXTURE )
-	{
-		case 0:	// Desert
-			bgTextures[ 0 ].fill_tile();
-			break;
-
-		case 1:	// Classic
-			// Just leave the background black
-			break;
-
-		case 2:	// RPPHS
-			bgTextures[ 1 ].draw();
-			break;
-
-		case 3:	// Nokia
-			vita2d_draw_rectangle( 0, 0, SCREEN_WIDTH, SCREEN_WIDTH, RGBA8( 117, 134, 99, 255 ) );
-			break;
-	}
+	bgTextures[ BACKGROUND_TEXTURE ].fill_tile();
 
 	int unsigned border_color = 0;
 
 	if( GAME_DIFFICULTY == 1 )
 	{
+		// For Nokia theme
 		if( BACKGROUND_TEXTURE == 3 )
 		{
 			border_color = MAIN_FONT_COLOR;
@@ -198,8 +194,7 @@ extern void drawBackground()
 
 			border_color = RGBA8( border_red, 0, 0, 255 );
 		}
-		
-	
+
 		// Draw a border
 		vita2d_draw_rectangle( 0, 0, SCREEN_WIDTH, BORDER_THICKNESS, border_color );
 		vita2d_draw_rectangle( SCREEN_WIDTH - BORDER_THICKNESS, 0, BORDER_THICKNESS, SCREEN_HEIGHT, border_color );

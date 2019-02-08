@@ -97,15 +97,13 @@ extern unsigned int MAIN_FONT_COLOR;
 
 // Textures
 extern std::vector <Texture> snakeTextures;
+extern std::vector <Texture> bgTextures;
+extern std::vector <Texture> collectableTextures;
 
 extern Texture gSparkleTexture;
 
 extern Texture gCrossTexture;
 extern Texture gCircleTexture;
-
-extern std::vector <Texture> bgTextures;
-
-extern std::vector <Texture> collectableTextures;
 
 
 // Sounds

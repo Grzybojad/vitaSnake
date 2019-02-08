@@ -26,6 +26,8 @@ class Texture
 
 		vita2d_texture *texture;
 
+		const char *name;
+
 		// Clipping positons for spritesheets
 		struct SheetClips
 		{

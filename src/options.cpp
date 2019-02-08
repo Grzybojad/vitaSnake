@@ -43,7 +43,7 @@ OptionsMenu::OptionsMenu()
 	option[ 2 ].desc_x = DESC_X;
 	option[ 2 ].desc_y = option[ 2 ].name_y;
 	option[ 2 ].selected = 0;
-	option[ 2 ].nr_selectables = bgTextures.size() + 2;
+	option[ 2 ].nr_selectables = bgTextures.size();
 
 	// Initialize the "apple style" selectable
 	option[ 3 ].id = 3;
@@ -226,7 +226,6 @@ bool OptionsMenu::touchSelect( Option option )
 	if( (x > 0) && (x < 550) &&
 		(y > option.slct_y-30) && (y < option.slct_y + 20)
 		)
-
 		return true;
 	else
 		return false;
@@ -264,72 +263,17 @@ void OptionsMenu::renderOptions()
 	if( cursor == 0 )
 		renderCursor( option[ cursor ], text_width );
 
-	// Player style option
-	vita2d_font_draw_text( gFont[ (int)(30 * FONT_SCALE) ], 20, option[ 1 ].slct_y, MAIN_FONT_COLOR, (int)(30 * FONT_SCALE), option[ 1 ].name );
-	switch( option[ 1 ].selected )
+	// player/background/collectable style options
+	for( int i = 1; i < MENU_ITEMS; ++i )
 	{
-		case 0:
-			text_width = drawSelectable( "< Brown >", option[ 1 ].slct_y );
-			break;
-		case 1:
-			text_width = drawSelectable( "< Classic >", option[ 1 ].slct_y );
-			break;
-		case 2:
-			text_width = drawSelectable( "< RPPHS >", option[ 1 ].slct_y );
-			break;
-		case 3:
-			text_width = drawSelectable( "< Nokia >", option[ 1 ].slct_y );
-			break;
+		vita2d_font_draw_text( gFont[ (int)(30 * FONT_SCALE) ], 20, option[ i ].slct_y, MAIN_FONT_COLOR, (int)(30 * FONT_SCALE), option[ i ].name );
+		text_width = drawSelectable( snakeTextures[ option[ i ].selected ].name, option[ i ].slct_y );
+
+		if( cursor == i )
+			renderCursor( option[ cursor ], text_width );
 	}
 	drawPlayerModel();
-
-	if( cursor == 1 )
-		renderCursor( option[ cursor ], text_width );
-
-	// Background style option
-	vita2d_font_draw_text( gFont[ (int)(30 * FONT_SCALE) ], 20, option[ 2 ].slct_y, MAIN_FONT_COLOR, (int)(30 * FONT_SCALE), option[ 2 ].name );
-	switch( option[ 2 ].selected )
-	{
-	case 0:
-		text_width = drawSelectable( "< Desert >", option[ 2 ].slct_y );
-		break;
-	case 1:
-		text_width = drawSelectable( "< Classic >", option[ 2 ].slct_y );
-		break;
-	case 2:
-		text_width = drawSelectable( "< RPPHS >", option[ 2 ].slct_y );
-		break;
-	case 3:
-		text_width = drawSelectable( "< Nokia >", option[ 2 ].slct_y );
-		break;
-	}
-	if( cursor == 2 )
-		renderCursor( option[ cursor ], text_width );
-
-	// Apple style option
-	vita2d_font_draw_text( gFont[ (int)(30 * FONT_SCALE) ], 20, option[ 3 ].slct_y, MAIN_FONT_COLOR, (int)(30 * FONT_SCALE), option[ 3 ].name );
-	switch( option[ 3 ].selected )
-	{
-		case 0:
-			text_width = drawSelectable( "< Default >", option[ 3 ].slct_y );
-			break;
-		case 1:
-			text_width = drawSelectable( "< Classic >", option[ 3 ].slct_y );
-			break;
-		case 2:
-			text_width = drawSelectable( "< RPPHS >", option[ 3 ].slct_y );
-			break;
-		case 3:
-			text_width = drawSelectable( "< Nokia >", option[ 3 ].slct_y );
-			break;
-		case 4:
-			text_width = drawSelectable( "< Battery >", option[ 3 ].slct_y );
-			break;
-	}
 	appleModel.render();
-
-	if( cursor == 3 )
-		renderCursor( option[ cursor ], text_width );
 
 	drawBackText();
 }
@@ -353,7 +297,7 @@ void OptionsMenu::updateNrTextures()
 	if( option[ 1 ].nr_selectables == 0 || option[ 2 ].nr_selectables == 0 || option[ 3 ].nr_selectables == 0 )
 	{
 		option[ 1 ].nr_selectables = snakeTextures.size();
-		option[ 2 ].nr_selectables = bgTextures.size() + 2;	// There are 2 non texure backgrounds
+		option[ 2 ].nr_selectables = bgTextures.size();	// There are 2 non texure backgrounds
 		option[ 3 ].nr_selectables = collectableTextures.size();
 	}
 }
