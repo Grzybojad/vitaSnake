@@ -390,7 +390,7 @@ void Player::addParts( int i )
 {
 	for( ; i > 0; --i )
 	{
-		vec3 newPart;
+		vec3 newPart( snakeParts.end()[-1].x, snakeParts.end()[-1].y, snakeParts.end()[-1].r );
 		snakeParts.push_back( newPart );
 	}
 }
