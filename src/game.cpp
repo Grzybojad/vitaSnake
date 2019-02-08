@@ -34,14 +34,7 @@ Game::Game()
 
 	// Read highscores from file
 	collectable.readHighscore();
-
-	// Set highscore if none is set, or highscore is incorrect
-	if( collectable.getHighscore( 0 ) > 10000 || !( collectable.getHighscore( 0 ) > 0 ) )
-		collectable.writeHighscore();
-	if( collectable.getHighscore( 1 ) > 10000 || !( collectable.getHighscore( 1 ) > 0 ) )
-		collectable.writeHighscore();
-	if( collectable.getHighscore( 2 ) > 10000 || !( collectable.getHighscore( 2 ) > 0 ) )
-		collectable.writeHighscore();
+	collectable.checkAndFixHighscores();
 
 	_gameState = initialized;
 }
@@ -88,6 +81,9 @@ void Game::gameStart()
 			case options:
 				gameOptions();
 				break;
+			case choosingMode:
+				gameMode();
+				break;
 		}
 	}
 	gameQuit();
@@ -126,7 +122,7 @@ void Game::gameMenu()
 		gSoloud.play( gMenuSelect );
 
 		if( mainMenu.cursor == MainMenu::startGame )
-			_gameState = choosingDifficulty;
+			_gameState = choosingMode;
 		else if( mainMenu.cursor == MainMenu::howToPlay )
 			_gameState = showingHTP;
 		else if( mainMenu.cursor == MainMenu::options )
@@ -202,7 +198,7 @@ void Game::gameDifficulty()
 	if( gInput.wasPressed(Input::circle) )
 	{
 		gSoloud.play( gMenuSelect );
-		_gameState = showingMenu;
+		_gameState = choosingMode;
 	}
 
 
@@ -240,11 +236,16 @@ void Game::gameLoop()
 	if( gInput.wasPressed(Input::start) )
 		_gameState = paused;
 
-	// Player controls
-	snake.handleInput();
-
 	// Calcule player position
-	snake.move();
+	if( GAME_MODE != ModeMenu::lazy )
+	{
+		snake.handleInput();
+		snake.move();
+	}
+	else
+	{
+		snake.handleDrag();
+	}
 
 	// Check wall and snake collisions
 	if( snake.wallDeath() || snake.checkCollision() )
@@ -368,7 +369,7 @@ void Game::gameEnd()
 	bool highscore = false;
 
 	// Check if the player set a new highscore
-	if( collectable.getScore() > collectable.getHighscore( GAME_DIFFICULTY ) )
+	if( collectable.getScore() > collectable.getHighscore() )
 		highscore = true;
 
 	gameDraw();
@@ -559,6 +560,7 @@ void Game::gameHTP()
 	calcFrameTime();
 }
 
+
 // Draw every gameplay element
 void Game::gameDraw()
 {
@@ -587,6 +589,74 @@ void Game::gameOptions()
 	vita2d_clear_screen();	
 
 	optionsMenu.renderOptions();
+
+	vita2d_end_drawing();
+	vita2d_wait_rendering_done();
+	vita2d_swap_buffers();
+
+	calcFrameTime();
+}
+
+void Game::gameMode()
+{
+	sceCtrlPeekBufferPositive( 0, &pad, 1 );
+
+	GAME_DIFFICULTY = 0;
+
+	// Menu controls
+	modeMenu.menuNav();
+
+	bool select = false;
+
+	if( modeMenu.selectItem() )
+		select = true;
+
+	if( gInput.wasPressed(Input::frontTouch) )
+	{
+		for( int i = 0; i < modeMenu.MENU_ITEMS; ++i )
+		{
+			if( modeMenu.touchSelect(modeMenu.item[i]) )
+			{
+				modeMenu.cursor = i;
+				select = true;
+			}
+		}
+		// Touch the "Press O to go back text" to go back
+		if( gInput.backTouch() )
+		{
+			gSoloud.play( gMenuSelect );
+			_gameState = showingMenu;
+		}
+	}
+	
+	if( modeMenu.cursor == ModeMenu::classic )
+		GAME_MODE = ModeMenu::classic;
+	else if( modeMenu.cursor == ModeMenu::timeTrial )
+		GAME_MODE = ModeMenu::timeTrial;
+	else if( modeMenu.cursor == ModeMenu::hyper )
+		GAME_MODE = ModeMenu::hyper;
+	else if( modeMenu.cursor == ModeMenu::fibonacci )
+		GAME_MODE = ModeMenu::fibonacci;
+	else if( modeMenu.cursor == ModeMenu::lazy )
+		GAME_MODE = ModeMenu::lazy;
+
+	if( select )
+	{
+		gSoloud.play( gMenuSelect );
+		_gameState = choosingDifficulty;
+	}
+	
+	if( gInput.wasPressed(Input::circle) )
+	{
+		gSoloud.play( gMenuSelect );
+		_gameState = showingMenu;
+	}
+
+	/* RENDERING */
+	vita2d_start_drawing();
+	vita2d_clear_screen();	
+
+	modeMenu.renderMenu();
 
 	vita2d_end_drawing();
 	vita2d_wait_rendering_done();

@@ -11,13 +11,13 @@ Player::Player()
 	sceCtrlSetSamplingMode( SCE_CTRL_MODE_ANALOG );
 
 	// Initialize parts
-	for( int i = 0; i < 4; ++i )
+	vec3 newPart( SCREEN_WIDTH / 6, SCREEN_HEIGHT / 2, M_PI / 2 );
+	snakeParts.push_back( newPart );
+	for( int i = 1; i < 4; ++i )
 	{
-		//vec3 newPart = { SCREEN_WIDTH / 6, SCREEN_HEIGHT / 2, M_PI / 2 };
 		vec3 newPart;
 		snakeParts.push_back( newPart );
 	}
-		
 }
 
 // Set difficulty
@@ -280,6 +280,28 @@ void Player::follow()
 			snakeParts[i].y = 0;
 		else if( snakeParts[i].y > SCREEN_HEIGHT )
 			snakeParts[i].y = SCREEN_HEIGHT;
+	}
+}
+
+void Player::handleDrag()
+{
+	int touch_zone = 50;
+	
+	if( gInput.isTouched() )
+	{
+		if( 
+			( ( snakeParts[0].x + touch_zone ) > gInput.getTouchX() ) &&
+			( gInput.getTouchX() > ( snakeParts[0].x - touch_zone ) ) &&
+			( ( snakeParts[0].y + touch_zone ) > gInput.getTouchY() ) &&
+			( gInput.getTouchY() > ( snakeParts[0].y - touch_zone ) )
+		)
+		{
+			vec3 lastPos = snakeParts[0];
+
+			snakeParts[0].x = gInput.getTouchX();
+			snakeParts[0].y = gInput.getTouchY();
+			snakeParts[0].r = snakeParts[1].r;
+		}
 	}
 }
 

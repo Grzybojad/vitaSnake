@@ -28,11 +28,12 @@ class Collectable
 		void collect();			// Pick up the collectable
 		void render();			// Render the collectable
 
-		void readHighscore();					// Read highscore from file
-		void writeHighscore();					// Write new highscore to file
-		int getHighscore( int difficulty );		// Return highscore
-		void renderHighscore();					// Render the highscore text
-		void renderMenuScores();				// Render menu scores
+		void readHighscore();		// Read highscore from file
+		void writeHighscore();		// Write new highscore to file
+		int getHighscore();			// Return highscore
+		void renderHighscore();		// Render the highscore text
+		void renderMenuScores();	// Render menu scores
+		void checkAndFixHighscores();
 
 		void renderParticles();
 
@@ -59,9 +60,15 @@ class Collectable
 		// Score
 		int score;
 
+		struct Highscore
+		{
+			int casual;
+			int hardcore;
+		};
+		Highscore highscore[5];
 		// Current highscore
-		int classicHighscore = 0;
-		int hardcoreHighscore = 0;
+		//int classicHighscore = 0;
+		//int hardcoreHighscore = 0;
 
 		// Sparkles to make the collectable more visible
 		static const int TOTAL_PARTICLES = 3;

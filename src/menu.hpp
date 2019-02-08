@@ -109,5 +109,30 @@ class DifficultyMenu: public Menu
 		void renderDescription();
 };
 
+class ModeMenu: public Menu
+{
+	private:
+		static const int margin_x = 45;
+		static const int margin_y = 40;
+		static const int padding = 40;
+
+	public:
+		ModeMenu();
+
+		enum itemName
+		{
+			classic = 0, 
+			timeTrial = 1,
+			hyper = 2,
+			fibonacci = 3,
+			lazy = 4
+		};
+
+		MenuItem item[ 5 ];
+
+		void renderDescription();
+		void renderMenu();
+};
+
 
 #endif // MENU_HPP

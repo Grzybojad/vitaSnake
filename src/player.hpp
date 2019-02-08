@@ -47,6 +47,8 @@ class Player
 
 		void move();
 
+		void handleDrag();
+
 		bool checkCollision();		// Tail collision
 
 		bool wallDeath();			// Die from touching a wall

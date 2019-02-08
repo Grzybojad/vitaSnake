@@ -115,15 +115,34 @@ void Collectable::resetScore()
 void Collectable::readHighscore()
 {
 	std::ifstream scoreList;
-
 	scoreList.open( "ux0:/data/vitaSnake/highscores.txt", std::ifstream::in );
-	scoreList >> classicHighscore;
-	scoreList >> hardcoreHighscore;
+	// Classic
+	scoreList >> highscore[0].casual;
+	scoreList >> highscore[0].hardcore;
+	// Time Trial
+	scoreList >> highscore[1].casual;
+	scoreList >> highscore[1].hardcore;
+	// Hyper
+	scoreList >> highscore[2].casual;
+	scoreList >> highscore[2].hardcore;
+	// Fibonacci
+	scoreList >> highscore[3].casual;
+	scoreList >> highscore[3].hardcore;
+	// Lazy
+	scoreList >> highscore[4].casual;
+	scoreList >> highscore[4].hardcore;
+	//scoreList >> classicHighscore;
+	//scoreList >> hardcoreHighscore;
 	scoreList.close();
 }
 
-int Collectable::getHighscore( int difficulty )
+int Collectable::getHighscore()
 {
+	if( GAME_DIFFICULTY == 0 ) 
+		return highscore[ GAME_MODE ].casual;
+	else
+		return highscore[ GAME_MODE ].hardcore;
+	/*
 	switch( difficulty )
 	{
 		case DifficultyMenu::classic:
@@ -131,6 +150,7 @@ int Collectable::getHighscore( int difficulty )
 		case DifficultyMenu::hardcore:
 			return hardcoreHighscore;
 	}
+	*/
 }
 
 
@@ -141,6 +161,25 @@ void Collectable::writeHighscore()
 	sceIoMkdir("ux0:/data/vitaSnake", 0777);
 	scoreList.open( "ux0:/data/vitaSnake/highscores.txt" );
 
+	for( int i = 0; i < 5; ++i )
+	{
+		if( GAME_MODE != i )
+		{
+			scoreList << highscore[i].casual << "\n";
+			scoreList << highscore[i].hardcore << "\n";
+		}
+		else if( GAME_DIFFICULTY == 0 )
+		{
+			scoreList << score << "\n";
+			scoreList << highscore[i].hardcore << "\n";
+		}
+		else if( GAME_DIFFICULTY == 1 )
+		{
+			scoreList << highscore[i].casual << "\n";
+			scoreList << score << "\n";
+		}
+	}
+	/*
 	switch( GAME_DIFFICULTY )
 	{
 		case DifficultyMenu::classic:
@@ -150,7 +189,7 @@ void Collectable::writeHighscore()
 			scoreList << classicHighscore << "\n" << score;
 			break;
 	}
-
+	*/
 	scoreList.close();
 }
 
@@ -162,6 +201,11 @@ void Collectable::renderHighscore()
 	int padding_top = 20;
 	int padding_side = 10;
 
+	if( GAME_DIFFICULTY == DifficultyMenu::classic )
+		vita2d_font_draw_textf( gFont[ (int)(text_size * FONT_SCALE) ], padding_side, padding_top, MAIN_FONT_COLOR, (int)(text_size * FONT_SCALE), "HIGHSCORE: %d", highscore[ GAME_MODE ].casual );
+	else
+		vita2d_font_draw_textf( gFont[ (int)(text_size * FONT_SCALE) ], padding_side, padding_top, MAIN_FONT_COLOR, (int)(text_size * FONT_SCALE), "HIGHSCORE: %d", highscore[ GAME_MODE ].hardcore );
+	/*
 	switch( GAME_DIFFICULTY )
 	{
 		case DifficultyMenu::classic:
@@ -171,17 +215,31 @@ void Collectable::renderHighscore()
 			vita2d_font_draw_textf( gFont[ (int)(text_size * FONT_SCALE) ], padding_side, padding_top, MAIN_FONT_COLOR, (int)(text_size * FONT_SCALE), "HIGHSCORE: %d", hardcoreHighscore );
 			break;
 	}
+	*/
 }
 
 // Render menu scores
 void Collectable::renderMenuScores()
 {
-	vita2d_font_draw_textf( gFont[ (int)(40 * FONT_SCALE) ], 660, 250, MAIN_FONT_COLOR, (int)(40 * FONT_SCALE), "HIGH: %d", classicHighscore );
-	vita2d_font_draw_textf( gFont[ (int)(40 * FONT_SCALE) ], 660, 350, MAIN_FONT_COLOR, (int)(40 * FONT_SCALE), "HIGH: %d", hardcoreHighscore );
+	vita2d_font_draw_textf( gFont[ (int)(40 * FONT_SCALE) ], 660, 250, MAIN_FONT_COLOR, (int)(40 * FONT_SCALE), "HIGH: %d", highscore[ GAME_MODE ].casual );
+	vita2d_font_draw_textf( gFont[ (int)(40 * FONT_SCALE) ], 660, 350, MAIN_FONT_COLOR, (int)(40 * FONT_SCALE), "HIGH: %d", highscore[ GAME_MODE ].hardcore );
 }
 
 void Collectable::setPos( float x, float y )
 {
 	pos.x = x;
 	pos.y = y;
+}
+
+void Collectable::checkAndFixHighscores()
+{
+	for( int i = 0; i < 5; ++i )
+	{
+		if( highscore[i].casual < 0 || highscore[i].casual > 10000 )
+			highscore[i].casual = 0;
+		if( highscore[i].hardcore < 0 || highscore[i].hardcore > 10000 )
+			highscore[i].hardcore = 0;
+	}
+
+	writeHighscore();
 }

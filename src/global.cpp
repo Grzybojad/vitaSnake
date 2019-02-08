@@ -12,6 +12,7 @@ SceUInt64 frameTime = 0;
 float timestep = 0;
 
 int GAME_DIFFICULTY = 0;
+int GAME_MODE = 0;
 gameState _gameState;
 
 /* Options */

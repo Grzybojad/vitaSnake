@@ -233,3 +233,110 @@ void DifficultyMenu::renderDescription()
 		break;
 	}
 }
+
+
+ModeMenu::ModeMenu()
+{
+	// Nr of selectable menu items
+	MENU_ITEMS = 5;
+
+	// Initialize menu items
+	item[0].name = "Classic";
+	item[0].x = margin_x;
+	item[0].y = margin_y;
+
+	item[1].name = "Time Trial";
+	item[1].x = margin_x;
+	item[1].y = margin_y + BUTTON_HEIGHT + padding;
+
+	item[2].name = "Hyper Snake";
+	item[2].x = margin_x;
+	item[2].y = margin_y + 2*BUTTON_HEIGHT + 2*padding;
+
+	item[3].name = "Fibonacci";
+	item[3].x = margin_x;
+	item[3].y = margin_y + 3*BUTTON_HEIGHT + 3*padding;
+
+	item[4].name = "Lazy Snake";
+	item[4].x = margin_x;
+	item[4].y = SCREEN_HEIGHT - margin_y - BUTTON_HEIGHT;
+
+	// Initialize cursor
+	cursor = classic;
+}
+
+void ModeMenu::renderMenu()
+{
+	drawBackground();
+
+	// Draw a shadow where the buttons are
+	vita2d_draw_rectangle( 10, 10, margin_x+BUTTON_WIDTH+margin_x-20, SCREEN_HEIGHT-20, RGBA8( 0, 0, 0, 50 ) );
+
+	int text_size = 40;
+	int topText_width = vita2d_font_text_width( gFont[ (int)(text_size * FONT_SCALE) ], (int)(text_size * FONT_SCALE), "Choose a game mode");
+	vita2d_font_draw_text( gFont[ (int)(text_size * FONT_SCALE) ], SCREEN_WIDTH - topText_width - margin_x, 100, MAIN_FONT_COLOR, (int)(text_size * FONT_SCALE), "Choose a game mode" );
+
+	renderCursor( item[ cursor ] );	// Draw cursor
+
+	for( int i = 0; i < MENU_ITEMS; ++i )			
+		renderButton( item[ i ] );
+
+	renderDescription();
+
+	drawBackText();
+}
+
+void ModeMenu::renderDescription()
+{
+	int font_size = 18;
+
+	int desc_x = 500;
+	int desc_y = 180;
+
+	// Draw a "shadow box"
+	vita2d_draw_rectangle( desc_x-20, desc_y-40, 454, 270, RGBA8( 0, 0, 0, 50 ) );
+
+	switch( GAME_MODE )
+	{
+	// Classic
+	case 0:
+		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y, MAIN_FONT_COLOR, font_size, "Play vitaSnake the");
+		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y + 30, MAIN_FONT_COLOR, font_size, "classic way!");
+		break;
+	// Time Trial
+	case 1:
+		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y, MAIN_FONT_COLOR, font_size, "It's a desparate race");
+		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y + 30, MAIN_FONT_COLOR, font_size, "against the time,");
+		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y + 60, MAIN_FONT_COLOR, font_size, "collect as many points");
+		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y + 90, MAIN_FONT_COLOR, font_size, "as possible within a 30");
+		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y + 120, MAIN_FONT_COLOR, font_size, "second time limit!");
+		break;
+	// Hyper
+	case 2:
+		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y, MAIN_FONT_COLOR, font_size, "The snake starts slow,");
+		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y + 30, MAIN_FONT_COLOR, font_size, "but gets faster with.");
+		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y + 60, MAIN_FONT_COLOR, font_size, "each point.");
+		break;
+	// Fibonacci
+	case 3:
+		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y, MAIN_FONT_COLOR, font_size, "Instead of only growing");
+		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y + 30, MAIN_FONT_COLOR, font_size, "by one piece, each");
+		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y + 60, MAIN_FONT_COLOR, font_size, "time the snake gets");
+		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y + 90, MAIN_FONT_COLOR, font_size, "longer by a number");
+		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y + 120, MAIN_FONT_COLOR, font_size, "determined by the");
+		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y + 150, MAIN_FONT_COLOR, font_size, "Fibonacci sequence.");
+		break;
+	// Lazy
+	case 4:
+		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y, MAIN_FONT_COLOR, font_size, "The snake got lazy,  ");
+		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y + 30, MAIN_FONT_COLOR, font_size, "so it won't move");
+		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y + 60, MAIN_FONT_COLOR, font_size, "on it's own.");
+		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y + 90, MAIN_FONT_COLOR, font_size, "Drag it by the head");
+		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y + 120, MAIN_FONT_COLOR, font_size, "with your finger.");
+
+		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y + 150, MAIN_FONT_COLOR, font_size, "He also gets scared if");
+		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y + 180, MAIN_FONT_COLOR, font_size, "you go too fast, so");
+		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y + 210, MAIN_FONT_COLOR, font_size, "plese be gentle");
+		break;
+	}
+}

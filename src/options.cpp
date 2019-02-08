@@ -250,12 +250,12 @@ void OptionsMenu::renderOptions()
 	switch( option[ 0 ].selected )
 	{
 		case 0:
-			text_width = drawSelectable( "< classic >", option[ 0 ].slct_y );
+			text_width = drawSelectable( "Classic", option[ 0 ].slct_y );
 			vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], DESC_X, 180, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "Move the left stick left or right" );
 			vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], DESC_X, 210, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "to turn the snake." );
 			break;
 		case 1:
-			text_width = drawSelectable( "< simplified >", option[ 0 ].slct_y );
+			text_width = drawSelectable( "Simplified", option[ 0 ].slct_y );
 			vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], DESC_X, 180, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "Move the left in the direction you " );
 			vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], DESC_X, 210, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "want the snake to go." );
 			break;
@@ -267,8 +267,18 @@ void OptionsMenu::renderOptions()
 	for( int i = 1; i < MENU_ITEMS; ++i )
 	{
 		vita2d_font_draw_text( gFont[ (int)(30 * FONT_SCALE) ], 20, option[ i ].slct_y, MAIN_FONT_COLOR, (int)(30 * FONT_SCALE), option[ i ].name );
-		text_width = drawSelectable( snakeTextures[ option[ i ].selected ].name, option[ i ].slct_y );
-
+		switch( i )
+		{
+			case 1:
+				text_width = drawSelectable( snakeTextures[ option[ i ].selected ].name, option[ i ].slct_y );
+				break;
+			case 2:
+				text_width = drawSelectable( bgTextures[ option[ i ].selected ].name, option[ i ].slct_y );
+				break;
+			case 3:
+				text_width = drawSelectable( collectableTextures[ option[ i ].selected ].name, option[ i ].slct_y );
+				break;
+		}
 		if( cursor == i )
 			renderCursor( option[ cursor ], text_width );
 	}

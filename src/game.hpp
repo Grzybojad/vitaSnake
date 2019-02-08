@@ -38,6 +38,7 @@ class Game
 		void gamePlayAgain();		// Reinitialize game variables and go to the game 
 		void gameHTP();				// Instructions on how to play the game
 		void gameOptions();
+		void gameMode();			// Menu for choosing the game mode
 		
 		void gameDraw();			// Draw all gameplay elements
 
@@ -48,6 +49,7 @@ class Game
 		PauseMenu pauseMenu;
 		GameOverMenu gameOverMenu;
 		OptionsMenu optionsMenu;
+		ModeMenu modeMenu;
 
 		Player snake;
 

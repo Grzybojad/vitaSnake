@@ -37,6 +37,9 @@ extern SceUInt64 prevFrameClock; // The time between the start of the program an
 extern SceUInt64 frameTime;		// Time between frames (in microseconds)
 extern float timestep;			// The multiplier for time sensitive actions (1.0 for 60FPS)
 
+// Game mode
+extern int GAME_MODE;
+
 // Game difficulty
 extern int GAME_DIFFICULTY;
 
@@ -59,7 +62,8 @@ enum gameState
 	needReinitialize = 7,
 	playAgain = 8,
 	showingHTP = 9,
-	options = 10
+	options = 10,
+	choosingMode = 11
 };
 extern gameState _gameState;
 
@@ -80,10 +84,16 @@ struct vec3
 
 	vec3()
 	{ 
-		x = SCREEN_WIDTH / 6;
+		x = SCREEN_WIDTH / 12;
 		y = SCREEN_HEIGHT / 2;
 		r = M_PI / 2;
 	};
+	vec3( float x, float y, float r )
+	{
+		this->x = x;
+		this->y = y;
+		this->r = r;
+	}
 };
 
 /* Options */
