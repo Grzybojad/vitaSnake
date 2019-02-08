@@ -41,6 +41,8 @@ class Player
 
 		void setDifficulty();
 
+		void setMode();
+
 		void handleInput();
 
 		void follow();

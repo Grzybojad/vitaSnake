@@ -25,7 +25,7 @@ class Collectable
 		bool checkCollision( vec3 playerPos );		// Player-collectable collision
 		bool checkOpenDistance( vec3 playerPos );	// Check if the player is close to the collectable
 
-		void collect();			// Pick up the collectable
+		int collect();			// Pick up the collectable
 		void render();			// Render the collectable
 
 		void readHighscore();		// Read highscore from file
@@ -59,6 +59,9 @@ class Collectable
 
 		// Score
 		int score;
+		int SCORE_ADD;
+
+		const int fibonacci[24] = { 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765, 10946, 17711, 28657 };
 
 		struct Highscore
 		{
@@ -66,9 +69,6 @@ class Collectable
 			int hardcore;
 		};
 		Highscore highscore[5];
-		// Current highscore
-		//int classicHighscore = 0;
-		//int hardcoreHighscore = 0;
 
 		// Sparkles to make the collectable more visible
 		static const int TOTAL_PARTICLES = 3;

@@ -38,6 +38,25 @@ void Player::setDifficulty()
 	speed = -PLAYER_SET_SPEED;
 }
 
+void Player::setMode()
+{
+	switch( GAME_MODE )
+	{
+		case ModeMenu::classic:
+			break;
+		case ModeMenu::timeTrial:
+			break;
+		case ModeMenu::hyper:
+			break;
+		case ModeMenu::fibonacci:
+			PLAYER_SET_SPEED *= 0.5;
+			PLAYER_SET_ROTATION_SPEED *= 0.5;
+			break;
+		case ModeMenu::lazy:
+			break;
+	}
+}
+
 
 // Handle input
 void Player::handleInput()

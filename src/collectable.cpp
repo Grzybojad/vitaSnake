@@ -10,6 +10,7 @@ Collectable::Collectable()
 	pos.y = rand() % SCREEN_HEIGHT*0.8 + SCREEN_HEIGHT*0.1;
 
 	score = 0;
+	SCORE_ADD = 1;
 
 	for( int i = 0; i < TOTAL_PARTICLES; ++i )
 	{
@@ -41,12 +42,18 @@ bool Collectable::checkOpenDistance( vec3 playerPos )
 }
 
 // Pick up the collectable
-void Collectable::collect()
+int Collectable::collect()
 {
 	pos.x = rand() % SCREEN_WIDTH*0.8 + SCREEN_WIDTH*0.1;
 	pos.y = rand() % SCREEN_HEIGHT*0.8 + SCREEN_HEIGHT*0.1;
 
-	score++;
+	score += SCORE_ADD;
+
+	// Return how many snake parts should be added
+	if( GAME_MODE == ModeMenu::fibonacci )
+		return fibonacci[ score ];
+	else
+		return 1;
 }
 
 // Render the collectable
@@ -131,8 +138,6 @@ void Collectable::readHighscore()
 	// Lazy
 	scoreList >> highscore[4].casual;
 	scoreList >> highscore[4].hardcore;
-	//scoreList >> classicHighscore;
-	//scoreList >> hardcoreHighscore;
 	scoreList.close();
 }
 
@@ -142,15 +147,6 @@ int Collectable::getHighscore()
 		return highscore[ GAME_MODE ].casual;
 	else
 		return highscore[ GAME_MODE ].hardcore;
-	/*
-	switch( difficulty )
-	{
-		case DifficultyMenu::classic:
-			return classicHighscore;
-		case DifficultyMenu::hardcore:
-			return hardcoreHighscore;
-	}
-	*/
 }
 
 
@@ -179,17 +175,6 @@ void Collectable::writeHighscore()
 			scoreList << score << "\n";
 		}
 	}
-	/*
-	switch( GAME_DIFFICULTY )
-	{
-		case DifficultyMenu::classic:
-			scoreList << score << "\n" << hardcoreHighscore;
-			break;
-		case DifficultyMenu::hardcore:
-			scoreList << classicHighscore << "\n" << score;
-			break;
-	}
-	*/
 	scoreList.close();
 }
 
@@ -205,17 +190,6 @@ void Collectable::renderHighscore()
 		vita2d_font_draw_textf( gFont[ (int)(text_size * FONT_SCALE) ], padding_side, padding_top, MAIN_FONT_COLOR, (int)(text_size * FONT_SCALE), "HIGHSCORE: %d", highscore[ GAME_MODE ].casual );
 	else
 		vita2d_font_draw_textf( gFont[ (int)(text_size * FONT_SCALE) ], padding_side, padding_top, MAIN_FONT_COLOR, (int)(text_size * FONT_SCALE), "HIGHSCORE: %d", highscore[ GAME_MODE ].hardcore );
-	/*
-	switch( GAME_DIFFICULTY )
-	{
-		case DifficultyMenu::classic:
-			vita2d_font_draw_textf( gFont[ (int)(text_size * FONT_SCALE) ], padding_side, padding_top, MAIN_FONT_COLOR, (int)(text_size * FONT_SCALE), "HIGHSCORE: %d", classicHighscore );
-			break;
-		case DifficultyMenu::hardcore:
-			vita2d_font_draw_textf( gFont[ (int)(text_size * FONT_SCALE) ], padding_side, padding_top, MAIN_FONT_COLOR, (int)(text_size * FONT_SCALE), "HIGHSCORE: %d", hardcoreHighscore );
-			break;
-	}
-	*/
 }
 
 // Render menu scores

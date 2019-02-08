@@ -263,8 +263,7 @@ void Game::gameLoop()
 		if( collectable.checkCollision( snake.get_pos() ) )
 		{
 			gSoloud.play( gBite );
-			collectable.collect();
-			snake.addParts(1);
+			snake.addParts(collectable.collect());
 		}
 	}
 	else
@@ -365,13 +364,6 @@ void Game::gameEnd()
 	vita2d_start_drawing();
 	vita2d_clear_screen();	
 
-	// New highscore flag
-	bool highscore = false;
-
-	// Check if the player set a new highscore
-	if( collectable.getScore() > collectable.getHighscore() )
-		highscore = true;
-
 	gameDraw();
 
 	// Draw the Game Over text over the game
@@ -386,7 +378,7 @@ void Game::gameEnd()
 		gameOverMenu.renderButton( gameOverMenu.item[ i ] );
 
 	// If the player set a new highscore
-	if( highscore )
+	if( collectable.getScore() >= collectable.getHighscore() )
 	{
 		if( !score_read )
 		{
