@@ -24,10 +24,12 @@ class Player
 		const float FOLLOW_DISTANCE = 28.0f;		// Distanse at which the parts follow
 		const float COLLISION_DISTANCE = 20.0f;		// The distance at which a collision occurs
 		const float ANALOG_DEADZONE = 0.2f;			// Analog stick deadzone
+		const float SPEED_UP_MODIFIER = 1.05f;
 		
 		float PLAYER_SET_SPEED;				// The speed set by the difficulty
 		float PLAYER_SET_ROTATION_SPEED;	// The rotation set by the difficulty
 		float speed;						// Current speed
+		float speed_mod;					// Speed modifier
 
 		std::vector <vec3> snakeParts;
 
@@ -57,12 +59,15 @@ class Player
 
 		void render();
 
-		void resetPos();
+		void reset();
 
 		vec3 get_pos();
 
 		void addParts( int i );
 		void setSize( int i );
+
+		// Increaces the player speed
+		void speedUp();
 };
 
 

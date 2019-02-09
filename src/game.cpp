@@ -264,6 +264,8 @@ void Game::gameLoop()
 		{
 			gSoloud.play( gBite );
 			snake.addParts(collectable.collect());
+			if( GAME_MODE == ModeMenu::hyper )
+				snake.speedUp();
 		}
 	}
 	else
@@ -475,7 +477,7 @@ void Game::gameReinitialize()
 	// Reset the player and collectable
 	collectable.collect();
 	collectable.resetScore();
-	snake.resetPos();
+	snake.reset();
 
 	// The starting length of the snake
 	snake.setSize( START_SNAKE_LENGTH );
@@ -489,7 +491,7 @@ void Game::gamePlayAgain()
 	// Reset the player and collectable
 	collectable.collect();
 	collectable.resetScore();
-	snake.resetPos();
+	snake.reset();
 
 	// The starting length of the snake
 	snake.setSize( START_SNAKE_LENGTH );
