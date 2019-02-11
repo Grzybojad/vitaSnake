@@ -332,9 +332,13 @@ bool Player::checkCollision()
 	{
 		for( int i = START_SNAKE_LENGTH+1; i < snakeParts.size(); ++i )
 		{
-			float distance = sqrt( pow( ( snakeParts[i].x - snakeParts[0].x ), 2) + pow( ( snakeParts[i].y - snakeParts[0].y ), 2 ) );
-			if( distance < COLLISION_DISTANCE )
-				return true;
+			// Check collisions only if parts don't overlap
+			if( snakeParts[ i ].x != snakeParts[ i-1 ].x || snakeParts[ i ].y != snakeParts[ i-1 ].y )
+			{
+				float distance = sqrt( pow( ( snakeParts[i].x - snakeParts[0].x ), 2) + pow( ( snakeParts[i].y - snakeParts[0].y ), 2 ) );
+				if( distance < COLLISION_DISTANCE )
+					return true;
+			}
 		}
 	}
 	
@@ -366,7 +370,12 @@ void Player::render()
 
 	// Render the body parts from tail to head
 	for( int i = snakeParts.size()-2; i > 0; --i )
-		drawPlayer( body, snakeParts[ i ].x, snakeParts[ i ].y, snakeParts[ i ].r );
+	{
+		// Draw snakePart only if it doesn't overlap
+		if( snakeParts[ i ].x != snakeParts[ i-1 ].x || snakeParts[ i ].y != snakeParts[ i-1 ].y )
+			drawPlayer( body, snakeParts[ i ].x, snakeParts[ i ].y, snakeParts[ i ].r );
+	}
+		
 	
 	// Render the head
 	if( isClose )
