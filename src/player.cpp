@@ -270,7 +270,8 @@ void Player::move()
 // Move the body parts
 void Player::follow()
 {
-	for( int i = 1; i < snakeParts.size(); ++i )
+	// Don't bother calculating positions of the end of a very long snake
+	for( int i = 1; i < snakeParts.size() && i < 1000; ++i )
 	{
 		if( snakeParts[i].r < 0 )
 			snakeParts[i].r += ( 2 * M_PI );
@@ -330,7 +331,8 @@ bool Player::checkCollision()
 {
 	if( snakeParts.size() > START_SNAKE_LENGTH )
 	{
-		for( int i = START_SNAKE_LENGTH+1; i < snakeParts.size(); ++i )
+		// Don't bother calculating collisions of the end of a very long snake
+		for( int i = START_SNAKE_LENGTH+1; i < snakeParts.size() && i < 1000; ++i )
 		{
 			// Check collisions only if parts don't overlap
 			if( snakeParts[ i ].x != snakeParts[ i-1 ].x || snakeParts[ i ].y != snakeParts[ i-1 ].y )
@@ -368,12 +370,14 @@ void Player::render()
 	// Render tail first
 	drawPlayer( tail, snakeParts[ snakeParts.size()-1 ].x, snakeParts[ snakeParts.size()-1 ].y, snakeParts[ snakeParts.size()-1 ].r );
 
-	// Render the body parts from tail to head
+	// Render the body parts from tail to head, but don't bother drawing the snake parts if it's too long
 	for( int i = snakeParts.size()-2; i > 0; --i )
 	{
-		// Draw snakePart only if it doesn't overlap
-		if( snakeParts[ i ].x != snakeParts[ i-1 ].x || snakeParts[ i ].y != snakeParts[ i-1 ].y )
-			drawPlayer( body, snakeParts[ i ].x, snakeParts[ i ].y, snakeParts[ i ].r );
+		// but don't bother drawing the snake parts if it's too long
+		if( i < 1000)
+			// Draw snakePart only if it doesn't overlap
+			if( snakeParts[ i ].x != snakeParts[ i-1 ].x || snakeParts[ i ].y != snakeParts[ i-1 ].y )
+				drawPlayer( body, snakeParts[ i ].x, snakeParts[ i ].y, snakeParts[ i ].r );
 	}
 		
 	
@@ -423,13 +427,18 @@ void Player::setSize( int i )
 	}
 }
 
+void Player::speedUp()
+{
+	speed_mod *= SPEED_UP_MODIFIER;
+}
+
 // Get position coordinates
 vec3 Player::get_pos()
 {
 	return snakeParts[0];
 }
 
-void Player::speedUp()
+int Player::getSize()
 {
-	speed_mod *= SPEED_UP_MODIFIER;
+	return snakeParts.size();
 }

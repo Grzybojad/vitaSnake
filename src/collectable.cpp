@@ -51,9 +51,16 @@ int Collectable::collect()
 
 	// Return how many snake parts should be added
 	if( GAME_MODE == ModeMenu::fibonacci )
-		return fibonacci[ score ];
+	{
+		if ( score < 16 )
+			return fibonacci[ score ];
+		else
+			return fibonacci[ 15 ];
+	}
 	else
+	{
 		return 1;
+	}
 }
 
 // Render the collectable

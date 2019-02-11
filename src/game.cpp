@@ -263,7 +263,10 @@ void Game::gameLoop()
 		if( collectable.checkCollision( snake.get_pos() ) )
 		{
 			gSoloud.play( gBite );
+
 			snake.addParts(collectable.collect());
+
+			// Collecting points increaces player speed in "hyper" mode
 			if( GAME_MODE == ModeMenu::hyper )
 				snake.speedUp();
 		}

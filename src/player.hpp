@@ -62,6 +62,7 @@ class Player
 		void reset();
 
 		vec3 get_pos();
+		int getSize();
 
 		void addParts( int i );
 		void setSize( int i );
