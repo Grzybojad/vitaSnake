@@ -192,6 +192,7 @@ void Game::gameDifficulty()
 	{
 		gSoloud.play( gMenuSelect );
 
+		timer.start();
 		snake.setDifficulty();
 		_gameState = playing;
 	}
@@ -234,7 +235,11 @@ void Game::gameLoop()
 
 	// Pause the game with START
 	if( gInput.wasPressed(Input::start) )
+	{
+		timer.pause();
 		_gameState = paused;
+	}
+		
 
 	// Calcule player position
 	if( GAME_MODE != ModeMenu::lazy )
@@ -247,10 +252,14 @@ void Game::gameLoop()
 		snake.handleDrag();
 	}
 
-	// Check wall and snake collisions
-	if( snake.wallDeath() || snake.checkCollision() )
+	// Check wall, snake collisions and time to determine if the snake should die
+	if( snake.wallDeath() || 
+		snake.checkCollision() || 
+		( GAME_MODE == ModeMenu::timeTrial && timer.get_ticks() >= TIME_LIMIT )
+	)
 	{
 		gSoloud.play( gSnakeDeath );
+		timer.pause();
 		_gameState = gameOver;
 	}
 	
@@ -322,12 +331,16 @@ void Game::gamePaused()
 		gSoloud.play( gMenuSelect );
 
 		if( pauseMenu.cursor == PauseMenu::resumeGame )
+		{
+			timer.unpause();
 			_gameState = playing;
+		}
 		else if( pauseMenu.cursor == PauseMenu::returnToMenu )
 			_gameState = needReinitialize;
 	}
 	if( gInput.wasPressed(Input::start) )
 	{
+		timer.unpause();
 		_gameState = playing;
 	}
 
@@ -566,6 +579,9 @@ void Game::gameDraw()
 	collectable.render();			
 
 	snake.render();
+
+	if( GAME_MODE == ModeMenu::timeTrial )
+		timer.drawCountdown( TIME_LIMIT );
 
 	// Draw text
 	collectable.renderScore();

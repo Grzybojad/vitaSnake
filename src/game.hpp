@@ -18,6 +18,7 @@
 #include "texture.hpp"
 #include "particle.hpp"
 #include "options.hpp"
+#include "timer.hpp"
 #include "global.hpp"
 
 class Game
@@ -54,6 +55,8 @@ class Game
 		Player snake;
 
 		Collectable collectable;
+
+		Timer timer;
 
 		SceCtrlData pad;
 

@@ -46,6 +46,8 @@ add_executable(${VITA_APP_NAME}
   src/particle.cpp
   src/options.hpp
   src/options.cpp
+  src/timer.hpp
+  src/timer.cpp
   src/global.hpp
   src/global.cpp
 )

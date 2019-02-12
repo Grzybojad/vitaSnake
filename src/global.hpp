@@ -49,6 +49,9 @@ static const int START_SNAKE_LENGTH = 3;
 // Game version
 static const char *VERSION = "1.4 WIP";
 
+// Time limit in time trial mode (in microseconds)
+static const int TIME_LIMIT = 30000000;
+
 
 enum gameState
 {
