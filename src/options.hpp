@@ -42,6 +42,9 @@ public:
 
 	void updateNrTextures();
 
+	void writeSettings();
+	void readSettings();
+
 private:
 	SceTouchData touch_old[ SCE_TOUCH_PORT_MAX_NUM ];
 	SceTouchData touch[ SCE_TOUCH_PORT_MAX_NUM ];

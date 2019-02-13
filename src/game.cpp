@@ -36,6 +36,9 @@ Game::Game()
 	collectable.readHighscore();
 	collectable.checkAndFixHighscores();
 
+	// Load settings
+	optionsMenu.readSettings();
+
 	_gameState = initialized;
 }
 

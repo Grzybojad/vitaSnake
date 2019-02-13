@@ -127,6 +127,7 @@ void OptionsMenu::menuNav()
 	if( gInput.wasPressed( Input::circle ) )
 	{
 		gSoloud.play( gMenuSelect );
+		writeSettings();
 		_gameState = showingMenu;
 	}
 
@@ -151,6 +152,7 @@ void OptionsMenu::menuNav()
 		if( gInput.backTouch() )
 		{
 			gSoloud.play( gMenuSelect );
+			writeSettings();
 			_gameState = showingMenu;
 		}
 	}
@@ -287,6 +289,41 @@ void OptionsMenu::renderOptions()
 
 	drawBackText();
 }
+
+void OptionsMenu::writeSettings()
+{
+	std::ofstream settings;
+	sceIoMkdir("ux0:/data/vitaSnake", 0777);
+	settings.open( "ux0:/data/vitaSnake/settings.txt" );
+
+	settings << CONTROL_STYLE << "\n";
+	settings << PLAYER_TEXTURES << "\n";
+	settings << BACKGROUND_TEXTURE << "\n";
+	settings << APPLE_TEXTURE << "\n";
+	settings << MAIN_FONT_COLOR;
+
+	settings.close();
+}
+
+void OptionsMenu::readSettings()
+{
+	std::ifstream settings;
+	settings.open( "ux0:/data/vitaSnake/settings.txt", std::ifstream::in );
+		
+	settings >> CONTROL_STYLE;
+	settings >> PLAYER_TEXTURES;
+	settings >> BACKGROUND_TEXTURE;
+	settings >> APPLE_TEXTURE;
+	settings >> MAIN_FONT_COLOR;
+
+	option[ 0 ].selected = CONTROL_STYLE;
+	option[ 1 ].selected = PLAYER_TEXTURES;
+	option[ 2 ].selected = BACKGROUND_TEXTURE;
+	option[ 3 ].selected = APPLE_TEXTURE;
+
+	settings.close();
+}
+
 
 int OptionsMenu::drawSelectable( const char *name, int y )
 {
