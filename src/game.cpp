@@ -39,6 +39,10 @@ Game::Game()
 	// Load settings
 	optionsMenu.readSettings();
 
+	// Load splash text file
+	mainMenu.readSplashFile();
+	mainMenu.randomizeSplash();
+
 	_gameState = initialized;
 }
 
@@ -144,6 +148,9 @@ void Game::gameMenu()
 	// Draw logo
 	int text_width = vita2d_font_text_width( gFont[ (int)( 60 * FONT_SCALE ) ], (int)(60 * FONT_SCALE), "vitaSnake" );
 	vita2d_font_draw_text( gFont[ (int)(60 * FONT_SCALE) ], (SCREEN_WIDTH - text_width)/2, 110, MAIN_FONT_COLOR, (int)(60 * FONT_SCALE), "vitaSnake" );
+
+	// Draw splash
+	mainMenu.drawSplashText();
 
 	// Draw version in the lower-left corner
 	int text_height = vita2d_font_text_height( gFont[ (int)(24 * FONT_SCALE) ], (int)(24 * FONT_SCALE), "version: " );
@@ -502,6 +509,7 @@ void Game::gameReinitialize()
 	snake.setSize( START_SNAKE_LENGTH );
 
 	_gameState = showingMenu;
+	mainMenu.randomizeSplash();
 }
 
 // Re-initialize variables
@@ -527,6 +535,7 @@ void Game::gameHTP()
 	if( gInput.wasPressed( Input::circle ) )
 	{
 		gSoloud.play( gMenuSelect );
+		mainMenu.randomizeSplash();
 		_gameState = showingMenu;
 	}
 	// Touch the "Press O to go back text" to go back
@@ -535,6 +544,7 @@ void Game::gameHTP()
 		if( gInput.backTouch() )
 		{
 			gSoloud.play( gMenuSelect );
+			mainMenu.randomizeSplash();
 			_gameState = showingMenu;
 		}
 	}
@@ -641,6 +651,7 @@ void Game::gameMode()
 		if( gInput.backTouch() )
 		{
 			gSoloud.play( gMenuSelect );
+			mainMenu.randomizeSplash();
 			_gameState = showingMenu;
 		}
 	}
@@ -665,6 +676,7 @@ void Game::gameMode()
 	if( gInput.wasPressed(Input::circle) )
 	{
 		gSoloud.play( gMenuSelect );
+		mainMenu.randomizeSplash();
 		_gameState = showingMenu;
 	}
 

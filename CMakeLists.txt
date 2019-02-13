@@ -112,5 +112,7 @@ vita_create_vpk(${SHORT_NAME}.vpk ${VITA_TITLEID} ${SHORT_NAME}.self
   FILE sound/snake_death.ogg 	sound/snake_death.ogg
   
   FILE font/font_main.ttf				font/font_main.ttf
+  
+  FILE font/splash.txt					font/splash.txt
 )
 

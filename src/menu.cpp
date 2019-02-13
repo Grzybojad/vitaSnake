@@ -118,9 +118,37 @@ MainMenu::MainMenu()
 	cursor = startGame;
 }
 
+void MainMenu::readSplashFile()
+{
+	std::ifstream splashFile;
+	splashFile.open( "app0:/font/splash.txt", std::ifstream::in );
+		
+	std::string temp;
+	
+	while( !splashFile.eof() )
+	{
+		getline( splashFile, temp );
+		splash.push_back( temp );
+	}
+
+	splashFile.close();
+}
+
+void MainMenu::randomizeSplash()
+{
+	randSplash = rand() % splash.size();
+}
+
 void MainMenu::renderBackground()
 {
 	drawBackground();
+}
+
+void MainMenu::drawSplashText()
+{
+	int font_size = 14;
+	int text_width = vita2d_font_text_width( gFont[ font_size ], font_size, splash[randSplash].c_str() );
+	vita2d_font_draw_text( gFont[ font_size ], (SCREEN_WIDTH-text_width)/2 + 8, 138, MAIN_FONT_COLOR, font_size, splash[randSplash].c_str() );
 }
 
 

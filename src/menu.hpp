@@ -5,6 +5,12 @@
 #include <psp2/touch.h>
 #include <vita2d.h>
 
+#include <vector>
+#include <math.h>
+#include <fstream>
+#include <sstream>
+#include <string>
+
 #include "global.hpp"
 #include "buttons.hpp"
 
@@ -55,6 +61,12 @@ class MainMenu: public Menu
 		};
 
 		MenuItem item[ 4 ];
+
+		std::vector <std::string> splash;
+		int randSplash;
+		void readSplashFile();
+		void drawSplashText();
+		void randomizeSplash();
 
 		void renderBackground();
 };

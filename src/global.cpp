@@ -137,7 +137,7 @@ void loadMenuSounds()
 void loadFonts()
 {
 	for( int i = 0; i <= 99; ++i )
-		gFont[ i ]	= vita2d_load_font_file( "app0:/font/font_main.ttf" );
+		gFont[ i ] = vita2d_load_font_file( "app0:/font/font_main.ttf" );
 }
 
 
