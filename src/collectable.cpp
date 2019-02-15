@@ -14,7 +14,10 @@ Collectable::Collectable()
 
 	for( int i = 0; i < TOTAL_PARTICLES; ++i )
 	{
-		particles[i] = new Particle( pos.x, pos.y );
+		vec3 newParticlePos;
+		newParticlePos.x = pos.x;
+		newParticlePos.y = pos.y;
+		particles[i] = new Particle( newParticlePos );
 	}
 }
 
@@ -102,7 +105,10 @@ void Collectable::renderParticles()
 		if( particles[i]->isDead() )
 		{
 			delete particles[i];
-			particles[i] = new Particle( pos.x + ( COLLECT_WIDTH / 2), pos.y + ( COLLECT_HEIGHT / 2) );
+			vec3 newParticlePos;
+			newParticlePos.x = pos.x + ( COLLECT_WIDTH / 2);
+			newParticlePos.y = pos.y + ( COLLECT_HEIGHT / 2);
+			particles[i] = new Particle( newParticlePos );
 		}
 	}
 

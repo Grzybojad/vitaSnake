@@ -481,8 +481,7 @@ void Game::gameQuit()
 	// Free background textures
 	for( int i = 0; i < bgTextures.size(); ++i )
 	{
-		if( i != 1 && i != 3 )	// 1 and 3 aren't textures
-			bgTextures[ i ].freeTexture();
+		bgTextures[ i ].freeTexture();
 	}
 
 	// Free apple textures

@@ -11,7 +11,7 @@
 class Particle
 {
 	public:
-		Particle( float x, float y );
+		Particle( vec3 pos );
 
 		void render();
 
@@ -22,7 +22,7 @@ class Particle
 		static const int RAND_LIFE = 20;	// Random nr of frames to substract from max life (from 0 to RAND_LIFE)
 		float ALPHA_MULT = 255.0f / MAX_LIFE;
 
-		float xPos, yPos;
+		vec3 pos;
 
 		float lifespan;
 };
