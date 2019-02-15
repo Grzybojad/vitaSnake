@@ -15,12 +15,19 @@ class Particle
 
 		void render();
 
+		// Renders the particle with a 4x4 part of a texture
+		void renderTexturePart( const vita2d_texture *texture, int partX, int partY );
+
+		// Moves particle in it's pos.r direction
+		void move();
+
 		bool isDead();
 
 	private:
 		static const int MAX_LIFE = 40;		// The particle max nr of frames lifespan
 		static const int RAND_LIFE = 20;	// Random nr of frames to substract from max life (from 0 to RAND_LIFE)
-		float ALPHA_MULT = 255.0f / MAX_LIFE;
+		const float ALPHA_MULT = 255.0f / MAX_LIFE;
+		const float PARTICLE_SPEED = 1.0f;
 
 		vec3 pos;
 

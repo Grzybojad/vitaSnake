@@ -15,8 +15,8 @@ Collectable::Collectable()
 	for( int i = 0; i < TOTAL_PARTICLES; ++i )
 	{
 		vec3 newParticlePos;
-		newParticlePos.x = pos.x;
-		newParticlePos.y = pos.y;
+		newParticlePos.x = pos.x + rand() % COLLECT_WIDTH - (COLLECT_WIDTH/2);
+		newParticlePos.y = pos.y + rand() % COLLECT_HEIGHT - (COLLECT_HEIGHT/2);
 		particles[i] = new Particle( newParticlePos );
 	}
 }
@@ -47,6 +47,16 @@ bool Collectable::checkOpenDistance( vec3 playerPos )
 // Pick up the collectable
 int Collectable::collect()
 {
+	// Expolode the apple
+	for( int i = 0; i < MAX_EXPLOSION_PARTICLES; ++i )
+	{
+		vec3 newParticlePos;
+		newParticlePos.x = pos.x;
+		newParticlePos.y = pos.y;
+		newParticlePos.r = (M_PI*2) * (i+1)/MAX_EXPLOSION_PARTICLES;// + (rand() * M_PI/12);
+		explosionParticles.push_back( new Particle( newParticlePos ) );
+	}
+
 	pos.x = rand() % SCREEN_WIDTH*0.8 + SCREEN_WIDTH*0.1;
 	pos.y = rand() % SCREEN_HEIGHT*0.8 + SCREEN_HEIGHT*0.1;
 
@@ -74,7 +84,7 @@ void Collectable::render()
 
 	pos.r = sin( animation_step ) * M_PI/10;
 	animation_step += ANIMATION_SPEED * timestep;
-	if( animation_step > 2*M_PI ) animation_step -= 2*M_PI; 
+	if( animation_step > 2*M_PI ) animation_step -= 2*M_PI;
 		vita2d_draw_texture_rotate( collectableTextures[ APPLE_TEXTURE ].texture, xMid, yMid, pos.r );
 
 	renderParticles();
@@ -100,21 +110,37 @@ void Collectable::renderScore()
 
 void Collectable::renderParticles()
 {
+	// Replace old "shimmering" particles and render
 	for( int i = 0; i < TOTAL_PARTICLES; ++i )
 	{
 		if( particles[i]->isDead() )
 		{
 			delete particles[i];
 			vec3 newParticlePos;
-			newParticlePos.x = pos.x + ( COLLECT_WIDTH / 2);
-			newParticlePos.y = pos.y + ( COLLECT_HEIGHT / 2);
+			newParticlePos.x = pos.x + (COLLECT_WIDTH / 2) + rand() % COLLECT_WIDTH - (COLLECT_WIDTH/2);
+			newParticlePos.y = pos.y + (COLLECT_HEIGHT / 2) + rand() % COLLECT_HEIGHT - (COLLECT_HEIGHT/2);
 			particles[i] = new Particle( newParticlePos );
 		}
+
+		particles[i]->render();
 	}
 
-	for( int i = 0; i < TOTAL_PARTICLES; ++i )
+	// Remove dead "explosion" particles
+	for( int i = 0; i < explosionParticles.size(); ++i )	
 	{
-		particles[i]->render();
+		if( explosionParticles[i]->isDead() )
+			explosionParticles.erase( explosionParticles.begin() + i );
+	}
+
+	// Render "explosion particles" and render
+	for( int i = 0; i < explosionParticles.size(); ++i )
+	{
+		// Move exploded particles
+		explosionParticles[i]->move();
+
+		int texturePartX = ( i % (int)sqrt(MAX_EXPLOSION_PARTICLES) ) * ( collectableTextures[APPLE_TEXTURE].get_width() / (int)sqrt(MAX_EXPLOSION_PARTICLES) );
+		int texturePartY = ( i / (int)sqrt(MAX_EXPLOSION_PARTICLES) ) * ( collectableTextures[APPLE_TEXTURE].get_width() / (int)sqrt(MAX_EXPLOSION_PARTICLES) );
+		explosionParticles[i]->renderTexturePart( collectableTextures[APPLE_TEXTURE].texture, texturePartX, texturePartY );
 	}
 }
 
@@ -243,4 +269,24 @@ void Collectable::checkAndFixHighscores()
 	}
 
 	writeHighscore();
+}
+
+void Collectable::reset()
+{
+	// Reset position
+	pos.x = rand() % SCREEN_WIDTH*0.8 + SCREEN_WIDTH*0.1;
+	pos.y = rand() % SCREEN_HEIGHT*0.8 + SCREEN_HEIGHT*0.1;
+
+	// Reset score
+	score = 0;
+	SCORE_ADD = 1;
+
+	// Reset particles
+	for( int i = 0; i < TOTAL_PARTICLES; ++i )
+	{
+		vec3 newParticlePos;
+		newParticlePos.x = pos.x + rand() % COLLECT_WIDTH - (COLLECT_WIDTH/2);
+		newParticlePos.y = pos.y + rand() % COLLECT_HEIGHT - (COLLECT_HEIGHT/2);
+		particles[i] = new Particle( newParticlePos );
+	}
 }

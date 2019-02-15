@@ -500,7 +500,7 @@ void Game::gameQuit()
 void Game::gameReinitialize()
 {
 	// Reset the player and collectable
-	collectable.collect();
+	collectable.reset();
 	collectable.resetScore();
 	snake.reset();
 
@@ -515,7 +515,7 @@ void Game::gameReinitialize()
 void Game::gamePlayAgain()
 {
 	// Reset the player and collectable
-	collectable.collect();
+	collectable.reset();
 	collectable.resetScore();
 	snake.reset();
 

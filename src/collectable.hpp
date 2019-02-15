@@ -43,6 +43,7 @@ class Collectable
 		void renderScore();		// Render the score text
 
 		void setPos( float x, float y );
+		void reset();
 
 	private:
 		// Collectable dimensions
@@ -74,6 +75,10 @@ class Collectable
 		// Sparkles to make the collectable more visible
 		static const int TOTAL_PARTICLES = 3;
 		Particle* particles[ TOTAL_PARTICLES ];
+
+		// Explosion particles
+		static const int MAX_EXPLOSION_PARTICLES = 8;
+		std::vector <Particle*> explosionParticles;
 
 		// "Animation"
 		const float ANIMATION_SPEED = 0.08f;
