@@ -300,7 +300,9 @@ void OptionsMenu::writeSettings()
 	settings << PLAYER_TEXTURES << "\n";
 	settings << BACKGROUND_TEXTURE << "\n";
 	settings << APPLE_TEXTURE << "\n";
-	settings << MAIN_FONT_COLOR;
+	settings << MAIN_FONT_COLOR << "\n";
+	settings << ENABLE_PARTICLES << "\n";
+	settings << ENABLE_ANIMATION;
 
 	settings.close();
 }
@@ -315,6 +317,8 @@ void OptionsMenu::readSettings()
 	settings >> BACKGROUND_TEXTURE;
 	settings >> APPLE_TEXTURE;
 	settings >> MAIN_FONT_COLOR;
+	settings >> ENABLE_PARTICLES;
+	settings >> ENABLE_ANIMATION;
 
 	option[ 0 ].selected = CONTROL_STYLE;
 	option[ 1 ].selected = PLAYER_TEXTURES;

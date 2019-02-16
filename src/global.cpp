@@ -22,6 +22,8 @@ int BACKGROUND_TEXTURE = 0;
 int APPLE_TEXTURE = 0;
 float FONT_SCALE = 0.6;
 int unsigned MAIN_FONT_COLOR = RGBA8( 0, 0, 0, 255 );
+bool ENABLE_PARTICLES = true;
+bool ENABLE_ANIMATION = true;
 
 /* Textures */
 std::vector <Texture> snakeTextures;
@@ -89,6 +91,8 @@ void loadCollectableTextures()
 	collectableTextures.back().name = "Nokia";
 	collectableTextures.push_back( loadTexture( "app0:/img/appleBattery.png" ) );
 	collectableTextures.back().name = "Battery";
+	collectableTextures.push_back( loadTexture( "app0:/img/appleMushroom.png" ) );
+	collectableTextures.back().name = "Mushroom";
 
 	gSparkleTexture.texture	= vita2d_load_PNG_file( "app0:/img/sparkle.png" );
 }

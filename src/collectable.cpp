@@ -47,14 +47,17 @@ bool Collectable::checkOpenDistance( vec3 playerPos )
 // Pick up the collectable
 int Collectable::collect()
 {
-	// Expolode the apple
-	for( int i = 0; i < MAX_EXPLOSION_PARTICLES; ++i )
+	if( ENABLE_PARTICLES )
 	{
-		vec3 newParticlePos;
-		newParticlePos.x = pos.x + (COLLECT_WIDTH/2);
-		newParticlePos.y = pos.y + (COLLECT_HEIGHT/2);
-		newParticlePos.r = (M_PI*2) * (i+1)/MAX_EXPLOSION_PARTICLES + (rand() * M_PI/12);
-		explosionParticles.push_back( new Particle( newParticlePos ) );
+		// Expolode the apple
+		for( int i = 0; i < MAX_EXPLOSION_PARTICLES; ++i )
+		{
+			vec3 newParticlePos;
+			newParticlePos.x = pos.x + (COLLECT_WIDTH/2);
+			newParticlePos.y = pos.y + (COLLECT_HEIGHT/2);
+			newParticlePos.r = (M_PI*2) * (i+1)/MAX_EXPLOSION_PARTICLES + (rand() * M_PI/12);
+			explosionParticles.push_back( new Particle( newParticlePos ) );
+		}
 	}
 
 	pos.x = rand() % SCREEN_WIDTH*0.8 + SCREEN_WIDTH*0.1;
@@ -82,12 +85,23 @@ void Collectable::render()
 	float xMid = pos.x + ( COLLECT_WIDTH / 2 );
 	float yMid = pos.y + ( COLLECT_HEIGHT / 2 );
 
-	pos.r = sin( animation_step ) * M_PI/10;
-	animation_step += ANIMATION_SPEED * timestep;
-	if( animation_step > 2*M_PI ) animation_step -= 2*M_PI;
-		vita2d_draw_texture_rotate( collectableTextures[ APPLE_TEXTURE ].texture, xMid, yMid, pos.r );
+	if( ENABLE_ANIMATION )
+	{
+		pos.r = sin( animation_step ) * M_PI/10;
+		animation_step += ANIMATION_SPEED * timestep;
 
-	renderParticles();
+		if( animation_step > 2*M_PI ) 
+			animation_step -= 2*M_PI;
+	}
+	else
+	{
+		pos.r = 0;
+	}
+	
+	vita2d_draw_texture_rotate( collectableTextures[ APPLE_TEXTURE ].texture, xMid, yMid, pos.r );
+
+	if( ENABLE_PARTICLES )
+		renderParticles();
 }
 
 // Render the score counter
