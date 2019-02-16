@@ -51,9 +51,9 @@ int Collectable::collect()
 	for( int i = 0; i < MAX_EXPLOSION_PARTICLES; ++i )
 	{
 		vec3 newParticlePos;
-		newParticlePos.x = pos.x;
-		newParticlePos.y = pos.y;
-		newParticlePos.r = (M_PI*2) * (i+1)/MAX_EXPLOSION_PARTICLES;// + (rand() * M_PI/12);
+		newParticlePos.x = pos.x + (COLLECT_WIDTH/2);
+		newParticlePos.y = pos.y + (COLLECT_HEIGHT/2);
+		newParticlePos.r = (M_PI*2) * (i+1)/MAX_EXPLOSION_PARTICLES + (rand() * M_PI/12);
 		explosionParticles.push_back( new Particle( newParticlePos ) );
 	}
 
@@ -125,22 +125,35 @@ void Collectable::renderParticles()
 		particles[i]->render();
 	}
 
-	// Remove dead "explosion" particles
-	for( int i = 0; i < explosionParticles.size(); ++i )	
-	{
-		if( explosionParticles[i]->isDead() )
-			explosionParticles.erase( explosionParticles.begin() + i );
-	}
-
-	// Render "explosion particles" and render
+	// Remove "explosion" particles if they're all dead
 	for( int i = 0; i < explosionParticles.size(); ++i )
 	{
-		// Move exploded particles
-		explosionParticles[i]->move();
+		if( !explosionParticles[i]->isDead() )
+			continue;
+		
+		if( i == explosionParticles.size()-1 )
+			explosionParticles.clear();
+	}
 
-		int texturePartX = ( i % (int)sqrt(MAX_EXPLOSION_PARTICLES) ) * ( collectableTextures[APPLE_TEXTURE].get_width() / (int)sqrt(MAX_EXPLOSION_PARTICLES) );
-		int texturePartY = ( i / (int)sqrt(MAX_EXPLOSION_PARTICLES) ) * ( collectableTextures[APPLE_TEXTURE].get_width() / (int)sqrt(MAX_EXPLOSION_PARTICLES) );
-		explosionParticles[i]->renderTexturePart( collectableTextures[APPLE_TEXTURE].texture, texturePartX, texturePartY );
+	// Move "explosion particles" and render
+	for( int i = 0; i < explosionParticles.size(); ++i )
+	{
+		// We only render living paricles
+		if( !explosionParticles[i]->isDead() )
+		{
+			// Move exploded particles
+			explosionParticles[i]->move();
+
+			// Some dumb math to find a different texture part for each particle
+			int formulaX = ( i % (int)sqrt(MAX_EXPLOSION_PARTICLES) ) * ( collectableTextures[APPLE_TEXTURE].get_width() / (int)sqrt(MAX_EXPLOSION_PARTICLES) );
+			int formulaY = ( i / (int)sqrt(MAX_EXPLOSION_PARTICLES) ) * ( collectableTextures[APPLE_TEXTURE].get_height() / (int)sqrt(MAX_EXPLOSION_PARTICLES) );
+
+			// We don't want to use the rim of the texture for particles, since it's likely that it's blank
+			int texturePartX = ( formulaX * 0.6 ) + collectableTextures[APPLE_TEXTURE].get_width() * 0.2;
+			int texturePartY = ( formulaY * 0.6 ) + collectableTextures[APPLE_TEXTURE].get_height() * 0.2;
+
+			explosionParticles[i]->renderTexturePart( collectableTextures[APPLE_TEXTURE].texture, texturePartX, texturePartY );
+		}
 	}
 }
 

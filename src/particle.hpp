@@ -27,7 +27,7 @@ class Particle
 		static const int MAX_LIFE = 40;		// The particle max nr of frames lifespan
 		static const int RAND_LIFE = 20;	// Random nr of frames to substract from max life (from 0 to RAND_LIFE)
 		const float ALPHA_MULT = 255.0f / MAX_LIFE;
-		const float PARTICLE_SPEED = 1.0f;
+		const float PARTICLE_SPEED = 1.6f;
 
 		vec3 pos;
 
