@@ -77,10 +77,23 @@ void Player::handleInput()
 		else if( analogInput > ANALOG_DEADZONE || analogInput < -ANALOG_DEADZONE )
 				snakeParts[0].r += analogInput * PLAYER_SET_ROTATION_SPEED * timestep * speed_mod;
 
-		else if( gInput.isTouched() )
+		else if( gInput.isTouched() || gInput.isBackTouched() )
 		{
+			int touchX = 0;
+			int touchY = 0;
+			if( gInput.isTouched() )
+			{
+				touchX = gInput.getTouchX();
+				touchY = gInput.getTouchY();
+			}
+			else if( gInput.isBackTouched() )
+			{
+				touchX = gInput.getBackTouchX();
+				touchY = gInput.getBackTouchY();
+			}
+
 			// Touch steering uses the same logic as analog steering
-			float touchAngle = atan2( gInput.getTouchY()-snakeParts[0].y, gInput.getTouchX()-snakeParts[0].x ) + (M_PI / 2);
+			float touchAngle = atan2( touchY-snakeParts[0].y, touchX-snakeParts[0].x ) + (M_PI / 2);
 			if( touchAngle < 0 ) touchAngle += M_PI * 2;
 
 			if( snakeParts[0].r < M_PI )
@@ -152,10 +165,23 @@ void Player::handleInput()
 			}
 		}
 
-		else if( gInput.isTouched() )
+		else if( gInput.isTouched() || gInput.isBackTouched() )
 		{
+			int touchX = 0;
+			int touchY = 0;
+			if( gInput.isTouched() )
+			{
+				touchX = gInput.getTouchX();
+				touchY = gInput.getTouchY();
+			}
+			else if( gInput.isBackTouched() )
+			{
+				touchX = gInput.getBackTouchX();
+				touchY = gInput.getBackTouchY();
+			}
+
 			// Touch steering uses the same logic as analog steering
-			float touchAngle = atan2( gInput.getTouchY() - snakeParts[0].y, gInput.getTouchX() - snakeParts[0].x ) + (M_PI / 2);
+			float touchAngle = atan2( touchY - snakeParts[0].y, touchX - snakeParts[0].x ) + (M_PI / 2);
 			if( touchAngle < 0 ) touchAngle += M_PI * 2;
 
 			if( snakeParts[0].r < M_PI )

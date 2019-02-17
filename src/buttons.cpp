@@ -128,17 +128,32 @@ bool Input::wasPressed( buttonIndex id )
 		}
 	}
 	// Touch
-	else
+	else if( id == 16 )
 	{
 		memcpy( touch_old, touch, sizeof( touch_old ) );
-		sceTouchPeek( 0, &touch[0], 1 );
+		sceTouchPeek( SCE_TOUCH_PORT_FRONT, &touch[ SCE_TOUCH_PORT_FRONT ], 1 );
 
-		if( ( touch[0].reportNum > 0 ) && !button[id] )
+		if( ( touch[ SCE_TOUCH_PORT_FRONT ].reportNum > 0 ) && !button[ id ] )
 		{
 			button[id] = true;
 			return true;
 		}
-		else if( touch[0].reportNum <= 0 )
+		else if( touch[ SCE_TOUCH_PORT_FRONT ].reportNum <= 0 )
+		{
+			button[id] = false;
+		}
+	}
+	else if( id == 17 )
+	{
+		memcpy( touch_old, touch, sizeof( touch_old ) );
+		sceTouchPeek( SCE_TOUCH_PORT_BACK, &touch[ SCE_TOUCH_PORT_BACK ], 1 );
+
+		if( ( touch[ SCE_TOUCH_PORT_BACK ].reportNum > 0 ) && !button[ id ] )
+		{
+			button[id] = true;
+			return true;
+		}
+		else if( touch[ SCE_TOUCH_PORT_BACK ].reportNum <= 0 )
 		{
 			button[id] = false;
 		}
@@ -151,34 +166,58 @@ bool Input::wasPressed( buttonIndex id )
 bool Input::isTouched()
 {
 	memcpy( touch_old, touch, sizeof( touch_old ) );
-	sceTouchPeek( 0, &touch[ 0 ], 1 );
+	sceTouchPeek( SCE_TOUCH_PORT_FRONT, &touch[ SCE_TOUCH_PORT_FRONT ], 1 );
 
-	return ( touch[ 0 ].reportNum > 0 );
+	return ( touch[ SCE_TOUCH_PORT_FRONT ].reportNum > 0 );
+}
+
+bool Input::isBackTouched()
+{
+	memcpy( touch_old, touch, sizeof( touch_old ) );
+	sceTouchPeek( SCE_TOUCH_PORT_BACK, &touch[ SCE_TOUCH_PORT_BACK ], 1 );
+
+	return ( touch[ SCE_TOUCH_PORT_BACK ].reportNum > 0 );
 }
 
 int Input::getTouchX()
 {
 	memcpy( touch_old, touch, sizeof( touch_old ) );
-	sceTouchPeek( 0, &touch[ 0 ], 1 );
+	sceTouchPeek( SCE_TOUCH_PORT_FRONT, &touch[ SCE_TOUCH_PORT_FRONT ], 1 );
 
-	return touch[ 0 ].report[ 0 ].x / 2;
+	return touch[ SCE_TOUCH_PORT_FRONT ].report[ 0 ].x / 2;
 }
 
 int Input::getTouchY()
 {
 	memcpy( touch_old, touch, sizeof( touch_old ) );
-	sceTouchPeek( 0, &touch[ 0 ], 1 );
+	sceTouchPeek( SCE_TOUCH_PORT_FRONT, &touch[ SCE_TOUCH_PORT_FRONT ], 1 );
 
-	return touch[ 0 ].report[ 0 ].y / 2;
+	return touch[ SCE_TOUCH_PORT_FRONT ].report[ 0 ].y / 2;
 }
 
-bool Input::backTouch()
+int Input::getBackTouchX()
 {
 	memcpy( touch_old, touch, sizeof( touch_old ) );
-	sceTouchPeek( 0, &touch[ 0 ], 1 );
+	sceTouchPeek( SCE_TOUCH_PORT_BACK, &touch[ SCE_TOUCH_PORT_BACK ], 1 );
 
-	int x = touch[ 0 ].report[ 0 ].x / 2;
-	int y = touch[ 0 ].report[ 0 ].y / 2;
+	return touch[ SCE_TOUCH_PORT_BACK ].report[ 0 ].x / 2;
+}
+
+int Input::getBackTouchY()
+{
+	memcpy( touch_old, touch, sizeof( touch_old ) );
+	sceTouchPeek( SCE_TOUCH_PORT_BACK, &touch[ SCE_TOUCH_PORT_BACK ], 1 );
+
+	return touch[ SCE_TOUCH_PORT_BACK ].report[ 0 ].y / 2;
+}
+
+bool Input::touchToGoBack()
+{
+	memcpy( touch_old, touch, sizeof( touch_old ) );
+	sceTouchPeek( SCE_TOUCH_PORT_FRONT, &touch[ SCE_TOUCH_PORT_FRONT ], 1 );
+
+	int x = touch[ SCE_TOUCH_PORT_FRONT ].report[ 0 ].x / 2;
+	int y = touch[ SCE_TOUCH_PORT_FRONT ].report[ 0 ].y / 2;
 
 	if( (x > 660) && (y > 500) )
 		return true;

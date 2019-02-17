@@ -540,7 +540,7 @@ void Game::gameHTP()
 	// Touch the "Press O to go back text" to go back
 	else if( gInput.wasPressed( Input::frontTouch) )
 	{
-		if( gInput.backTouch() )
+		if( gInput.touchToGoBack() )
 		{
 			gSoloud.play( gMenuSelect );
 			mainMenu.randomizeSplash();
@@ -598,6 +598,15 @@ void Game::gameDraw()
 	// Draw text
 	collectable.renderScore();
 	collectable.renderHighscore();
+
+	// DEBUG
+	if( gInput.isBackTouched() )
+	{
+		vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], 100, 100, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "BACK TOUCHED" );
+		vita2d_font_draw_textf( gFont[ (int)(20 * FONT_SCALE) ], 100, 130, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "btx: %i", gInput.getBackTouchX() );
+		vita2d_font_draw_textf( gFont[ (int)(20 * FONT_SCALE) ], 100, 160, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "bty: %i", gInput.getBackTouchY() );
+	}
+		
 }
 
 void Game::gameOptions()
@@ -647,7 +656,7 @@ void Game::gameMode()
 			}
 		}
 		// Touch the "Press O to go back text" to go back
-		if( gInput.backTouch() )
+		if( gInput.touchToGoBack() )
 		{
 			gSoloud.play( gMenuSelect );
 			mainMenu.randomizeSplash();

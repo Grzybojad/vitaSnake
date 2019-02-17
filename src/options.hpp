@@ -27,7 +27,6 @@ public:
 	};
 	static const int MENU_ITEMS = 5;
 	Option option[ MENU_ITEMS ];
-
 	
 	int cursor;
 

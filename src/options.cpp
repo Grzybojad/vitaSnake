@@ -158,7 +158,7 @@ void OptionsMenu::menuNav()
 			}
 		}
 		// Touch the "Press O to go back text"
-		if( gInput.backTouch() )
+		if( gInput.touchToGoBack() )
 		{
 			gSoloud.play( gMenuSelect );
 			writeSettings();

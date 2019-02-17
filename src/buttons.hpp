@@ -35,18 +35,22 @@ class Input
 			lAnalogDown = 14,
 			lAnalogLeft = 15,
 
-			frontTouch = 16
+			frontTouch = 16,
+			backTouch = 17
 		};
 
 		// Update button states
 		bool wasPressed( buttonIndex id );
 
 		bool isTouched();
+		bool isBackTouched();
 		int getTouchX();
 		int getTouchY();
+		int getBackTouchX();
+		int getBackTouchY();
 
 		// Checks if the location of "Press O to go back" was touched
-		bool backTouch();
+		bool touchToGoBack();
 
 	private:
 		// Inputs
