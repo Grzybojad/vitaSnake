@@ -10,7 +10,7 @@ OptionsMenu::OptionsMenu()
 	option[ 0 ].id		= 0;
 	option[ 0 ].name	= "Control type:";
 	option[ 0 ].name_x	= 20.0;
-	option[ 0 ].name_y	= 200.0f;
+	option[ 0 ].name_y	= 140.0f;
 	option[ 0 ].slct_x	= ITEM_X;
 	option[ 0 ].slct_y	= option[ 0 ].name_y;
 	option[ 0 ].desc_x	= DESC_X;
@@ -21,8 +21,8 @@ OptionsMenu::OptionsMenu()
 	// Initialize the "player style" selectable
 	option[ 1 ].id		= 1;
 	option[ 1 ].name	= "Player style:";
-	option[ 1 ].name_x	= 20.0;
-	option[ 1 ].name_y	= 270.0f;
+	option[ 1 ].name_x	= option[ 0 ].name_x;
+	option[ 1 ].name_y	= option[ 0 ].name_y + 70;
 	option[ 1 ].slct_x	= ITEM_X;
 	option[ 1 ].slct_y	= option[ 1 ].name_y;
 	option[ 1 ].desc_x	= DESC_X;
@@ -33,8 +33,8 @@ OptionsMenu::OptionsMenu()
 	// Initialize the "background style" selectable
 	option[ 2 ].id = 2;
 	option[ 2 ].name = "BG style:";
-	option[ 2 ].name_x = 20.0;
-	option[ 2 ].name_y = 340.0f;
+	option[ 2 ].name_x = option[ 0 ].name_x;
+	option[ 2 ].name_y = option[ 1 ].name_y + 70;
 	option[ 2 ].slct_x = ITEM_X;
 	option[ 2 ].slct_y = option[ 2 ].name_y;
 	option[ 2 ].desc_x = DESC_X;
@@ -45,8 +45,8 @@ OptionsMenu::OptionsMenu()
 	// Initialize the "apple style" selectable
 	option[ 3 ].id = 3;
 	option[ 3 ].name = "Apple style:";
-	option[ 3 ].name_x = 20.0;
-	option[ 3 ].name_y = 410.0f;
+	option[ 3 ].name_x = option[ 0 ].name_x;
+	option[ 3 ].name_y = option[ 2 ].name_y + 70;
 	option[ 3 ].slct_x = ITEM_X;
 	option[ 3 ].slct_y = option[ 3 ].name_y;
 	option[ 3 ].desc_x = DESC_X;
@@ -57,8 +57,8 @@ OptionsMenu::OptionsMenu()
 	// Initialize the "Collectable effects" selectable
 	option[ 4 ].id = 4;
 	option[ 4 ].name = "Apple effects:";
-	option[ 4 ].name_x = 20.0;
-	option[ 4 ].name_y = 480.0f;
+	option[ 4 ].name_x = option[ 0 ].name_x;
+	option[ 4 ].name_y = option[ 3 ].name_y + 70;
 	option[ 4 ].slct_x = ITEM_X;
 	option[ 4 ].slct_y = option[ 4 ].name_y;
 	option[ 4 ].desc_x = DESC_X;
@@ -268,7 +268,7 @@ void OptionsMenu::renderOptions()
 	int text_width;
 
 	text_width = vita2d_font_text_width( gFont[ 60 ], 60, "Options" );
-	vita2d_font_draw_text ( gFont[ (int)(60 * FONT_SCALE) ], (SCREEN_WIDTH - text_width) / 2, 100, MAIN_FONT_COLOR, (int)(60 * FONT_SCALE), "Options" );
+	vita2d_font_draw_text ( gFont[ (int)(60 * FONT_SCALE) ], (SCREEN_WIDTH - text_width) / 2, 70, MAIN_FONT_COLOR, (int)(60 * FONT_SCALE), "Options" );
 
 	// Control Type option
 	vita2d_font_draw_text( gFont[ (int)(30 * FONT_SCALE) ], 20, option[ 0 ].slct_y, MAIN_FONT_COLOR, (int)(30 * FONT_SCALE), option[ 0 ].name );
@@ -276,13 +276,13 @@ void OptionsMenu::renderOptions()
 	{
 		case 0:
 			text_width = drawSelectable( "Classic", option[ 0 ].slct_y );
-			vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], DESC_X, 180, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "Move the left stick left or right" );
-			vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], DESC_X, 210, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "to turn the snake." );
+			vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], DESC_X, option[ 0 ].slct_y - 20, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "Move the left stick left or" );
+			vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], DESC_X, option[ 0 ].slct_y + 10, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "right to turn the snake." );
 			break;
 		case 1:
 			text_width = drawSelectable( "Simplified", option[ 0 ].slct_y );
-			vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], DESC_X, 180, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "Move the left in the direction you " );
-			vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], DESC_X, 210, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "want the snake to go." );
+			vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], DESC_X, option[ 0 ].slct_y - 20, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "Move the left in the direction" );
+			vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], DESC_X, option[ 0 ].slct_y + 10, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "you want the snake to go." );
 			break;
 	}
 	if( cursor == 0 )
