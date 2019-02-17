@@ -25,9 +25,10 @@ public:
 		int selected;
 		int nr_selectables;
 	};
-	Option option[ 4 ];
+	static const int MENU_ITEMS = 5;
+	Option option[ MENU_ITEMS ];
 
-	int MENU_ITEMS;
+	
 	int cursor;
 
 	void selectUp();

@@ -6,9 +6,6 @@ OptionsMenu::OptionsMenu()
 	sceTouchSetSamplingState( SCE_TOUCH_PORT_FRONT, SCE_TOUCH_SAMPLING_STATE_START );
 	sceTouchEnableTouchForce( SCE_TOUCH_PORT_FRONT );
 
-	// Nr of selectable menu items
-	MENU_ITEMS = 4;
-
 	// Initialize the "control type" selectable
 	option[ 0 ].id		= 0;
 	option[ 0 ].name	= "Control type:";
@@ -56,6 +53,18 @@ OptionsMenu::OptionsMenu()
 	option[ 3 ].desc_y = option[ 3 ].name_y;
 	option[ 3 ].selected = 0;
 	option[ 3 ].nr_selectables = collectableTextures.size();
+
+	// Initialize the "Collectable effects" selectable
+	option[ 4 ].id = 4;
+	option[ 4 ].name = "Apple effects:";
+	option[ 4 ].name_x = 20.0;
+	option[ 4 ].name_y = 480.0f;
+	option[ 4 ].slct_x = ITEM_X;
+	option[ 4 ].slct_y = option[ 4 ].name_y;
+	option[ 4 ].desc_x = DESC_X;
+	option[ 4 ].desc_y = option[ 4 ].name_y;
+	option[ 4 ].selected = 0;
+	option[ 4 ].nr_selectables = 2;
 
 	// Initialize cursor
 	cursor = 0;
@@ -213,9 +222,23 @@ void OptionsMenu::changeSelectable( Option & option )
 				break;
 		}
 	}
-	else if( option.id = 3 )
+	else if( option.id == 3 )
 	{
 		APPLE_TEXTURE = option.selected;
+	}
+	// Collectable effects option
+	else if( option.id == 4 )
+	{
+		if( option.selected == 0 )
+		{
+			ENABLE_PARTICLES = true;
+			ENABLE_ANIMATION = true;
+		}
+		else
+		{
+			ENABLE_PARTICLES = false;
+			ENABLE_ANIMATION = false;
+		}
 	}
 }
 
@@ -266,7 +289,7 @@ void OptionsMenu::renderOptions()
 		renderCursor( option[ cursor ], text_width );
 
 	// player/background/collectable style options
-	for( int i = 1; i < MENU_ITEMS; ++i )
+	for( int i = 1; i < MENU_ITEMS-1; ++i )
 	{
 		vita2d_font_draw_text( gFont[ (int)(30 * FONT_SCALE) ], 20, option[ i ].slct_y, MAIN_FONT_COLOR, (int)(30 * FONT_SCALE), option[ i ].name );
 		switch( i )
@@ -286,6 +309,20 @@ void OptionsMenu::renderOptions()
 	}
 	drawPlayerModel();
 	appleModel.render();
+
+	// Collectable effects selectable
+	vita2d_font_draw_text( gFont[ (int)(30 * FONT_SCALE) ], 20, option[ 4 ].slct_y, MAIN_FONT_COLOR, (int)(30 * FONT_SCALE), option[ 4 ].name );
+	switch( option[ 4 ].selected )
+	{
+		case 0:
+			text_width = drawSelectable( "On", option[ 4 ].slct_y );
+			break;
+		case 1:
+			text_width = drawSelectable( "Off", option[ 4 ].slct_y );
+			break;
+	}
+	if( cursor == 4 )
+		renderCursor( option[ cursor ], text_width );
 
 	drawBackText();
 }
@@ -325,6 +362,11 @@ void OptionsMenu::readSettings()
 	option[ 2 ].selected = BACKGROUND_TEXTURE;
 	option[ 3 ].selected = APPLE_TEXTURE;
 
+	if( ENABLE_PARTICLES && ENABLE_ANIMATION )
+		option[ 4 ].selected = 0;
+	else if( !ENABLE_PARTICLES && !ENABLE_ANIMATION )
+		option[ 4 ].selected = 1;
+
 	settings.close();
 }
 
@@ -348,7 +390,7 @@ void OptionsMenu::updateNrTextures()
 	if( option[ 1 ].nr_selectables == 0 || option[ 2 ].nr_selectables == 0 || option[ 3 ].nr_selectables == 0 )
 	{
 		option[ 1 ].nr_selectables = snakeTextures.size();
-		option[ 2 ].nr_selectables = bgTextures.size();	// There are 2 non texure backgrounds
+		option[ 2 ].nr_selectables = bgTextures.size();
 		option[ 3 ].nr_selectables = collectableTextures.size();
 	}
 }
