@@ -179,7 +179,7 @@ void OptionsMenu::changeSelectable( Option & option )
 		else
 			option.selected = option.nr_selectables - 1;
 	}
-	if( gInput.wasPressed( Input::right ) || gInput.wasPressed( Input::lAnalogRight ) )
+	if( gInput.wasPressed( Input::right ) || gInput.wasPressed( Input::lAnalogRight ) || gInput.wasPressed( Input::cross ) )
 	{
 		gSoloud.play( gMenuMove );
 
