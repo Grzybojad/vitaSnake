@@ -167,7 +167,10 @@ int border_red = 200;
 // Draw background
 extern void drawBackground()
 {
-	bgTextures[ BACKGROUND_TEXTURE ].fill_tile();
+	if( bgTextures[ BACKGROUND_TEXTURE ].name == "RPPHS" )
+		bgTextures[ BACKGROUND_TEXTURE ].draw();
+	else
+		bgTextures[ BACKGROUND_TEXTURE ].fill_tile();
 
 	int unsigned border_color = 0;
 
