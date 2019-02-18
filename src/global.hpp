@@ -108,6 +108,7 @@ extern float FONT_SCALE;
 extern unsigned int MAIN_FONT_COLOR;
 extern bool ENABLE_PARTICLES;
 extern bool ENABLE_ANIMATION;
+extern bool ENABLE_BACKTOUCH;
 
 
 // Textures

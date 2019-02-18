@@ -25,7 +25,7 @@ public:
 		int selected;
 		int nr_selectables;
 	};
-	static const int MENU_ITEMS = 5;
+	static const int MENU_ITEMS = 6;
 	Option option[ MENU_ITEMS ];
 	
 	int cursor;

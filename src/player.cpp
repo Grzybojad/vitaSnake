@@ -77,7 +77,7 @@ void Player::handleInput()
 		else if( analogInput > ANALOG_DEADZONE || analogInput < -ANALOG_DEADZONE )
 				snakeParts[0].r += analogInput * PLAYER_SET_ROTATION_SPEED * timestep * speed_mod;
 
-		else if( gInput.isTouched() || gInput.isBackTouched() )
+		else if( gInput.isTouched() || ( ENABLE_BACKTOUCH && gInput.isBackTouched() ) )
 		{
 			int touchX = 0;
 			int touchY = 0;
@@ -165,7 +165,7 @@ void Player::handleInput()
 			}
 		}
 
-		else if( gInput.isTouched() || gInput.isBackTouched() )
+		else if( gInput.isTouched() || ( ENABLE_BACKTOUCH && gInput.isBackTouched() ) )
 		{
 			int touchX = 0;
 			int touchY = 0;

@@ -5,8 +5,10 @@ Input::Input()
 	sceCtrlSetSamplingMode( SCE_CTRL_MODE_ANALOG );
 	memset( &pad, 0, sizeof( pad ) );
 
-	sceTouchSetSamplingState(SCE_TOUCH_PORT_FRONT, SCE_TOUCH_SAMPLING_STATE_START);
-	sceTouchEnableTouchForce(SCE_TOUCH_PORT_FRONT);
+	sceTouchSetSamplingState( SCE_TOUCH_PORT_FRONT, SCE_TOUCH_SAMPLING_STATE_START );
+	sceTouchSetSamplingState( SCE_TOUCH_PORT_BACK, SCE_TOUCH_SAMPLING_STATE_START );
+	sceTouchEnableTouchForce( SCE_TOUCH_PORT_FRONT );
+	sceTouchEnableTouchForce( SCE_TOUCH_PORT_BACK );
 
 	/* Button bools */
 	for( int i = 0; i < 12; ++i )
@@ -208,7 +210,9 @@ int Input::getBackTouchY()
 	memcpy( touch_old, touch, sizeof( touch_old ) );
 	sceTouchPeek( SCE_TOUCH_PORT_BACK, &touch[ SCE_TOUCH_PORT_BACK ], 1 );
 
-	return touch[ SCE_TOUCH_PORT_BACK ].report[ 0 ].y / 2;
+	// We modify the vertical value to compensate for the short back panel
+	int touchY = touch[ SCE_TOUCH_PORT_BACK ].report[ 0 ].y / 2;
+	return touchY * 1.55 - (544 * 0.25);
 }
 
 bool Input::touchToGoBack()

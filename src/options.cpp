@@ -66,6 +66,18 @@ OptionsMenu::OptionsMenu()
 	option[ 4 ].selected = 0;
 	option[ 4 ].nr_selectables = 2;
 
+	// Initialize the "Rear panel control" selectable
+	option[ 5 ].id = 5;
+	option[ 5 ].name = "Rear touch:";
+	option[ 5 ].name_x = option[ 0 ].name_x;
+	option[ 5 ].name_y = option[ 4 ].name_y + 70;
+	option[ 5 ].slct_x = ITEM_X;
+	option[ 5 ].slct_y = option[ 5 ].name_y;
+	option[ 5 ].desc_x = DESC_X;
+	option[ 5 ].desc_y = option[ 5 ].name_y;
+	option[ 5 ].selected = 1;
+	option[ 5 ].nr_selectables = 2;
+
 	// Initialize cursor
 	cursor = 0;
 
@@ -240,6 +252,13 @@ void OptionsMenu::changeSelectable( Option & option )
 			ENABLE_ANIMATION = false;
 		}
 	}
+	else if( option.id == 5 )
+	{
+		if( option.selected == 0 )
+			ENABLE_BACKTOUCH = true;
+		else
+			ENABLE_BACKTOUCH = false;
+	}
 }
 
 
@@ -289,7 +308,7 @@ void OptionsMenu::renderOptions()
 		renderCursor( option[ cursor ], text_width );
 
 	// player/background/collectable style options
-	for( int i = 1; i < MENU_ITEMS-1; ++i )
+	for( int i = 1; i < MENU_ITEMS-2; ++i )
 	{
 		vita2d_font_draw_text( gFont[ (int)(30 * FONT_SCALE) ], 20, option[ i ].slct_y, MAIN_FONT_COLOR, (int)(30 * FONT_SCALE), option[ i ].name );
 		switch( i )
@@ -324,6 +343,20 @@ void OptionsMenu::renderOptions()
 	if( cursor == 4 )
 		renderCursor( option[ cursor ], text_width );
 
+	// Rear touch selectable
+	vita2d_font_draw_text( gFont[ (int)(30 * FONT_SCALE) ], 20, option[ 5 ].slct_y, MAIN_FONT_COLOR, (int)(30 * FONT_SCALE), option[ 5 ].name );
+	switch( option[ 5 ].selected )
+	{
+		case 0:
+			text_width = drawSelectable( "On", option[ 5 ].slct_y );
+			break;
+		case 1:
+			text_width = drawSelectable( "Off", option[ 5 ].slct_y );
+			break;
+	}
+	if( cursor == 5 )
+		renderCursor( option[ cursor ], text_width );
+
 	drawBackText();
 }
 
@@ -339,7 +372,8 @@ void OptionsMenu::writeSettings()
 	settings << APPLE_TEXTURE << "\n";
 	settings << MAIN_FONT_COLOR << "\n";
 	settings << ENABLE_PARTICLES << "\n";
-	settings << ENABLE_ANIMATION;
+	settings << ENABLE_ANIMATION << "\n";
+	settings << ENABLE_BACKTOUCH;
 
 	settings.close();
 }
@@ -356,6 +390,7 @@ void OptionsMenu::readSettings()
 	settings >> MAIN_FONT_COLOR;
 	settings >> ENABLE_PARTICLES;
 	settings >> ENABLE_ANIMATION;
+	settings >> ENABLE_BACKTOUCH;
 
 	option[ 0 ].selected = CONTROL_STYLE;
 	option[ 1 ].selected = PLAYER_TEXTURES;
@@ -366,6 +401,12 @@ void OptionsMenu::readSettings()
 		option[ 4 ].selected = 0;
 	else if( !ENABLE_PARTICLES && !ENABLE_ANIMATION )
 		option[ 4 ].selected = 1;
+
+
+	if( ENABLE_BACKTOUCH )
+		option[ 5 ].selected = 0;
+	else
+		option[ 5 ].selected = 1;
 
 	settings.close();
 }

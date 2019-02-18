@@ -24,6 +24,7 @@ float FONT_SCALE = 0.6;
 int unsigned MAIN_FONT_COLOR = RGBA8( 0, 0, 0, 255 );
 bool ENABLE_PARTICLES = true;
 bool ENABLE_ANIMATION = true;
+bool ENABLE_BACKTOUCH = false;
 
 /* Textures */
 std::vector <Texture> snakeTextures;

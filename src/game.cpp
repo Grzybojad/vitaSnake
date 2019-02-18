@@ -599,14 +599,21 @@ void Game::gameDraw()
 	collectable.renderScore();
 	collectable.renderHighscore();
 
-	// DEBUG
-	if( gInput.isBackTouched() )
+	// Draw back touch crosshair
+	if( gInput.isBackTouched() && ENABLE_BACKTOUCH )
 	{
-		vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], 100, 100, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "BACK TOUCHED" );
-		vita2d_font_draw_textf( gFont[ (int)(20 * FONT_SCALE) ], 100, 130, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "btx: %i", gInput.getBackTouchX() );
-		vita2d_font_draw_textf( gFont[ (int)(20 * FONT_SCALE) ], 100, 160, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "bty: %i", gInput.getBackTouchY() );
+		int x = gInput.getBackTouchX();
+		int y = gInput.getBackTouchY();
+
+		int size = 16;
+		int weight = 2;
+
+		// Vertical line
+		vita2d_draw_rectangle( x-(weight/2), y-(size/2), weight, size, MAIN_FONT_COLOR );
+
+		// Horizontal line
+		vita2d_draw_rectangle( x-(size/2), y-(weight/2), size, weight, MAIN_FONT_COLOR );
 	}
-		
 }
 
 void Game::gameOptions()
