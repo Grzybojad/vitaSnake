@@ -145,10 +145,6 @@ void Game::gameMenu()
 	// Draw menu background
 	mainMenu.renderBackground();								
 
-	// Draw logo
-	int text_width = vita2d_font_text_width( gFont[ (int)( 60 * FONT_SCALE ) ], (int)(60 * FONT_SCALE), "vitaSnake" );
-	vita2d_font_draw_text( gFont[ (int)(60 * FONT_SCALE) ], (SCREEN_WIDTH - text_width)/2, 110, MAIN_FONT_COLOR, (int)(60 * FONT_SCALE), "vitaSnake" );
-
 	// Draw splash
 	mainMenu.drawSplashText();
 

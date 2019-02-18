@@ -146,9 +146,15 @@ void MainMenu::renderBackground()
 
 void MainMenu::drawSplashText()
 {
+	int logoPosX = 95;
+
+	// Draw logo
+	int text_width = vita2d_font_text_width( gFont[ (int)( 60 * FONT_SCALE ) ], (int)(60 * FONT_SCALE), "vitaSnake" );
+	vita2d_font_draw_text( gFont[ (int)(60 * FONT_SCALE) ], (SCREEN_WIDTH - text_width)/2, logoPosX, MAIN_FONT_COLOR, (int)(60 * FONT_SCALE), "vitaSnake" );
+
 	int font_size = 14;
-	int text_width = vita2d_font_text_width( gFont[ font_size ], font_size, splash[randSplash].c_str() );
-	vita2d_font_draw_text( gFont[ font_size ], (SCREEN_WIDTH-text_width)/2 + 8, 138, MAIN_FONT_COLOR, font_size, splash[randSplash].c_str() );
+	text_width = vita2d_font_text_width( gFont[ font_size ], font_size, splash[randSplash].c_str() );
+	vita2d_font_draw_text( gFont[ font_size ], (SCREEN_WIDTH-text_width)/2 + 8, logoPosX + 28, MAIN_FONT_COLOR, font_size, splash[randSplash].c_str() );
 }
 
 
