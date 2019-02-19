@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<livearea style="a2" format-ver="01.00" content-rev="1">
+<livearea style="a3" format-ver="01.00" content-rev="1">
 	<livearea-background>
 		<image>bg.png</image>
 	</livearea-background>
+	
+	<frame id="frame3">
+		<liveitem>
+			<text align="left" word-wrap="off" ellipsis="on" valign="bottom" margin-bottom="8" margin-left="14" >
+				<str size="26" color="#000000" shadow="on">v1.4</str>
+			</text>
+		</liveitem>
+	</frame>
 	
 	<gate>
 		<startup-image>startup.png</startup-image>
