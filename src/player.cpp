@@ -16,7 +16,7 @@ Player::Player()
 	snakeParts.push_back( newPart );
 	for( int i = 1; i < 4; ++i )
 	{
-		vec3 newPart;
+		vec3 newPart( 0, SCREEN_HEIGHT / 2, M_PI / 2 );
 		snakeParts.push_back( newPart );
 	}
 }
@@ -417,9 +417,13 @@ void Player::render()
 // Reset player position
 void Player::reset()
 {
-	for( int i = 0; i < snakeParts.size()-1; ++i )
+	snakeParts[0].x = SCREEN_WIDTH / 6;
+	snakeParts[0].y = SCREEN_HEIGHT / 2;
+	snakeParts[0].r = M_PI / 2;
+
+	for( int i = 1; i < snakeParts.size()-1; ++i )
 	{
-		snakeParts[i].x = SCREEN_WIDTH / 6;
+		snakeParts[i].x = 0;
 		snakeParts[i].y = SCREEN_HEIGHT / 2;
 		snakeParts[i].r = M_PI / 2;
 	}
