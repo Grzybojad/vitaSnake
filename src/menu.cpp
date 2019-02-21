@@ -367,10 +367,6 @@ void ModeMenu::renderDescription()
 		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y + 60, MAIN_FONT_COLOR, font_size, "on it's own.");
 		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y + 90, MAIN_FONT_COLOR, font_size, "Drag it by the head");
 		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y + 120, MAIN_FONT_COLOR, font_size, "with your finger.");
-
-		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y + 150, MAIN_FONT_COLOR, font_size, "He also gets scared if");
-		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y + 180, MAIN_FONT_COLOR, font_size, "you go too fast, so");
-		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y + 210, MAIN_FONT_COLOR, font_size, "plese be gentle");
 		break;
 	}
 }

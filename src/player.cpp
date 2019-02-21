@@ -4,6 +4,7 @@
 Player::Player()
 {
 	isClose = false;
+	isDragged = false;
 	speed_mod = 1.0f;
 
 	memset( &pad, 0, sizeof( pad ) );
@@ -332,23 +333,13 @@ void Player::follow()
 
 void Player::handleDrag()
 {
-	int touch_zone = 50;
-	
 	if( gInput.isTouched() )
 	{
-		if( 
-			( ( snakeParts[0].x + touch_zone ) > gInput.getTouchX() ) &&
-			( gInput.getTouchX() > ( snakeParts[0].x - touch_zone ) ) &&
-			( ( snakeParts[0].y + touch_zone ) > gInput.getTouchY() ) &&
-			( gInput.getTouchY() > ( snakeParts[0].y - touch_zone ) )
-		)
-		{
-			vec3 lastPos = snakeParts[0];
+		vec3 lastPos = snakeParts[0];
 
-			snakeParts[0].x = gInput.getTouchX();
-			snakeParts[0].y = gInput.getTouchY();
-			snakeParts[0].r = snakeParts[1].r;
-		}
+		snakeParts[0].x = gInput.getTouchX();
+		snakeParts[0].y = gInput.getTouchY();
+		snakeParts[0].r = snakeParts[1].r;
 	}
 }
 
@@ -471,4 +462,30 @@ vec3 Player::get_pos()
 int Player::getSize()
 {
 	return snakeParts.size();
+}
+
+bool Player::touchingHead()
+{
+	int touch_zone = 20;
+
+	if( gInput.isTouched() )
+	{
+		if( 
+			( ( snakeParts[0].x + touch_zone ) > gInput.getTouchX() ) &&
+			( gInput.getTouchX() > ( snakeParts[0].x - touch_zone ) ) &&
+			( ( snakeParts[0].y + touch_zone ) > gInput.getTouchY() ) &&
+			( gInput.getTouchY() > ( snakeParts[0].y - touch_zone ) )
+		)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	else
+	{
+		return false;
+	}
 }

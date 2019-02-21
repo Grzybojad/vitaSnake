@@ -255,7 +255,26 @@ void Game::gameLoop()
 	}
 	else
 	{
-		snake.handleDrag();
+		if( gInput.isTouched() )
+		{
+			if( snake.isDragged )
+			{
+				snake.handleDrag();
+			}
+			else if( snake.touchingHead() )
+			{
+				snake.isDragged = true;
+				snake.handleDrag();
+			}
+			else
+			{
+				snake.isDragged = false;
+			}
+		}
+		else
+		{
+			snake.isDragged = false;
+		}
 	}
 
 	// Check wall, snake collisions and time to determine if the snake should die

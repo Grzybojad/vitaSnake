@@ -51,6 +51,7 @@ class Player
 
 		void move();
 
+		// Handle player input in "Lazy snake"
 		void handleDrag();
 
 		bool checkCollision();		// Tail collision
@@ -69,6 +70,11 @@ class Player
 
 		// Increaces the player speed
 		void speedUp();
+
+		// Check if the user is touching the snake head
+		bool touchingHead();
+
+		bool isDragged;
 };
 
 
