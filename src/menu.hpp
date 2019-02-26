@@ -116,7 +116,7 @@ class DifficultyMenu: public Menu
 
 		MenuItem item[ 2 ];
 
-		void renderBackground();
+		void drawMenu();
 		void renderSnake();
 		void renderDescription();
 };

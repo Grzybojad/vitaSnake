@@ -213,19 +213,11 @@ void Game::gameDifficulty()
 	vita2d_start_drawing();
 	vita2d_clear_screen();								
 
-	difficultyMenu.renderBackground();												// Draw menu background
+	drawBackground();	// Draw menu background
 
-	int topText_width = vita2d_font_text_width( gFont[ (int)(60 * FONT_SCALE) ], (int)(60 * FONT_SCALE), "Choose the difficulty");
-	vita2d_font_draw_text( gFont[ (int)(60 * FONT_SCALE) ], (SCREEN_WIDTH - topText_width)/2, 110, MAIN_FONT_COLOR, (int)(60 * FONT_SCALE), "Choose the difficulty" );
+	difficultyMenu.drawMenu();
 
-	difficultyMenu.renderCursor( difficultyMenu.item[ difficultyMenu.cursor ] );	// Draw cursor
-
-	for( int i = 0; i < difficultyMenu.MENU_ITEMS; ++i )			
-		difficultyMenu.renderButton( difficultyMenu.item[ i ] );
-
-	difficultyMenu.renderDescription();
-	difficultyMenu.renderSnake();
-	collectable.renderMenuScores();													// Render highscores in the menu
+	collectable.renderMenuScores();	// Render highscores in the menu
 
 	vita2d_end_drawing();
 	vita2d_wait_rendering_done();
@@ -601,7 +593,7 @@ void Game::gameHTP()
 // Draw every gameplay element
 void Game::gameDraw()
 {
-	difficultyMenu.renderBackground();
+	drawBackground();
 
 	collectable.render();			
 

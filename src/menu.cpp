@@ -224,9 +224,20 @@ DifficultyMenu::DifficultyMenu()
 	cursor = classic;
 }
 
-void DifficultyMenu::renderBackground()
+void DifficultyMenu::drawMenu()
 {
 	drawBackground();
+
+	int topText_width = vita2d_font_text_width( gFont[ (int)(60 * FONT_SCALE) ], (int)(60 * FONT_SCALE), "Choose the difficulty");
+	vita2d_font_draw_text( gFont[ (int)(60 * FONT_SCALE) ], (SCREEN_WIDTH - topText_width)/2, 110, MAIN_FONT_COLOR, (int)(60 * FONT_SCALE), "Choose the difficulty" );
+
+	renderCursor( item[ cursor ] );	// Draw cursor
+
+	for( int i = 0; i < MENU_ITEMS; ++i )			
+		renderButton( item[ i ] );
+
+	renderDescription();
+	renderSnake();
 }
 
 void DifficultyMenu::renderSnake()
@@ -240,6 +251,10 @@ void DifficultyMenu::renderSnake()
 		case 1:
 			drawPlayer( body, SCREEN_WIDTH - (SCREEN_HEIGHT*0.04), SCREEN_HEIGHT - (SCREEN_HEIGHT*0.04), 2.3, 2.3, (-45 * M_PI) / 180 );
 			drawPlayer( headAngry, SCREEN_WIDTH - (SCREEN_HEIGHT*0.14), SCREEN_HEIGHT - (SCREEN_HEIGHT*0.14), 2.5, 2.5, (-45 * M_PI) / 180 );
+			break;
+		default:
+			drawPlayer( body, SCREEN_WIDTH - ( SCREEN_HEIGHT*0.04 ), SCREEN_HEIGHT - ( SCREEN_HEIGHT*0.04 ), 2.3, 2.3, ( -45 * M_PI ) / 180 );
+			drawPlayer( head, SCREEN_WIDTH - ( SCREEN_HEIGHT*0.14 ), SCREEN_HEIGHT - ( SCREEN_HEIGHT*0.14 ), 2.5, 2.5, ( -45 * M_PI ) / 180 );
 			break;
 	}
 }
