@@ -228,24 +228,14 @@ void DifficultyMenu::drawMenu()
 {
 	drawBackground();
 
-	int topText_width = vita2d_font_text_width( gFont[ (int)(60 * FONT_SCALE) ], (int)(60 * FONT_SCALE), "Choose the difficulty");
-	vita2d_font_draw_text( gFont[ (int)(60 * FONT_SCALE) ], (SCREEN_WIDTH - topText_width)/2, 110, MAIN_FONT_COLOR, (int)(60 * FONT_SCALE), "Choose the difficulty" );
+	int font_size = 60;
+	int topText_width = vita2d_font_text_width( gFont[ (int)(font_size * FONT_SCALE) ], (int)(font_size * FONT_SCALE), "Choose the difficulty");
+	vita2d_font_draw_text( gFont[ (int)(font_size * FONT_SCALE) ], (SCREEN_WIDTH - topText_width)/2, 110, MAIN_FONT_COLOR, (int)(font_size * FONT_SCALE), "Choose the difficulty" );
 
-	const char* mode_name = "";
-	if( GAME_MODE == ModeMenu::classic )
-		mode_name = "Classic";
-	else if( GAME_MODE == ModeMenu::timeTrial )
-		mode_name = "Time Trial";
-	else if( GAME_MODE == ModeMenu::hyper )
-		mode_name = "Hyper";
-	else if( GAME_MODE == ModeMenu::fibonacci )
-		mode_name = "Fibonacci";
-	else if( GAME_MODE == ModeMenu::lazy )
-		mode_name = "Lazy Snake";
-
-	topText_width = vita2d_font_text_width( gFont[ (int)(30 * FONT_SCALE) ], (int)(30 * FONT_SCALE), "Mode: " );
-	int topText_width2 = vita2d_font_text_width( gFont[ (int)(30 * FONT_SCALE) ], (int)(30 * FONT_SCALE), mode_name );
-	vita2d_font_draw_textf( gFont[ (int)(30 * FONT_SCALE) ], (SCREEN_WIDTH - topText_width - topText_width2)/2, 170, MAIN_FONT_COLOR, (int)(30 * FONT_SCALE), "Mode: %s", mode_name  );
+	font_size = 35;
+	topText_width = vita2d_font_text_width( gFont[ (int)(font_size * FONT_SCALE) ], (int)(font_size * FONT_SCALE), "Mode: " );
+	int topText_width2 = vita2d_font_text_width( gFont[ (int)(font_size * FONT_SCALE) ], (int)(font_size * FONT_SCALE), getGameModeName() );
+	vita2d_font_draw_textf( gFont[ (int)(font_size * FONT_SCALE) ], (SCREEN_WIDTH - topText_width - topText_width2)/2, 160, MAIN_FONT_COLOR, (int)(font_size * FONT_SCALE), "Mode: %s", getGameModeName()  );
 
 
 	renderCursor( item[ cursor ] );	// Draw cursor

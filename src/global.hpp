@@ -170,6 +170,9 @@ extern int border_red;
 // Draw background
 extern void drawBackground();
 
+// Get the game mode name string
+extern const char* getGameModeName();
+
 
 // Draw "Press O to go back" text
 extern void drawBackText();

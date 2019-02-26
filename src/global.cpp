@@ -166,7 +166,7 @@ bool color_plus = true;
 int border_red = 200;
 
 // Draw background
-extern void drawBackground()
+void drawBackground()
 {
 	if( bgTextures[ BACKGROUND_TEXTURE ].name == "RPPHS" )
 		bgTextures[ BACKGROUND_TEXTURE ].draw();
@@ -214,7 +214,7 @@ extern void drawBackground()
 
 
 // Draw "Press O to go back" text
-extern void drawBackText()
+void drawBackText()
 {
 	int text_width;
 
@@ -223,4 +223,21 @@ extern void drawBackText()
 
 	text_width = vita2d_font_text_width( gFont[ (int)(25 * FONT_SCALE) ], (int)(25 * FONT_SCALE), "  to go back" );
 	gCircleTexture.draw_scale( SCREEN_WIDTH - text_width - 17, SCREEN_HEIGHT - 10 - ( gCircleTexture.get_height() * 0.35 ), 0.35, 0.35 );
+}
+
+const char* getGameModeName()
+{
+	const char* mode_name = "";
+	if( GAME_MODE == 0 )
+		mode_name = "Classic";
+	else if( GAME_MODE == 1 )
+		mode_name = "Time Trial";
+	else if( GAME_MODE == 2 )
+		mode_name = "Hyper";
+	else if( GAME_MODE == 3 )
+		mode_name = "Fibonacci";
+	else if( GAME_MODE == 4 )
+		mode_name = "Lazy Snake";
+
+	return mode_name;
 }
