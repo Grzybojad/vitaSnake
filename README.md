@@ -1,8 +1,15 @@
 # vitaSnake
+See the official trailer here https://youtu.be/nMOkPak8w-4
+
 A snake game with smooth rotation made for the PS Vita with LibVita2D.  
 Turn left and right to collect as many apples as you can, but avoid biting your tail, or you will lose the game.
 
-See the official trailer here https://youtu.be/nMOkPak8w-4
+Play one of the 5 game modes:
+* Classic: The classic vitaSnake experience
+* Time trial: Get as many points as you can within a 30 second time limit
+* Hyper Snake: The snake gets faster with each point
+* Fibonacci: Each point makes the snake grow longer by a number of pieces determined by the Fibonacci sequence
+* Lazy Snake: Drag the snake by its head with touch controls
 
 # Screenshots
 ![vitaSnake gameplay screenshot](https://i.imgur.com/O2y1mKT.png)
