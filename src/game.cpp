@@ -10,9 +10,7 @@ Game::Game()
 	sceTouchSetSamplingState(SCE_TOUCH_PORT_FRONT, SCE_TOUCH_SAMPLING_STATE_START);
 	sceTouchEnableTouchForce(SCE_TOUCH_PORT_FRONT);
 	
-
 	// Initialize vita2d and set clear color to black
-	//vita2d_init();
 	vita2d_init_advanced_with_msaa( (1 * 1024 * 1024), SCE_GXM_MULTISAMPLE_4X );
 	vita2d_set_clear_color( RGBA8( 0x00, 0x00, 0x00, 0xFF ) );
 
@@ -36,8 +34,11 @@ Game::Game()
 	collectable.readHighscore();
 	collectable.checkAndFixHighscores();
 
-	// Load settings
+	// Read settings
 	optionsMenu.readSettings();
+
+	// Read stats
+	stats.readStats();
 
 	// Load splash text file
 	mainMenu.readSplashFile();
@@ -199,7 +200,14 @@ void Game::gameDifficulty()
 		gSoloud.play( gMenuSelect );
 
 		timer.start();
+
+		if( gameTime.is_started() )
+			gameTime.unpause();
+		else
+			gameTime.start();
+
 		snake.setDifficulty();
+
 		_gameState = playing;
 	}
 	if( gInput.wasPressed(Input::circle) )
@@ -235,6 +243,9 @@ void Game::gameLoop()
 	if( gInput.wasPressed(Input::start) )
 	{
 		timer.pause();
+
+		gameTime.pause();
+
 		_gameState = paused;
 	}
 		
@@ -277,6 +288,11 @@ void Game::gameLoop()
 	{
 		gSoloud.play( gSnakeDeath );
 		timer.pause();
+		gameTime.pause();
+		stats.totalDeaths += 1;
+		stats.timePlayed += gameTime.get_ticks();
+		gameTime.start();
+		stats.saveStats();
 		_gameState = gameOver;
 	}
 	
@@ -291,6 +307,7 @@ void Game::gameLoop()
 			gSoloud.play( gBite );
 
 			snake.addParts(collectable.collect());
+			stats.applesEaten += 1;
 
 			// Collecting points increaces player speed in "hyper" mode
 			if( GAME_MODE == ModeMenu::hyper )
@@ -350,6 +367,7 @@ void Game::gamePaused()
 		if( pauseMenu.cursor == PauseMenu::resumeGame )
 		{
 			timer.unpause();
+			gameTime.unpause();
 			_gameState = playing;
 		}
 		else if( pauseMenu.cursor == PauseMenu::returnToMenu )
@@ -358,6 +376,7 @@ void Game::gamePaused()
 	if( gInput.wasPressed(Input::start) )
 	{
 		timer.unpause();
+		gameTime.unpause();
 		_gameState = playing;
 	}
 
@@ -480,6 +499,9 @@ void Game::gameEnd()
 void Game::gameQuit()
 {
 	vita2d_fini();
+
+	stats.timePlayed += gameTime.get_ticks();
+	stats.saveStats();
 
 	// Free player textures
 	for( int i = 0; i < snakeTextures.size(); ++i )

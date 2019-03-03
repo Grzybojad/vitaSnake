@@ -19,6 +19,7 @@
 #include "particle.hpp"
 #include "options.hpp"
 #include "timer.hpp"
+#include "stats.hpp"
 #include "global.hpp"
 
 class Game
@@ -57,6 +58,9 @@ class Game
 		Collectable collectable;
 
 		Timer timer;
+		Timer gameTime;
+
+		Stats stats;
 
 		SceCtrlData pad;
 
