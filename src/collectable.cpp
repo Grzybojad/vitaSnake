@@ -45,17 +45,23 @@ bool Collectable::checkOpenDistance( vec3 playerPos )
 }
 
 // Pick up the collectable
-int Collectable::collect()
+int Collectable::collect( vec3 playerPos )
 {
 	if( ENABLE_PARTICLES )
 	{
-		// Expolode the apple
+		// Explode the apple
 		for( int i = 0; i < MAX_EXPLOSION_PARTICLES; ++i )
 		{
 			vec3 newParticlePos;
 			newParticlePos.x = pos.x + (COLLECT_WIDTH/2);
 			newParticlePos.y = pos.y + (COLLECT_HEIGHT/2);
-			newParticlePos.r = (M_PI*2) * (i+1)/MAX_EXPLOSION_PARTICLES + (rand() * M_PI/12);
+
+			int randSide = rand() % 2;
+			if( randSide == 0 )
+				newParticlePos.r = playerPos.r + ( (M_PI/2) + (rand() % 2 - 1)*(M_PI/4) );
+			else
+				newParticlePos.r = playerPos.r - ( (M_PI/2) + (rand() % 2 - 1)*(M_PI/4) );
+
 			explosionParticles.push_back( new Particle( newParticlePos ) );
 		}
 	}

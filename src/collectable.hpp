@@ -25,7 +25,7 @@ class Collectable
 		bool checkCollision( vec3 playerPos );		// Player-collectable collision
 		bool checkOpenDistance( vec3 playerPos );	// Check if the player is close to the collectable
 
-		int collect();			// Pick up the collectable
+		int collect( vec3 playerPos );			// Pick up the collectable
 		void render();			// Render the collectable
 
 		void readHighscore();		// Read highscore from file

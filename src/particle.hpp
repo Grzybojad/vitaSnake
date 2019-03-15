@@ -30,6 +30,8 @@ class Particle
 		const float PARTICLE_SPEED = 1.6f;
 
 		vec3 pos;
+		float direction;
+		float randRotationSpeed;
 
 		float lifespan;
 };

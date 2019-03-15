@@ -306,7 +306,7 @@ void Game::gameLoop()
 		{
 			gSoloud.play( gBite );
 
-			snake.addParts(collectable.collect());
+			snake.addParts(collectable.collect( snake.get_pos() ));
 			stats.applesEaten += 1;
 
 			// Collecting points increaces player speed in "hyper" mode
