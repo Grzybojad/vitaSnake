@@ -241,3 +241,30 @@ const char* getGameModeName()
 
 	return mode_name;
 }
+
+std::string timeToString( SceUInt64 time )
+{
+	std::string clock = "";
+
+	int second = 1000000;
+
+	int hours = time / (second*60*60);
+	int minutes = ( time % (second*60*60) / (second*60) );
+	int seconds = ( time % (second*60) ) / second;
+
+	if( hours > 0 )
+	{
+		clock.append(std::to_string(hours) );
+		clock.append(":");
+	}
+
+	clock.append(std::to_string(minutes / 10) );
+	clock.append(std::to_string(minutes % 10) );
+
+	clock.append(":");
+
+	clock.append(std::to_string(seconds / 10) );
+	clock.append(std::to_string(seconds % 10) );
+	
+	return clock;
+}

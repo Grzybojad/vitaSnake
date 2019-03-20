@@ -37,9 +37,10 @@ class Game
 		void gameEnd();				// Game over screen
 		void gameQuit();			// Exit game and free resources
 		void gameReinitialize();	// Reinitialize game variables and go to menu
-		void gamePlayAgain();		// Reinitialize game variables and go to the game 
+		void gamePlayAgain();		// Reinitialize game variables and go to the game
+		void gameStatsPage();		// Page with player stats
 		void gameHTP();				// Instructions on how to play the game
-		void gameOptions();
+		void gameOptions();			// Options menu
 		void gameMode();			// Menu for choosing the game mode
 		
 		void gameDraw();			// Draw all gameplay elements

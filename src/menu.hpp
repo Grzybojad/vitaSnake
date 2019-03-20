@@ -55,7 +55,7 @@ class MainMenu: public Menu
 		enum itemName
 		{
 			startGame = 0, 
-			howToPlay = 1, 
+			extras = 1, 
 			options = 2,
 			exitGame = 3
 		};

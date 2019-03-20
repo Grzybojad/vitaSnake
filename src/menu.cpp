@@ -102,7 +102,7 @@ MainMenu::MainMenu()
 	item[0].x = 310.0f;
 	item[0].y = 170.0f;
 
-	item[1].name = "How to play";
+	item[1].name = "Extras";
 	item[1].x = 310.0f;
 	item[1].y = 260.0f;
 

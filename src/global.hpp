@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <math.h>
 #include <vector>
+#include <string>
 
 #include <psp2/ctrl.h>
 #include <psp2/audioout.h>
@@ -66,7 +67,8 @@ enum gameState
 	playAgain = 8,
 	showingHTP = 9,
 	options = 10,
-	choosingMode = 11
+	choosingMode = 11,
+	showingStats = 12
 };
 extern gameState _gameState;
 
@@ -176,6 +178,9 @@ extern const char* getGameModeName();
 
 // Draw "Press O to go back" text
 extern void drawBackText();
+
+// Convert int time (in miliseconds) to a string
+extern std::string timeToString( SceUInt64 time );
 
 
 #endif // GLOBAL_HPP

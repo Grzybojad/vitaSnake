@@ -92,6 +92,9 @@ void Game::gameStart()
 			case choosingMode:
 				gameMode();
 				break;
+			case showingStats:
+				gameStatsPage();
+				break;
 		}
 	}
 	gameQuit();
@@ -131,8 +134,8 @@ void Game::gameMenu()
 
 		if( mainMenu.cursor == MainMenu::startGame )
 			_gameState = choosingMode;
-		else if( mainMenu.cursor == MainMenu::howToPlay )
-			_gameState = showingHTP;
+		else if( mainMenu.cursor == MainMenu::extras )
+			_gameState = showingStats;
 		else if( mainMenu.cursor == MainMenu::options )
 			_gameState = options;
 		else if( mainMenu.cursor == MainMenu::exitGame )
@@ -609,6 +612,38 @@ void Game::gameHTP()
 	vita2d_swap_buffers();
 
 	calcFrameTime();
+}
+
+void Game::gameStatsPage()
+{
+	sceCtrlPeekBufferPositive( 0, &pad, 1 );
+
+	// Press O to go back
+	if( gInput.wasPressed( Input::circle ) )
+	{
+		gSoloud.play( gMenuSelect );
+		mainMenu.randomizeSplash();
+		_gameState = showingMenu;
+	}
+	// Touch the "Press O to go back text" to go back
+	else if( gInput.wasPressed( Input::frontTouch) )
+	{
+		if( gInput.touchToGoBack() )
+		{
+			gSoloud.play( gMenuSelect );
+			mainMenu.randomizeSplash();
+			_gameState = showingMenu;
+		}
+	}
+
+	vita2d_start_drawing();
+	vita2d_clear_screen();
+
+	stats.renderStatsPage();
+
+	vita2d_end_drawing();
+	vita2d_wait_rendering_done();
+	vita2d_swap_buffers();
 }
 
 
