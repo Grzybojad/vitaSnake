@@ -59,7 +59,6 @@ class MainMenu: public Menu
 			options = 2,
 			exitGame = 3
 		};
-
 		MenuItem item[ 4 ];
 
 		std::vector <std::string> splash;
@@ -81,7 +80,6 @@ class PauseMenu: public Menu
 			resumeGame = 0, 
 			returnToMenu = 1
 		};
-
 		MenuItem item[ 2 ];
 
 		void renderBackground();
@@ -97,7 +95,6 @@ class GameOverMenu: public Menu
 			playAgain = 0, 
 			returnToMenu = 1
 		};
-
 		MenuItem item[ 2 ];
 
 		void renderBackground();
@@ -113,7 +110,6 @@ class DifficultyMenu: public Menu
 			classic = 0, 
 			hardcore = 1
 		};
-
 		MenuItem item[ 2 ];
 
 		void drawMenu();
@@ -139,10 +135,29 @@ class ModeMenu: public Menu
 			fibonacci = 3,
 			lazy = 4
 		};
-
 		MenuItem item[ 5 ];
 
+		void renderMenu();
 		void renderDescription();
+};
+
+class ExtrasMenu: public Menu
+{
+	private:
+		static const int margin_x = 45;
+		static const int margin_y = 360;
+		static const int padding = 30;
+
+	public:
+		ExtrasMenu();
+
+		enum itemName
+		{
+			howToPlay = 0,
+			credits = 1
+		};
+		MenuItem item[ 2 ];
+
 		void renderMenu();
 };
 
