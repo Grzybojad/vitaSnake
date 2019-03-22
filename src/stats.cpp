@@ -36,7 +36,7 @@ void Stats::renderStatsPage()
     int headerFontSize = 50;
     int horizontalSpacing = 340;
     int headerHeight = 50;
-    int statsHeight = 180;
+    int statsHeight = 150;
 
 	drawBackground();
 
@@ -47,9 +47,6 @@ void Stats::renderStatsPage()
     drawStats( (SCREEN_WIDTH/2) - horizontalSpacing, statsHeight, std::to_string(applesEaten).c_str(), "Apples eaten" );
     drawStats( (SCREEN_WIDTH/2), statsHeight, timeToString(timePlayed).c_str(), "Time spent playing" );
     drawStats( (SCREEN_WIDTH/2) + horizontalSpacing, statsHeight, std::to_string(totalDeaths).c_str(), "Total deaths" );
-
-    extrasMenu.renderMenu();
-    extrasMenu.menuNav();
 
 	drawBackText();
 }

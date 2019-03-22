@@ -53,6 +53,7 @@ class Game
 		GameOverMenu gameOverMenu;
 		OptionsMenu optionsMenu;
 		ModeMenu modeMenu;
+		ExtrasMenu extrasMenu;
 
 		Player snake;
 

@@ -567,7 +567,7 @@ void Game::gameHTP()
 	{
 		gSoloud.play( gMenuSelect );
 		mainMenu.randomizeSplash();
-		_gameState = showingMenu;
+		_gameState = showingStats;
 	}
 	// Touch the "Press O to go back text" to go back
 	else if( gInput.wasPressed( Input::frontTouch) )
@@ -576,7 +576,7 @@ void Game::gameHTP()
 		{
 			gSoloud.play( gMenuSelect );
 			mainMenu.randomizeSplash();
-			_gameState = showingMenu;
+			_gameState = showingStats;
 		}
 	}
 
@@ -618,6 +618,12 @@ void Game::gameStatsPage()
 {
 	sceCtrlPeekBufferPositive( 0, &pad, 1 );
 
+	extrasMenu.menuNav();
+
+	bool select = false;
+	if( extrasMenu.selectItem() )
+		select = true;
+
 	// Press O to go back
 	if( gInput.wasPressed( Input::circle ) )
 	{
@@ -634,12 +640,34 @@ void Game::gameStatsPage()
 			mainMenu.randomizeSplash();
 			_gameState = showingMenu;
 		}
+
+		// Handle touch menu navigation
+		for( int i = 0; i < extrasMenu.MENU_ITEMS; ++i )
+		{
+			if( extrasMenu.touchSelect(extrasMenu.item[i]) )
+			{
+				extrasMenu.cursor = i;
+				select = true;
+			}
+		}
+	}
+
+	if( select )
+	{
+		gSoloud.play( gMenuSelect );
+
+		if( extrasMenu.cursor == ExtrasMenu::howToPlay )
+			_gameState = showingHTP;
+		else if( extrasMenu.cursor == ExtrasMenu::credits )
+			_gameState = showingMenu;
 	}
 
 	vita2d_start_drawing();
 	vita2d_clear_screen();
 
 	stats.renderStatsPage();
+	extrasMenu.renderMenu();
+	//extrasMenu.renderCursor();
 
 	vita2d_end_drawing();
 	vita2d_wait_rendering_done();

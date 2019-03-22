@@ -144,8 +144,8 @@ class ModeMenu: public Menu
 class ExtrasMenu: public Menu
 {
 	private:
-		static const int margin_x = 45;
-		static const int margin_y = 360;
+		 int margin_x = ( SCREEN_WIDTH - BUTTON_WIDTH ) / 2;
+		static const int margin_y = 280;
 		static const int padding = 30;
 
 	public:

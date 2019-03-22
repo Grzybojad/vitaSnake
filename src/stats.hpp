@@ -24,7 +24,7 @@ class Stats
         int totalDeaths;
     
     private:
-        ExtrasMenu extrasMenu;
+        //ExtrasMenu extrasMenu;
 };
 
 #endif // STATS_HPP
