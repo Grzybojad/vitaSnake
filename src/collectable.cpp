@@ -53,14 +53,14 @@ int Collectable::collect( vec3 playerPos )
 		for( int i = 0; i < MAX_EXPLOSION_PARTICLES; ++i )
 		{
 			vec3 newParticlePos;
-			newParticlePos.x = pos.x + (COLLECT_WIDTH/2);
-			newParticlePos.y = pos.y + (COLLECT_HEIGHT/2);
+			newParticlePos.x = (playerPos.x + sin( playerPos.r ) * 20) + (COLLECT_WIDTH/2);
+			newParticlePos.y = (playerPos.y - cos( playerPos.r ) * 20) + (COLLECT_HEIGHT/2);
 
 			int randSide = rand() % 2;
 			if( randSide == 0 )
-				newParticlePos.r = playerPos.r + ( (M_PI/2) + (rand() % 2 - 1)*(M_PI/4) );
+				newParticlePos.r = playerPos.r + ( (M_PI/2) + (rand() % 2 - 1)*(M_PI/10) );
 			else
-				newParticlePos.r = playerPos.r - ( (M_PI/2) + (rand() % 2 - 1)*(M_PI/4) );
+				newParticlePos.r = playerPos.r - ( (M_PI/2) + (rand() % 2 - 1)*(M_PI/10) );
 
 			explosionParticles.push_back( new Particle( newParticlePos ) );
 		}

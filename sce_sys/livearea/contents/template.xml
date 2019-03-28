@@ -8,7 +8,7 @@
 	<frame id="frame3">
 		<liveitem>
 			<text align="left" word-wrap="off" ellipsis="on" valign="bottom" margin-bottom="8" margin-left="14" >
-				<str size="26" color="#000000" shadow="on">v1.4</str>
+				<str size="26" color="#000000" shadow="on">v1.5</str>
 			</text>
 		</liveitem>
 	</frame>
