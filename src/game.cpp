@@ -296,7 +296,7 @@ void Game::gameLoop()
 		timer.pause();
 		gameTime.pause();
 		stats.totalDeaths += 1;
-		stats.timePlayed += gameTime.get_ticks();
+		stats.timePlayed += ( gameTime.get_ticks() / 1000000 );
 		gameTime.start();
 		stats.saveStats();
 		_gameState = gameOver;
@@ -377,7 +377,11 @@ void Game::gamePaused()
 			_gameState = playing;
 		}
 		else if( pauseMenu.cursor == PauseMenu::returnToMenu )
+		{
+			stats.timePlayed += ( gameTime.get_ticks() / 1000000 );
 			_gameState = needReinitialize;
+		}
+			
 	}
 	if( gInput.wasPressed(Input::start) )
 	{
@@ -506,7 +510,7 @@ void Game::gameQuit()
 {
 	vita2d_fini();
 
-	stats.timePlayed += gameTime.get_ticks();
+	//stats.timePlayed += ( gameTime.get_ticks() / 1000000 );
 	stats.saveStats();
 
 	// Free player textures

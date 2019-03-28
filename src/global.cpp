@@ -246,7 +246,7 @@ std::string timeToString( SceUInt64 time )
 {
 	std::string clock = "";
 
-	int second = 1000000;
+	int second = 1;
 
 	int hours = time / (second*60*60);
 	int minutes = ( time % (second*60*60) / (second*60) );
