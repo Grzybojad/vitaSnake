@@ -40,6 +40,7 @@ class Game
 		void gamePlayAgain();		// Reinitialize game variables and go to the game
 		void gameStatsPage();		// Page with player stats
 		void gameHTP();				// Instructions on how to play the game
+		void gameCredits();			// Credits page
 		void gameOptions();			// Options menu
 		void gameMode();			// Menu for choosing the game mode
 		

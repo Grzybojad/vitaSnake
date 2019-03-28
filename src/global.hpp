@@ -68,7 +68,8 @@ enum gameState
 	showingHTP = 9,
 	options = 10,
 	choosingMode = 11,
-	showingStats = 12
+	showingStats = 12,
+	showingCredits
 };
 extern gameState _gameState;
 

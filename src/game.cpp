@@ -95,6 +95,9 @@ void Game::gameStart()
 			case showingStats:
 				gameStatsPage();
 				break;
+			case showingCredits:
+				gameCredits();
+				break;
 		}
 	}
 	gameQuit();
@@ -557,6 +560,67 @@ void Game::gamePlayAgain()
 	_gameState = choosingDifficulty;
 }
 
+
+void Game::gameStatsPage()
+{
+	sceCtrlPeekBufferPositive( 0, &pad, 1 );
+
+	extrasMenu.menuNav();
+
+	bool select = false;
+	if( extrasMenu.selectItem() )
+		select = true;
+
+	// Press O to go back
+	if( gInput.wasPressed( Input::circle ) )
+	{
+		gSoloud.play( gMenuSelect );
+		mainMenu.randomizeSplash();
+		_gameState = showingMenu;
+	}
+	// Touch the "Press O to go back text" to go back
+	else if( gInput.wasPressed( Input::frontTouch) )
+	{
+		if( gInput.touchToGoBack() )
+		{
+			gSoloud.play( gMenuSelect );
+			mainMenu.randomizeSplash();
+			_gameState = showingMenu;
+		}
+
+		// Handle touch menu navigation
+		for( int i = 0; i < extrasMenu.MENU_ITEMS; ++i )
+		{
+			if( extrasMenu.touchSelect(extrasMenu.item[i]) )
+			{
+				extrasMenu.cursor = i;
+				select = true;
+			}
+		}
+	}
+
+	if( select )
+	{
+		gSoloud.play( gMenuSelect );
+
+		if( extrasMenu.cursor == ExtrasMenu::howToPlay )
+			_gameState = showingHTP;
+		else if( extrasMenu.cursor == ExtrasMenu::credits )
+			_gameState = showingCredits;
+	}
+
+	vita2d_start_drawing();
+	vita2d_clear_screen();
+
+	stats.renderStatsPage();
+	extrasMenu.renderMenu();
+
+	vita2d_end_drawing();
+	vita2d_wait_rendering_done();
+	vita2d_swap_buffers();
+}
+
+
 // Show the "How to play" screen
 void Game::gameHTP()
 {
@@ -614,22 +678,19 @@ void Game::gameHTP()
 	calcFrameTime();
 }
 
-void Game::gameStatsPage()
+
+
+// Show the "Credits" screen
+void Game::gameCredits()
 {
 	sceCtrlPeekBufferPositive( 0, &pad, 1 );
-
-	extrasMenu.menuNav();
-
-	bool select = false;
-	if( extrasMenu.selectItem() )
-		select = true;
 
 	// Press O to go back
 	if( gInput.wasPressed( Input::circle ) )
 	{
 		gSoloud.play( gMenuSelect );
 		mainMenu.randomizeSplash();
-		_gameState = showingMenu;
+		_gameState = showingStats;
 	}
 	// Touch the "Press O to go back text" to go back
 	else if( gInput.wasPressed( Input::frontTouch) )
@@ -638,40 +699,46 @@ void Game::gameStatsPage()
 		{
 			gSoloud.play( gMenuSelect );
 			mainMenu.randomizeSplash();
-			_gameState = showingMenu;
-		}
-
-		// Handle touch menu navigation
-		for( int i = 0; i < extrasMenu.MENU_ITEMS; ++i )
-		{
-			if( extrasMenu.touchSelect(extrasMenu.item[i]) )
-			{
-				extrasMenu.cursor = i;
-				select = true;
-			}
+			_gameState = showingStats;
 		}
 	}
 
-	if( select )
-	{
-		gSoloud.play( gMenuSelect );
-
-		if( extrasMenu.cursor == ExtrasMenu::howToPlay )
-			_gameState = showingHTP;
-		else if( extrasMenu.cursor == ExtrasMenu::credits )
-			_gameState = showingMenu;
-	}
-
+	/* RENDERING */
 	vita2d_start_drawing();
-	vita2d_clear_screen();
+	vita2d_clear_screen();	
 
-	stats.renderStatsPage();
-	extrasMenu.renderMenu();
-	//extrasMenu.renderCursor();
+	drawBackground();
+
+	int creditsSize = 20;
+	int text_width;
+
+	text_width = vita2d_font_text_width( gFont[ (int)(30 * FONT_SCALE) ], (int)(30 * FONT_SCALE), "VitaSnake is a game made by Grzybojad" );
+	vita2d_font_draw_text( gFont[ (int)(30 * FONT_SCALE) ], ( ( SCREEN_WIDTH - text_width ) / 2 ), 40, MAIN_FONT_COLOR, (int)(30 * FONT_SCALE), "VitaSnake is a game made by Grzybojad" );
+
+	vita2d_font_draw_text( gFont[ (int)(creditsSize * FONT_SCALE) ], 15, 90, MAIN_FONT_COLOR, (int)(creditsSize * FONT_SCALE), "Texture credits:" );
+	vita2d_font_draw_text( gFont[ (int)(creditsSize * FONT_SCALE) ], 15, 120, MAIN_FONT_COLOR, (int)(creditsSize * FONT_SCALE), "- Livearea, default snake, apple and mushroom textures by Catter" );
+	vita2d_font_draw_text( gFont[ (int)(creditsSize * FONT_SCALE) ], 15, 150, MAIN_FONT_COLOR, (int)(creditsSize * FONT_SCALE), "- RPPHS snake and apple textures by MotoLegacy" );
+	vita2d_font_draw_text( gFont[ (int)(creditsSize * FONT_SCALE) ], 15, 180, MAIN_FONT_COLOR, (int)(creditsSize * FONT_SCALE), "- Desert tile from Whispers of Avalon: Desert Tileset by Leonard Pabin" );
+	vita2d_font_draw_text( gFont[ (int)(creditsSize * FONT_SCALE) ], 15, 210, MAIN_FONT_COLOR, (int)(creditsSize * FONT_SCALE), "- Button symbols from \"No dead folk!\"" );
+
+	vita2d_font_draw_text( gFont[ (int)(creditsSize * FONT_SCALE) ], 15, 260, MAIN_FONT_COLOR, (int)(creditsSize * FONT_SCALE), "Sound effect credits:" );
+	vita2d_font_draw_text( gFont[ (int)(creditsSize * FONT_SCALE) ], 15, 290, MAIN_FONT_COLOR, (int)(creditsSize * FONT_SCALE), "- RPG Sound Pack by artisticdude" );
+	vita2d_font_draw_text( gFont[ (int)(creditsSize * FONT_SCALE) ], 15, 320, MAIN_FONT_COLOR, (int)(creditsSize * FONT_SCALE), "- The Essential Retro Video Game Sound Effects Collection By Juhani Junkala" );
+
+	vita2d_font_draw_text( gFont[ (int)(creditsSize * FONT_SCALE) ], 15, 370, MAIN_FONT_COLOR, (int)(creditsSize * FONT_SCALE), "Special thanks to:" );
+	vita2d_font_draw_text( gFont[ (int)(creditsSize * FONT_SCALE) ], 15, 400, MAIN_FONT_COLOR, (int)(creditsSize * FONT_SCALE), "- all VitaSDK contributors" );
+	vita2d_font_draw_text( gFont[ (int)(creditsSize * FONT_SCALE) ], 15, 430, MAIN_FONT_COLOR, (int)(creditsSize * FONT_SCALE), "- Xerpi for libvita2d" );
+	vita2d_font_draw_text( gFont[ (int)(creditsSize * FONT_SCALE) ], 15, 460, MAIN_FONT_COLOR, (int)(creditsSize * FONT_SCALE), "- Everyone who helped me on Discord" );
+
+	vita2d_font_draw_text( gFont[ (int)(creditsSize * FONT_SCALE) ], 15, 500, MAIN_FONT_COLOR, (int)(creditsSize * FONT_SCALE), "And thank You for playing vitaSnake!" );
+
+	drawBackText();
 
 	vita2d_end_drawing();
 	vita2d_wait_rendering_done();
 	vita2d_swap_buffers();
+
+	calcFrameTime();
 }
 
 
