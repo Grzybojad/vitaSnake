@@ -226,8 +226,13 @@ void GameOverMenu::gameOverBanner()
 {
 	int bannerH = 240;
 	int gameOverTextSize = 50;
+	int borderThickness = 2;
 
 	vita2d_draw_rectangle( 0, bannerY, SCREEN_WIDTH, bannerH, RGBA8( 0, 0, 0, (int)fadeInValue ) );
+
+	// Draw border with color based on theme
+	vita2d_draw_rectangle( 0, bannerY, SCREEN_WIDTH, borderThickness, MAIN_FONT_COLOR );
+	vita2d_draw_rectangle( 0, bannerY+bannerH-borderThickness, SCREEN_WIDTH, borderThickness, MAIN_FONT_COLOR );
 
 	int topText_width = vita2d_font_text_width( gFont[ gameOverTextSize ], gameOverTextSize, "Game Over");
 	int topText_height = vita2d_font_text_height( gFont[ gameOverTextSize ], gameOverTextSize, "Game Over");
