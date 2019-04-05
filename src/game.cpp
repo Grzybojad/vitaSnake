@@ -430,16 +430,22 @@ void Game::gameEnd()
 
 	gameDraw();
 
+	gameOverMenu.drawMenu();
+
+	/*
 	// Draw the Game Over text over the game
 	vita2d_draw_rectangle( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, RGBA8( 0, 0, 0, 40 ) );
 
 	int topText_width = vita2d_font_text_width( gFont[ 60 ], 60, "Game Over");
 	vita2d_font_draw_text( gFont[ 60 ], (SCREEN_WIDTH - topText_width)/2, 110, MAIN_FONT_COLOR, 60, "Game Over" );
+	
 
 	gameOverMenu.renderCursor( gameOverMenu.item[ gameOverMenu.cursor ] );
 
 	for( int i = 0; i < gameOverMenu.MENU_ITEMS; ++i )			
 		gameOverMenu.renderButton( gameOverMenu.item[ i ] );
+
+	*/
 
 	// If the player set a new highscore
 	if( collectable.getScore() >= collectable.getHighscore() )
@@ -450,20 +456,11 @@ void Game::gameEnd()
 			collectable.readHighscore();
 			score_read = true;
 		}
-		int text_width = vita2d_font_text_width( gFont[ (int)(35 * FONT_SCALE) ], (int)(35 * FONT_SCALE), "NEW HIGHSCORE");
-		vita2d_font_draw_text( gFont[ (int)(35 * FONT_SCALE) ], ( SCREEN_WIDTH - text_width ) / 2, 270, RGBA8( 244, 205, 65, 255 ), (int)(35 * FONT_SCALE), "NEW HIGHSCORE");
+		gameOverMenu.drawNewHighscore();
 	}
 	
 	// Render final score
-	int text_width = 0;
-	if( collectable.getScore() < 10 )
-		text_width = vita2d_font_text_width( gFont[ (int)(35 * FONT_SCALE) ], (int)(35 * FONT_SCALE), "Your score: 0" );
-	else if( collectable.getScore() < 100 )
-		text_width = vita2d_font_text_width( gFont[ (int)(35 * FONT_SCALE) ], (int)(35 * FONT_SCALE), "Your score: 00" );
-	else
-		text_width = vita2d_font_text_width( gFont[ (int)(35 * FONT_SCALE) ], (int)(35 * FONT_SCALE), "Your score: 000" );
-
-	vita2d_font_draw_textf( gFont[ (int)(35 * FONT_SCALE) ], (SCREEN_WIDTH-text_width)/2, 230, MAIN_FONT_COLOR, (int)(35 * FONT_SCALE), "Your score: %d", collectable.getScore() );
+	gameOverMenu.drawFinalScore( collectable.getScore() );
 
 	vita2d_end_drawing();
 	vita2d_wait_rendering_done();
@@ -546,6 +543,9 @@ void Game::gameReinitialize()
 	// The starting length of the snake
 	snake.setSize( START_SNAKE_LENGTH );
 
+	// Reset the game over screen fade in animation
+	gameOverMenu.resetFadeIn();
+
 	_gameState = showingMenu;
 	mainMenu.randomizeSplash();
 }
@@ -560,6 +560,9 @@ void Game::gamePlayAgain()
 
 	// The starting length of the snake
 	snake.setSize( START_SNAKE_LENGTH );
+
+	// Reset the game over screen fade in animation
+	gameOverMenu.resetFadeIn();
 
 	_gameState = choosingDifficulty;
 }

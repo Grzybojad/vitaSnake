@@ -37,14 +37,14 @@ class Menu
 		void selectUp();
 		void selectDown();
 
-		void menuNav();
+		virtual void menuNav();
 		bool selectItem();
 
 		bool touchSelect( MenuItem item );
 		
-		void renderCursor( MenuItem item );
-		void renderCursor( int x, int y, int w, int h );
-		void renderButton( MenuItem item );
+		virtual void renderCursor( MenuItem item );
+		virtual void renderCursor( int x, int y, int w, int h );
+		virtual void renderButton( MenuItem item );
 };
 
 class MainMenu: public Menu
@@ -97,7 +97,26 @@ class GameOverMenu: public Menu
 		};
 		MenuItem item[ 2 ];
 
-		void renderBackground();
+		void drawMenu();
+		void gameOverBanner();
+		void drawFinalScore( int score );
+		void drawNewHighscore();
+
+		virtual void menuNav() override;
+		virtual void renderCursor( MenuItem item ) override;
+		virtual void renderButton( MenuItem item ) override;
+
+		void resetFadeIn();
+
+	private:
+		const int bannerY = 100;
+		const int gameOverTextY = bannerY + 100;
+		const int scoreTextY = gameOverTextY + 75;
+		const int newHighscoreY = scoreTextY + 30;
+
+		// Values for the fade in animation
+		double fadeInValue = 0;
+		double fadeInSpeed = 3.0;
 };
 
 class DifficultyMenu: public Menu
