@@ -163,7 +163,7 @@ void drawPlayer( part part, float x, float y, float scale_x, float scale_y, floa
 
 // Background variables
 bool color_plus = true;
-int border_red = 200;
+float border_red = 200;
 
 // Draw background
 void drawBackground()
@@ -197,11 +197,11 @@ void drawBackground()
 			}
 
 			if( color_plus )
-				border_red += COLOR_CYCLE_SPEED;
+				border_red += COLOR_CYCLE_SPEED * timestep;
 			else
 				border_red -= COLOR_CYCLE_SPEED;
 
-			border_color = RGBA8( border_red, 0, 0, 255 );
+			border_color = RGBA8( (int)border_red, 0, 0, 255 );
 		}
 
 		// Draw a border

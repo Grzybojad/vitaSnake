@@ -168,7 +168,7 @@ extern void drawPlayer( part part, float x, float y, float scale_x, float scale_
 static const int BORDER_THICKNESS = 3;
 static const int COLOR_CYCLE_SPEED = 3;
 extern bool color_plus;
-extern int border_red;
+extern float border_red;
 
 // Draw background
 extern void drawBackground();
