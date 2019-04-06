@@ -45,6 +45,9 @@ class Menu
 		virtual void renderCursor( MenuItem item );
 		virtual void renderCursor( int x, int y, int w, int h );
 		virtual void renderButton( MenuItem item );
+	
+	protected:
+		const int cursorShadow = 100;
 };
 
 class MainMenu: public Menu
@@ -116,7 +119,9 @@ class GameOverMenu: public Menu
 
 		// Values for the fade in animation
 		double fadeInValue = 0;
-		double fadeInSpeed = 3.0;
+		double fadeInSpeed = 12.0;
+
+		int cursorShadow = 50;
 };
 
 class DifficultyMenu: public Menu

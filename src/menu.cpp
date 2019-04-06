@@ -61,7 +61,7 @@ bool Menu::touchSelect( MenuItem item )
 
 void Menu::renderCursor( MenuItem item )
 {
-	vita2d_draw_rectangle( item.x, item.y, BUTTON_WIDTH, BUTTON_HEIGHT, RGBA8( 30, 30, 30, 140 ) );
+	vita2d_draw_rectangle( item.x, item.y, BUTTON_WIDTH, BUTTON_HEIGHT, RGBA8( 30, 30, 30, cursorShadow ) );
 
 	int border_thickness = 4;
 
@@ -73,7 +73,7 @@ void Menu::renderCursor( MenuItem item )
 
 void Menu::renderCursor( int x, int y, int w, int h )
 {
-	vita2d_draw_rectangle( x, y, w, h, RGBA8( 30, 30, 30, 100 ) );
+	vita2d_draw_rectangle( x, y, w, h, RGBA8( 30, 30, 30, cursorShadow ) );
 }
 
 
@@ -202,8 +202,14 @@ GameOverMenu::GameOverMenu()
 
 void GameOverMenu::drawMenu()
 {
-	// Dim the background
-	vita2d_draw_rectangle( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, RGBA8( 0, 0, 0, 100 ) );
+	// Dim the background with a cutout for the selected button
+	vita2d_draw_rectangle( 0, 0, SCREEN_WIDTH, item[0].y, RGBA8( 0, 0, 0, 100 ) );
+	vita2d_draw_rectangle( 0, item[0].y + BUTTON_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - item[0].y - BUTTON_HEIGHT, RGBA8( 0, 0, 0, 100 ) );
+	vita2d_draw_rectangle( 0, item[0].y, item[0].x, BUTTON_HEIGHT, RGBA8( 0, 0, 0, 100 ) );
+	vita2d_draw_rectangle( item[0].x + BUTTON_WIDTH, item[0].y, item[1].x - item[0].x - BUTTON_WIDTH, BUTTON_HEIGHT, RGBA8( 0, 0, 0, 100 ) );
+	vita2d_draw_rectangle( item[1].x + BUTTON_WIDTH, item[0].y, SCREEN_WIDTH - item[1].x - BUTTON_WIDTH, BUTTON_HEIGHT, RGBA8( 0, 0, 0, 100 ) );
+	if( cursor == 0 ) vita2d_draw_rectangle( item[1].x, item[1].y, BUTTON_WIDTH, BUTTON_HEIGHT, RGBA8( 0, 0, 0, 100 ) );
+	else vita2d_draw_rectangle( item[0].x, item[0].y, BUTTON_WIDTH, BUTTON_HEIGHT, RGBA8( 0, 0, 0, 100 ) );
 
 	// Draw the game over banner
 	gameOverBanner();
@@ -219,7 +225,6 @@ void GameOverMenu::drawMenu()
 	
 	if( fadeInValue > 255 )
 		fadeInValue = 255;
-	
 }
 
 void GameOverMenu::gameOverBanner()
@@ -277,16 +282,20 @@ void GameOverMenu::menuNav()
 
 void GameOverMenu::renderCursor( MenuItem item )
 {
-	vita2d_draw_rectangle( item.x, item.y, BUTTON_WIDTH, BUTTON_HEIGHT, RGBA8( 30, 30, 30, ((int)fadeInValue*140)/255 ) );
+	vita2d_draw_rectangle( item.x, item.y, BUTTON_WIDTH, BUTTON_HEIGHT, RGBA8( 30, 30, 30, ((int)fadeInValue*cursorShadow)/255 ) );
 
-	/*
 	int border_thickness = 4;
 
-	vita2d_draw_rectangle( item.x, item.y, BUTTON_WIDTH, border_thickness, (MAIN_FONT_COLOR * (int)fadeInValue) / 255 );
-	vita2d_draw_rectangle( item.x + BUTTON_WIDTH - border_thickness, item.y, border_thickness, BUTTON_HEIGHT, (MAIN_FONT_COLOR * (int)fadeInValue) / 255 );
-	vita2d_draw_rectangle( item.x, item.y + BUTTON_HEIGHT - border_thickness, BUTTON_WIDTH, border_thickness, (MAIN_FONT_COLOR * (int)fadeInValue) / 255 );
-	vita2d_draw_rectangle( item.x, item.y, border_thickness, BUTTON_HEIGHT, (MAIN_FONT_COLOR * (int)fadeInValue) / 255 );
-	*/
+	unsigned int textColor = MAIN_FONT_COLOR;
+	textColor <<= 8;
+	textColor >>= 8;
+	unsigned int fade = (unsigned int)fadeInValue << 24;
+	textColor += fade;
+
+	vita2d_draw_rectangle( item.x, item.y, BUTTON_WIDTH, border_thickness, textColor );
+	vita2d_draw_rectangle( item.x + BUTTON_WIDTH - border_thickness, item.y, border_thickness, BUTTON_HEIGHT, textColor );
+	vita2d_draw_rectangle( item.x, item.y + BUTTON_HEIGHT - border_thickness, BUTTON_WIDTH, border_thickness, textColor );
+	vita2d_draw_rectangle( item.x, item.y, border_thickness, BUTTON_HEIGHT, textColor );
 }
 
 void GameOverMenu::renderButton( MenuItem item )
