@@ -189,20 +189,125 @@ GameOverMenu::GameOverMenu()
 
 	// Initialize menu items
 	item[0].name = "Play Again";
-	item[0].x = 310.0f;
-	item[0].y = 310.0f;
+	item[0].x = 310.0f - 200;
+	item[0].y = 400.0f;
 
 	item[1].name = "Main menu";
-	item[1].x = 310.0f;
-	item[1].y = 411.0f;
+	item[1].x = 310.0f + 200;;
+	item[1].y = item[0].y;
 
 	// Initialize cursor
 	cursor = playAgain;
 }
 
-void GameOverMenu::renderBackground()
+void GameOverMenu::drawMenu()
 {
-	drawBackground();
+	// Dim the background
+	vita2d_draw_rectangle( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, RGBA8( 0, 0, 0, 100 ) );
+
+	// Draw the game over banner
+	gameOverBanner();
+
+	renderCursor( item[ cursor ] );
+
+	for( int i = 0; i < MENU_ITEMS; ++i )			
+		renderButton( item[ i ] );
+
+	// Animate the fade in effect
+	if( fadeInValue < 255)
+		fadeInValue += fadeInSpeed * timestep;
+	
+	if( fadeInValue > 255 )
+		fadeInValue = 255;
+	
+}
+
+void GameOverMenu::gameOverBanner()
+{
+	int bannerH = 240;
+	int gameOverTextSize = 50;
+	int borderThickness = 2;
+
+	vita2d_draw_rectangle( 0, bannerY, SCREEN_WIDTH, bannerH, RGBA8( 0, 0, 0, (int)fadeInValue ) );
+
+	// Draw border with color based on theme
+	vita2d_draw_rectangle( 0, bannerY, SCREEN_WIDTH, borderThickness, MAIN_FONT_COLOR );
+	vita2d_draw_rectangle( 0, bannerY+bannerH-borderThickness, SCREEN_WIDTH, borderThickness, MAIN_FONT_COLOR );
+
+	int topText_width = vita2d_font_text_width( gFont[ gameOverTextSize ], gameOverTextSize, "Game Over");
+	int topText_height = vita2d_font_text_height( gFont[ gameOverTextSize ], gameOverTextSize, "Game Over");
+	vita2d_font_draw_text( gFont[ gameOverTextSize ], (SCREEN_WIDTH - topText_width)/2, gameOverTextY, RGBA8( 255, 255, 255, (int)fadeInValue ), gameOverTextSize, "Game Over" );
+}
+
+void GameOverMenu::drawFinalScore( int score )
+{
+	int text_width = 0;
+	int textSize = 40;
+
+	if( score < 10 )
+		text_width = vita2d_font_text_width( gFont[ (int)(textSize * FONT_SCALE) ], (int)(textSize * FONT_SCALE), "Your score: 0" );
+	else if( score < 100 )
+		text_width = vita2d_font_text_width( gFont[ (int)(textSize * FONT_SCALE) ], (int)(textSize * FONT_SCALE), "Your score: 00" );
+	else
+		text_width = vita2d_font_text_width( gFont[ (int)(textSize * FONT_SCALE) ], (int)(textSize * FONT_SCALE), "Your score: 000" );
+
+	vita2d_font_draw_textf( gFont[ (int)(textSize * FONT_SCALE) ], (SCREEN_WIDTH-text_width)/2, scoreTextY, RGBA8( 255, 255, 255, (int)fadeInValue ), (int)(textSize * FONT_SCALE), "Your score: %d", score );
+}
+
+void GameOverMenu::drawNewHighscore()
+{
+	int textSize = 30;
+
+	int text_width = vita2d_font_text_width( gFont[ (int)(textSize * FONT_SCALE) ], (int)(textSize * FONT_SCALE), "NEW HIGHSCORE!");
+	vita2d_font_draw_text( gFont[ (int)(textSize * FONT_SCALE) ], ( SCREEN_WIDTH - text_width ) / 2, newHighscoreY, RGBA8( 244, 205, 65, (int)fadeInValue ), (int)(textSize * FONT_SCALE), "NEW HIGHSCORE!");
+	
+}
+
+void GameOverMenu::menuNav()
+{
+	if( gInput.wasPressed( Input::left ) || gInput.wasPressed( Input::left ) )
+	{
+		selectUp();
+	}
+	if( gInput.wasPressed( Input::right ) || gInput.wasPressed( Input::lAnalogRight ) )
+	{
+		selectDown();
+	}
+}
+
+void GameOverMenu::renderCursor( MenuItem item )
+{
+	vita2d_draw_rectangle( item.x, item.y, BUTTON_WIDTH, BUTTON_HEIGHT, RGBA8( 30, 30, 30, ((int)fadeInValue*140)/255 ) );
+
+	/*
+	int border_thickness = 4;
+
+	vita2d_draw_rectangle( item.x, item.y, BUTTON_WIDTH, border_thickness, (MAIN_FONT_COLOR * (int)fadeInValue) / 255 );
+	vita2d_draw_rectangle( item.x + BUTTON_WIDTH - border_thickness, item.y, border_thickness, BUTTON_HEIGHT, (MAIN_FONT_COLOR * (int)fadeInValue) / 255 );
+	vita2d_draw_rectangle( item.x, item.y + BUTTON_HEIGHT - border_thickness, BUTTON_WIDTH, border_thickness, (MAIN_FONT_COLOR * (int)fadeInValue) / 255 );
+	vita2d_draw_rectangle( item.x, item.y, border_thickness, BUTTON_HEIGHT, (MAIN_FONT_COLOR * (int)fadeInValue) / 255 );
+	*/
+}
+
+void GameOverMenu::renderButton( MenuItem item )
+{
+	int text_w = vita2d_font_text_width( gFont[ 25 ], 25, item.name );
+	int text_h = vita2d_font_text_height( gFont[ 25 ], 25, item.name );
+	int text_x = item.x + ( ( BUTTON_WIDTH - text_w ) / 2 );
+	int text_y = item.y + ( ( BUTTON_HEIGHT - text_h ) / 2 ) + text_h;
+
+	unsigned int textColor = MAIN_FONT_COLOR;
+	textColor <<= 8;
+	textColor >>= 8;
+	unsigned int fade = (unsigned int)fadeInValue << 24;
+	textColor += fade;
+
+	vita2d_font_draw_text( gFont[ 25 ], text_x, text_y , textColor, 25, item.name );
+}
+
+void GameOverMenu::resetFadeIn()
+{
+	fadeInValue = 0;
 }
 
 
