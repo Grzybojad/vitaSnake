@@ -113,19 +113,11 @@ void Collectable::render()
 // Render the score counter
 void Collectable::renderScore()
 {
-	int text_width;
 	unsigned int text_size = 25;
 	int padding_top = 20;
 	int padding_side = 10;
 
-	if( score < 10 )
-		text_width = vita2d_font_text_width( gFont[ (int)(text_size * FONT_SCALE) ], (int)(30 * FONT_SCALE), "SCORE: 0" );
-	else if( score < 100 )
-		text_width = vita2d_font_text_width( gFont[ (int)(text_size * FONT_SCALE) ], (int)(30 * FONT_SCALE), "SCORE: 00" );
-	else
-		text_width = vita2d_font_text_width( gFont[ (int)(text_size * FONT_SCALE) ], (int)(30 * FONT_SCALE), "SCORE: 000" );
-
-	vita2d_font_draw_textf( gFont[ (int)(text_size * FONT_SCALE) ], SCREEN_WIDTH - text_width + padding_side, padding_top, MAIN_FONT_COLOR, (int)(text_size * FONT_SCALE), "SCORE: %d", score );
+	drawTextf_position( alignRight, SCREEN_WIDTH - padding_side, padding_top, text_size, "SCORE: %d", score );
 }
 
 void Collectable::renderParticles()
@@ -273,16 +265,18 @@ void Collectable::renderHighscore()
 	int padding_side = 10;
 
 	if( GAME_DIFFICULTY == DifficultyMenu::classic )
-		vita2d_font_draw_textf( gFont[ (int)(text_size * FONT_SCALE) ], padding_side, padding_top, MAIN_FONT_COLOR, (int)(text_size * FONT_SCALE), "HIGHSCORE: %d", highscore[ GAME_MODE ].casual );
+		drawTextf( padding_side, padding_top, text_size, "HIGHSCORE: %d", highscore[ GAME_MODE ].casual );
 	else
-		vita2d_font_draw_textf( gFont[ (int)(text_size * FONT_SCALE) ], padding_side, padding_top, MAIN_FONT_COLOR, (int)(text_size * FONT_SCALE), "HIGHSCORE: %d", highscore[ GAME_MODE ].hardcore );
+		drawTextf( padding_side, padding_top, text_size, "HIGHSCORE: %d", highscore[ GAME_MODE ].hardcore );
 }
 
 // Render menu scores
 void Collectable::renderMenuScores()
 {
-	vita2d_font_draw_textf( gFont[ (int)(40 * FONT_SCALE) ], 660, 250, MAIN_FONT_COLOR, (int)(40 * FONT_SCALE), "HIGH: %d", highscore[ GAME_MODE ].casual );
-	vita2d_font_draw_textf( gFont[ (int)(40 * FONT_SCALE) ], 660, 350, MAIN_FONT_COLOR, (int)(40 * FONT_SCALE), "HIGH: %d", highscore[ GAME_MODE ].hardcore );
+	int scoreSize = 40;
+
+	drawTextf( 660, 250, scoreSize, "HIGH: %d", highscore[ GAME_MODE ].casual );
+	drawTextf( 660, 350, scoreSize, "HIGH: %d", highscore[ GAME_MODE ].hardcore );
 }
 
 void Collectable::setPos( float x, float y )

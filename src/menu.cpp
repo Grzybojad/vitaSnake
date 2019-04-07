@@ -79,12 +79,8 @@ void Menu::renderCursor( int x, int y, int w, int h )
 
 void Menu::renderButton( MenuItem item )
 {
-	int text_w = vita2d_font_text_width( gFont[ 25 ], 25, item.name );
-	int text_h = vita2d_font_text_height( gFont[ 25 ], 25, item.name );
-	int text_x = item.x + ( ( BUTTON_WIDTH - text_w ) / 2 );
-	int text_y = item.y + ( ( BUTTON_HEIGHT - text_h ) / 2 ) + text_h;
-
-	vita2d_font_draw_text( gFont[ 25 ], text_x, text_y , MAIN_FONT_COLOR, 25, item.name );
+	int textSize = 42;
+	drawText_position( centered, item.x + (BUTTON_WIDTH/2), item.y + (BUTTON_HEIGHT/2), textSize, item.name );
 }
 
 
@@ -147,14 +143,13 @@ void MainMenu::renderBackground()
 void MainMenu::drawSplashText()
 {
 	int logoPosX = 95;
+	int logoSize = 60;
 
 	// Draw logo
-	int text_width = vita2d_font_text_width( gFont[ (int)( 60 * FONT_SCALE ) ], (int)(60 * FONT_SCALE), "vitaSnake" );
-	vita2d_font_draw_text( gFont[ (int)(60 * FONT_SCALE) ], (SCREEN_WIDTH - text_width)/2, logoPosX, MAIN_FONT_COLOR, (int)(60 * FONT_SCALE), "vitaSnake" );
+	drawText_position( centeredX, (SCREEN_WIDTH/2), logoPosX, logoSize, "vitaSnake" );
 
-	int font_size = 14;
-	text_width = vita2d_font_text_width( gFont[ font_size ], font_size, splash[randSplash].c_str() );
-	vita2d_font_draw_text( gFont[ font_size ], (SCREEN_WIDTH-text_width)/2 + 8, logoPosX + 28, MAIN_FONT_COLOR, font_size, splash[randSplash].c_str() );
+	int font_size = 23;
+	drawText_position( centeredX, SCREEN_WIDTH/2 + 8, logoPosX + 28, font_size, splash[randSplash].c_str() );
 }
 
 
@@ -230,7 +225,7 @@ void GameOverMenu::drawMenu()
 void GameOverMenu::gameOverBanner()
 {
 	int bannerH = 240;
-	int gameOverTextSize = 50;
+	int gameOverTextSize = 83;
 	int borderThickness = 2;
 
 	vita2d_draw_rectangle( 0, bannerY, SCREEN_WIDTH, bannerH, RGBA8( 0, 0, 0, (int)fadeInValue ) );
@@ -239,33 +234,21 @@ void GameOverMenu::gameOverBanner()
 	vita2d_draw_rectangle( 0, bannerY, SCREEN_WIDTH, borderThickness, MAIN_FONT_COLOR );
 	vita2d_draw_rectangle( 0, bannerY+bannerH-borderThickness, SCREEN_WIDTH, borderThickness, MAIN_FONT_COLOR );
 
-	int topText_width = vita2d_font_text_width( gFont[ gameOverTextSize ], gameOverTextSize, "Game Over");
-	int topText_height = vita2d_font_text_height( gFont[ gameOverTextSize ], gameOverTextSize, "Game Over");
-	vita2d_font_draw_text( gFont[ gameOverTextSize ], (SCREEN_WIDTH - topText_width)/2, gameOverTextY, RGBA8( 255, 255, 255, (int)fadeInValue ), gameOverTextSize, "Game Over" );
+	drawText_color_position( centeredX, SCREEN_WIDTH/2, gameOverTextY, gameOverTextSize, RGBA8(255, 255, 255, (int)fadeInValue ), "Game Over" );
 }
 
 void GameOverMenu::drawFinalScore( int score )
 {
-	int text_width = 0;
 	int textSize = 40;
-
-	if( score < 10 )
-		text_width = vita2d_font_text_width( gFont[ (int)(textSize * FONT_SCALE) ], (int)(textSize * FONT_SCALE), "Your score: 0" );
-	else if( score < 100 )
-		text_width = vita2d_font_text_width( gFont[ (int)(textSize * FONT_SCALE) ], (int)(textSize * FONT_SCALE), "Your score: 00" );
-	else
-		text_width = vita2d_font_text_width( gFont[ (int)(textSize * FONT_SCALE) ], (int)(textSize * FONT_SCALE), "Your score: 000" );
-
-	vita2d_font_draw_textf( gFont[ (int)(textSize * FONT_SCALE) ], (SCREEN_WIDTH-text_width)/2, scoreTextY, RGBA8( 255, 255, 255, (int)fadeInValue ), (int)(textSize * FONT_SCALE), "Your score: %d", score );
+	
+	drawTextf_color_position( centeredX, SCREEN_WIDTH/2, scoreTextY, textSize, RGBA8(255, 255, 255, (int)fadeInValue ), "Your score: %d", score );
 }
 
 void GameOverMenu::drawNewHighscore()
 {
 	int textSize = 30;
 
-	int text_width = vita2d_font_text_width( gFont[ (int)(textSize * FONT_SCALE) ], (int)(textSize * FONT_SCALE), "NEW HIGHSCORE!");
-	vita2d_font_draw_text( gFont[ (int)(textSize * FONT_SCALE) ], ( SCREEN_WIDTH - text_width ) / 2, newHighscoreY, RGBA8( 244, 205, 65, (int)fadeInValue ), (int)(textSize * FONT_SCALE), "NEW HIGHSCORE!");
-	
+	drawText_color_position( centeredX, SCREEN_WIDTH / 2, newHighscoreY, textSize, RGBA8( 255, 215, 0, (int)fadeInValue ), "NEW HIGHSCORE!" );
 }
 
 void GameOverMenu::menuNav()
@@ -300,10 +283,7 @@ void GameOverMenu::renderCursor( MenuItem item )
 
 void GameOverMenu::renderButton( MenuItem item )
 {
-	int text_w = vita2d_font_text_width( gFont[ 25 ], 25, item.name );
-	int text_h = vita2d_font_text_height( gFont[ 25 ], 25, item.name );
-	int text_x = item.x + ( ( BUTTON_WIDTH - text_w ) / 2 );
-	int text_y = item.y + ( ( BUTTON_HEIGHT - text_h ) / 2 ) + text_h;
+	int fontSize = 42;
 
 	unsigned int textColor = MAIN_FONT_COLOR;
 	textColor <<= 8;
@@ -311,7 +291,7 @@ void GameOverMenu::renderButton( MenuItem item )
 	unsigned int fade = (unsigned int)fadeInValue << 24;
 	textColor += fade;
 
-	vita2d_font_draw_text( gFont[ 25 ], text_x, text_y , textColor, 25, item.name );
+	drawText_position( centered, item.x + (BUTTON_WIDTH/2), item.y + (BUTTON_HEIGHT/2), fontSize, item.name );
 }
 
 void GameOverMenu::resetFadeIn()
@@ -343,13 +323,10 @@ void DifficultyMenu::drawMenu()
 	drawBackground();
 
 	int font_size = 60;
-	int topText_width = vita2d_font_text_width( gFont[ (int)(font_size * FONT_SCALE) ], (int)(font_size * FONT_SCALE), "Choose the difficulty");
-	vita2d_font_draw_text( gFont[ (int)(font_size * FONT_SCALE) ], (SCREEN_WIDTH - topText_width)/2, 110, MAIN_FONT_COLOR, (int)(font_size * FONT_SCALE), "Choose the difficulty" );
+	drawText_position( centeredX, SCREEN_WIDTH/2, 110, font_size, "Choose the difficulty" );
 
 	font_size = 35;
-	topText_width = vita2d_font_text_width( gFont[ (int)(font_size * FONT_SCALE) ], (int)(font_size * FONT_SCALE), "Mode: " );
-	int topText_width2 = vita2d_font_text_width( gFont[ (int)(font_size * FONT_SCALE) ], (int)(font_size * FONT_SCALE), getGameModeName() );
-	vita2d_font_draw_textf( gFont[ (int)(font_size * FONT_SCALE) ], (SCREEN_WIDTH - topText_width - topText_width2)/2, 160, MAIN_FONT_COLOR, (int)(font_size * FONT_SCALE), "Mode: %s", getGameModeName()  );
+	drawTextf_position( centeredX, SCREEN_WIDTH/2, 160, font_size, "Mode: %s", getGameModeName() );
 
 
 	renderCursor( item[ cursor ] );	// Draw cursor
@@ -383,23 +360,17 @@ void DifficultyMenu::renderSnake()
 void DifficultyMenu::renderDescription()
 {
 	int text_width1, text_width2;
-	int font_size = 18;
+	int font_size = 30;
 
 	switch( GAME_DIFFICULTY )
 	{
 	case 0:
-		text_width1 = vita2d_font_text_width( gFont[ font_size ], font_size, "Collect as many apples as you can,");
-		text_width2 = vita2d_font_text_width( gFont[ font_size ], font_size, "just don't bite your tail!");
-
-		vita2d_font_draw_text( gFont[ font_size ], (SCREEN_WIDTH - text_width1)/2, 430, MAIN_FONT_COLOR, font_size, "Collect as many apples as you can,");
-		vita2d_font_draw_text( gFont[ font_size ], (SCREEN_WIDTH - text_width2)/2, 470, MAIN_FONT_COLOR, font_size, "just don't bite your tail!");
+		drawText_position( centeredX, SCREEN_WIDTH/2, 430, font_size, "Collect as many apples as you can," );
+		drawText_position( centeredX, SCREEN_WIDTH/2, 470, font_size, "just don't bite your tail!" );
 		break;
 	case 1:
-		text_width1 = vita2d_font_text_width( gFont[ font_size ], font_size, "Recommended for experienced players,");
-		text_width2 = vita2d_font_text_width( gFont[ font_size ], font_size, "touching the game border kills the snake.");
-
-		vita2d_font_draw_text( gFont[ font_size ], (SCREEN_WIDTH - text_width1)/2, 430, MAIN_FONT_COLOR, font_size, "Recommended for experienced players,");
-		vita2d_font_draw_text( gFont[ font_size ], (SCREEN_WIDTH - text_width2)/2, 470, MAIN_FONT_COLOR, font_size, "touching the game border kills the snake.");
+		drawText_position( centeredX, SCREEN_WIDTH/2, 430, font_size, "Recommended for experienced players," );
+		drawText_position( centeredX, SCREEN_WIDTH/2, 470, font_size, "touching the game border kills the snake." );
 		break;
 	}
 }
@@ -443,8 +414,7 @@ void ModeMenu::renderMenu()
 	vita2d_draw_rectangle( 10, 10, margin_x+BUTTON_WIDTH+margin_x-20, SCREEN_HEIGHT-20, RGBA8( 0, 0, 0, 50 ) );
 
 	int text_size = 40;
-	int topText_width = vita2d_font_text_width( gFont[ (int)(text_size * FONT_SCALE) ], (int)(text_size * FONT_SCALE), "Choose a game mode");
-	vita2d_font_draw_text( gFont[ (int)(text_size * FONT_SCALE) ], SCREEN_WIDTH - topText_width - margin_x, 100, MAIN_FONT_COLOR, (int)(text_size * FONT_SCALE), "Choose a game mode" );
+	drawText_position( alignRight, SCREEN_WIDTH - margin_x, 100, text_size , "Choose a game mode" );
 
 	renderCursor( item[ cursor ] );	// Draw cursor
 
@@ -458,7 +428,7 @@ void ModeMenu::renderMenu()
 
 void ModeMenu::renderDescription()
 {
-	int font_size = 18;
+	int font_size = 30;
 
 	int desc_x = 500;
 	int desc_y = 180;
@@ -470,39 +440,39 @@ void ModeMenu::renderDescription()
 	{
 	// Classic
 	case 0:
-		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y, MAIN_FONT_COLOR, font_size, "Play vitaSnake the");
-		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y + 30, MAIN_FONT_COLOR, font_size, "classic way!");
+		drawText( desc_x, desc_y, font_size, "Play vitaSnake the" );
+		drawText( desc_x, desc_y + 30, font_size, "classic way!" );
 		break;
 	// Time Trial
 	case 1:
-		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y, MAIN_FONT_COLOR, font_size, "It's a desparate race");
-		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y + 30, MAIN_FONT_COLOR, font_size, "against the time,");
-		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y + 60, MAIN_FONT_COLOR, font_size, "collect as many points");
-		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y + 90, MAIN_FONT_COLOR, font_size, "as possible within a 30");
-		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y + 120, MAIN_FONT_COLOR, font_size, "second time limit!");
+		drawText( desc_x, desc_y, font_size, "It's a desparate race" );
+		drawText( desc_x, desc_y + 30, font_size, "against the time," );
+		drawText( desc_x, desc_y + 60, font_size, "collect as many points" );
+		drawText( desc_x, desc_y + 90, font_size, "as possible within a 30" );
+		drawText( desc_x, desc_y + 120, font_size, "second time limit!" );
 		break;
 	// Hyper
 	case 2:
-		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y, MAIN_FONT_COLOR, font_size, "The snake starts slow,");
-		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y + 30, MAIN_FONT_COLOR, font_size, "but gets faster with.");
-		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y + 60, MAIN_FONT_COLOR, font_size, "each point.");
+		drawText( desc_x, desc_y, font_size, "The snake starts slow," );
+		drawText( desc_x, desc_y + 30, font_size, "but gets faster with." );
+		drawText( desc_x, desc_y + 60, font_size, "each point." );
 		break;
 	// Fibonacci
 	case 3:
-		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y, MAIN_FONT_COLOR, font_size, "Instead of only growing");
-		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y + 30, MAIN_FONT_COLOR, font_size, "by one piece, each");
-		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y + 60, MAIN_FONT_COLOR, font_size, "time the snake gets");
-		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y + 90, MAIN_FONT_COLOR, font_size, "longer by a number");
-		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y + 120, MAIN_FONT_COLOR, font_size, "determined by the");
-		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y + 150, MAIN_FONT_COLOR, font_size, "Fibonacci sequence.");
+		drawText( desc_x, desc_y, font_size, "Instead of only growing");
+		drawText( desc_x, desc_y + 30, font_size, "by one piece, each");
+		drawText( desc_x, desc_y + 60, font_size, "time the snake gets");
+		drawText( desc_x, desc_y + 90, font_size, "longer by a number");
+		drawText( desc_x, desc_y + 120, font_size, "determined by the");
+		drawText(  desc_x, desc_y + 150, font_size, "Fibonacci sequence.");
 		break;
 	// Lazy
 	case 4:
-		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y, MAIN_FONT_COLOR, font_size, "The snake got lazy,  ");
-		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y + 30, MAIN_FONT_COLOR, font_size, "so it won't move");
-		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y + 60, MAIN_FONT_COLOR, font_size, "on it's own.");
-		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y + 90, MAIN_FONT_COLOR, font_size, "Drag it by the head");
-		vita2d_font_draw_text( gFont[ font_size ], desc_x, desc_y + 120, MAIN_FONT_COLOR, font_size, "with your finger.");
+		drawText( desc_x, desc_y, font_size, "The snake got lazy,  ");
+		drawText( desc_x, desc_y + 30, font_size, "so it won't move");
+		drawText( desc_x, desc_y + 60, font_size, "on it's own.");
+		drawText( desc_x, desc_y + 90, font_size, "Drag it by the head");
+		drawText( desc_x, desc_y + 120, font_size, "with your finger.");
 		break;
 	}
 }

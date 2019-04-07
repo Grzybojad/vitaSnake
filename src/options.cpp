@@ -285,23 +285,24 @@ void OptionsMenu::renderOptions()
 	updateNrTextures();
 
 	int text_width;
+	int optionsFontSize = 20;
+	int optionsNameSize = 30;
 
-	text_width = vita2d_font_text_width( gFont[ 60 ], 60, "Options" );
-	vita2d_font_draw_text ( gFont[ (int)(60 * FONT_SCALE) ], (SCREEN_WIDTH - text_width) / 2, 70, MAIN_FONT_COLOR, (int)(60 * FONT_SCALE), "Options" );
+	drawText_position( centeredX, SCREEN_WIDTH / 2, 70, 60, "Options" );
 
 	// Control Type option
-	vita2d_font_draw_text( gFont[ (int)(30 * FONT_SCALE) ], 20, option[ 0 ].slct_y, MAIN_FONT_COLOR, (int)(30 * FONT_SCALE), option[ 0 ].name );
+	drawText( 20, option[ 0 ].slct_y, 30, option[ 0 ].name );
 	switch( option[ 0 ].selected )
 	{
 		case 0:
 			text_width = drawSelectable( "Classic", option[ 0 ].slct_y );
-			vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], DESC_X, option[ 0 ].slct_y - 20, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "Move the left stick left or" );
-			vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], DESC_X, option[ 0 ].slct_y + 10, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "right to turn the snake." );
+			drawText( DESC_X, option[ 0 ].slct_y - 20, optionsFontSize, "Move the left stick left or" );
+			drawText( DESC_X, option[ 0 ].slct_y + 10, optionsFontSize, "right to turn the snake." );
 			break;
 		case 1:
 			text_width = drawSelectable( "Simplified", option[ 0 ].slct_y );
-			vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], DESC_X, option[ 0 ].slct_y - 20, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "Move the left in the direction" );
-			vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], DESC_X, option[ 0 ].slct_y + 10, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "you want the snake to go." );
+			drawText( DESC_X, option[ 0 ].slct_y - 20, optionsFontSize, "Move the left in the direction" );
+			drawText( DESC_X, option[ 0 ].slct_y + 10, optionsFontSize, "you want the snake to go." );
 			break;
 	}
 	if( cursor == 0 )
@@ -310,7 +311,7 @@ void OptionsMenu::renderOptions()
 	// player/background/collectable style options
 	for( int i = 1; i < MENU_ITEMS-2; ++i )
 	{
-		vita2d_font_draw_text( gFont[ (int)(30 * FONT_SCALE) ], 20, option[ i ].slct_y, MAIN_FONT_COLOR, (int)(30 * FONT_SCALE), option[ i ].name );
+		drawText( 20, option[ i ].slct_y, optionsNameSize, option[ i ].name );
 		switch( i )
 		{
 			case 1:
@@ -330,7 +331,7 @@ void OptionsMenu::renderOptions()
 	appleModel.render();
 
 	// Collectable effects selectable
-	vita2d_font_draw_text( gFont[ (int)(30 * FONT_SCALE) ], 20, option[ 4 ].slct_y, MAIN_FONT_COLOR, (int)(30 * FONT_SCALE), option[ 4 ].name );
+	drawText( 20, option[ 4 ].slct_y, optionsNameSize, option[ 4 ].name );
 	switch( option[ 4 ].selected )
 	{
 		case 0:
@@ -344,7 +345,7 @@ void OptionsMenu::renderOptions()
 		renderCursor( option[ cursor ], text_width );
 
 	// Rear touch selectable
-	vita2d_font_draw_text( gFont[ (int)(30 * FONT_SCALE) ], 20, option[ 5 ].slct_y, MAIN_FONT_COLOR, (int)(30 * FONT_SCALE), option[ 5 ].name );
+	drawText( 20, option[ 5 ].slct_y, optionsNameSize, option[ 5 ].name );
 	switch( option[ 5 ].selected )
 	{
 		case 0:
@@ -414,9 +415,9 @@ void OptionsMenu::readSettings()
 
 int OptionsMenu::drawSelectable( const char *name, int y )
 {
-	int text_width = vita2d_font_text_width( gFont[ (int)(30 * FONT_SCALE) ], (int)(30 * FONT_SCALE), name );
-	vita2d_font_draw_text( gFont[ (int)(30 * FONT_SCALE) ], ITEM_X - (text_width / 2), y, MAIN_FONT_COLOR, (int)(30 * FONT_SCALE), name );
+	drawText_position( centeredX, ITEM_X, y, 30, name );
 
+	int text_width = vita2d_font_text_width( gFont[ (int)(30 * FONT_SCALE) ], (int)(30 * FONT_SCALE), name );
 	return text_width;
 }
 

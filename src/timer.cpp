@@ -72,15 +72,7 @@ void Timer::drawTime()
 
     float time = (float)get_ticks() / (float)1000000;
 
-    int text_width;
-    if( time < 10 )
-        text_width = vita2d_font_text_width( gFont[ (int)(font_size * FONT_SCALE) ], (int)(font_size * FONT_SCALE), "0.00" );
-    else if( time < 100 )
-        text_width = vita2d_font_text_width( gFont[ (int)(font_size * FONT_SCALE) ], (int)(font_size * FONT_SCALE), "00.00" );
-    else
-        text_width = vita2d_font_text_width( gFont[ (int)(font_size * FONT_SCALE) ], (int)(font_size * FONT_SCALE), "000.00" );
-    
-    vita2d_font_draw_textf( gFont[ (int)(font_size * FONT_SCALE) ], (SCREEN_WIDTH - text_width)/2, 35, MAIN_FONT_COLOR, (int)(font_size * FONT_SCALE), "%.*f", 2, time );
+    drawTextf_position( centeredX, SCREEN_WIDTH/2, 35, font_size, "%.*f", 2, time );
 }
 
 void Timer::drawCountdown( int timeLimit )
@@ -89,17 +81,9 @@ void Timer::drawCountdown( int timeLimit )
 
     float time = ( timeLimit - (float)get_ticks() ) / (float)1000000;
 
-    int text_width;
-    if( time < 10 )
-        text_width = vita2d_font_text_width( gFont[ (int)(font_size * FONT_SCALE) ], (int)(font_size * FONT_SCALE), "0.00" );
-    else if( time < 100 )
-        text_width = vita2d_font_text_width( gFont[ (int)(font_size * FONT_SCALE) ], (int)(font_size * FONT_SCALE), "00.00" );
-    else
-        text_width = vita2d_font_text_width( gFont[ (int)(font_size * FONT_SCALE) ], (int)(font_size * FONT_SCALE), "000.00" );
-
     // Prevent drawing negative time
     if( time > 0)
-        vita2d_font_draw_textf( gFont[ (int)(font_size * FONT_SCALE) ], (SCREEN_WIDTH - text_width)/2, 35, MAIN_FONT_COLOR, (int)(font_size * FONT_SCALE), "%.*f", 2, time );
+        drawTextf_position( centeredX, SCREEN_WIDTH/2, 35, font_size, "%.*f", 2, time );
     else
-        vita2d_font_draw_text( gFont[ (int)(font_size * FONT_SCALE) ], (SCREEN_WIDTH - text_width)/2, 35, MAIN_FONT_COLOR, (int)(font_size * FONT_SCALE), "0.00" );
+        drawText_position( centeredX, SCREEN_WIDTH/2, 35, font_size, "0.00" );
 }

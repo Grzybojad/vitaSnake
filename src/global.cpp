@@ -218,8 +218,7 @@ void drawBackText()
 {
 	int text_width;
 
-	text_width = vita2d_font_text_width( gFont[ (int)(25 * FONT_SCALE) ], (int)(25 * FONT_SCALE), "Press   to go back" );
-	vita2d_font_draw_text( gFont[ (int)(25 * FONT_SCALE) ], SCREEN_WIDTH - text_width - 15, SCREEN_HEIGHT - 15, MAIN_FONT_COLOR, (int)(25 * FONT_SCALE), "Press   to go back" );
+	drawText_position( alignRight, SCREEN_WIDTH - 15, SCREEN_HEIGHT - 15, 25, "Press   to go back" );
 
 	text_width = vita2d_font_text_width( gFont[ (int)(25 * FONT_SCALE) ], (int)(25 * FONT_SCALE), "  to go back" );
 	gCircleTexture.draw_scale( SCREEN_WIDTH - text_width - 17, SCREEN_HEIGHT - 10 - ( gCircleTexture.get_height() * 0.35 ), 0.35, 0.35 );
@@ -267,4 +266,112 @@ std::string timeToString( SceUInt64 time )
 	clock.append(std::to_string(seconds % 10) );
 	
 	return clock;
+}
+
+void drawText( int x, int y, unsigned int size, const char *text )
+{
+	vita2d_font_draw_text( gFont[ (int)(size * FONT_SCALE) ], x, y, MAIN_FONT_COLOR, (int)(size * FONT_SCALE), text );
+}
+
+void drawTextf( int x, int y, unsigned int size, const char *text, ... )
+{
+	char buf[1024];
+	va_list argptr;
+
+	va_start(argptr, text);
+	vsnprintf(buf, sizeof(buf), text, argptr);
+	va_end(argptr);
+
+	return drawText( x, y, size, buf );
+}
+
+void drawText_color( int x, int y, unsigned int size, unsigned int color, const char *text )
+{
+	vita2d_font_draw_text( gFont[ (int)(size * FONT_SCALE) ], x, y, color, (int)(size * FONT_SCALE), text );
+}
+
+void drawTextf_color( int x, int y, unsigned int size, unsigned int color, const char *text, ... )
+{
+	char buf[1024];
+	va_list argptr;
+
+	va_start( argptr, text );
+	vsnprintf( buf, sizeof(buf), text, argptr );
+	va_end( argptr );
+
+	return drawText_color( x, y, size, color, buf );
+}
+
+void drawText_position( position p, int x, int y, unsigned int size, const char *text )
+{
+	int w = vita2d_font_text_width( gFont[ (int)(size * FONT_SCALE) ], (int)(size * FONT_SCALE), text );
+	int h = vita2d_font_text_height( gFont[ (int)(size * FONT_SCALE) ], (int)(size * FONT_SCALE), text );
+
+	switch( p )
+	{
+		case normal:
+		default:
+			return drawText( x, y, size, text );
+
+		case centered:
+			return drawText( x - (w/2), y + (h/2), size, text );
+
+		case centeredX:
+			return drawText( x - (w/2), y, size, text );
+
+		case centeredY:
+			return drawText( x, y + (h/2), size, text );
+
+		case alignRight:
+			return drawText( x - w, y, size, text );
+	}
+}
+
+void drawTextf_position( position p, int x, int y, unsigned int size, const char *text, ... )
+{
+	char buf[1024];
+	va_list argptr;
+
+	va_start( argptr, text );
+	vsnprintf( buf, sizeof(buf), text, argptr );
+	va_end( argptr );
+
+	return drawText_position( p, x, y, size, buf );
+}
+
+void drawText_color_position( position p, int x, int y, unsigned int size, unsigned int color, const char *text )
+{
+	int w = vita2d_font_text_width( gFont[ (int)(size * FONT_SCALE) ], (int)(size * FONT_SCALE), text );
+	int h = vita2d_font_text_height( gFont[ (int)(size * FONT_SCALE) ], (int)(size * FONT_SCALE), text );
+
+	switch( p )
+	{
+		case normal:
+		default:
+			return drawText_color( x, y, size, color, text );
+
+		case centered:
+			return drawText_color( x - (w/2), y + (h/2), size, color, text );
+
+		case centeredX:
+			return drawText_color( x - (w/2), y, size, color, text );
+
+		case centeredY:
+			return drawText_color( x, y + (h/2), size, color, text );
+
+		case alignRight:
+			return drawText_color( x - w, y, size, color, text );
+	}
+}
+
+void drawTextf_color_position( position p, int x, int y, unsigned int size, unsigned int color, const char *text, ... )
+{
+	char buf[1024];
+	va_list argptr;
+
+	va_start( argptr, text );
+	vsnprintf( buf, sizeof(buf), text, argptr );
+	va_end( argptr );
+
+	return drawText_color_position( p, x, y, size, color, buf );
 }

@@ -5,6 +5,7 @@
 #include <math.h>
 #include <vector>
 #include <string>
+#include <stdarg.h>
 
 #include <psp2/ctrl.h>
 #include <psp2/audioout.h>
@@ -18,6 +19,7 @@
 
 #include "texture.hpp"
 #include "buttons.hpp"
+
 
 // Pi define
 #ifndef M_PI
@@ -69,7 +71,7 @@ enum gameState
 	options = 10,
 	choosingMode = 11,
 	showingStats = 12,
-	showingCredits
+	showingCredits = 13
 };
 extern gameState _gameState;
 
@@ -80,6 +82,15 @@ enum part
 	head = 2,
 	headOpen = 3,
 	headAngry = 4
+};
+
+enum position
+{
+	normal = 0,
+	centered = 1,
+	centeredX = 2,
+	centeredY = 3,
+	alignRight = 4
 };
 
 struct vec3
@@ -183,5 +194,15 @@ extern void drawBackText();
 // Convert int time (in miliseconds) to a string
 extern std::string timeToString( SceUInt64 time );
 
+
+// Draw text
+extern void drawText( int x, int y, unsigned int size, const char *text );
+extern void drawTextf( int x, int y, unsigned int size, const char *text, ... );
+extern void drawText_color( int x, int y, unsigned int size, unsigned int color, const char *text );
+extern void drawTextf_color( int x, int y, unsigned int size, unsigned int color, const char *text, ... );
+extern void drawText_position( position p, int x, int y, unsigned int size, const char *text );
+extern void drawTextf_position( position p, int x, int y, unsigned int size, const char *text, ... );
+extern void drawText_color_position( position p, int x, int y, unsigned int size, unsigned int color, const char *text );
+extern void drawTextf_color_position( position p, int x, int y, unsigned int size, unsigned int color, const char *text, ... );
 
 #endif // GLOBAL_HPP

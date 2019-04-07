@@ -40,9 +40,7 @@ void Stats::renderStatsPage()
 
 	drawBackground();
 
-	int text_width;
-	text_width = vita2d_font_text_width( gFont[ (int)(headerFontSize * FONT_SCALE) ], (int)(headerFontSize * FONT_SCALE), "Extras" );
-	vita2d_font_draw_text( gFont[ (int)(headerFontSize * FONT_SCALE) ], ( ( SCREEN_WIDTH - text_width ) / 2 ), headerHeight, MAIN_FONT_COLOR, (int)(headerFontSize * FONT_SCALE), "Extras" );
+    drawText_position( centeredX, SCREEN_WIDTH / 2, headerHeight, headerFontSize, "Extras" );
 
     drawStats( (SCREEN_WIDTH/2) - horizontalSpacing, statsHeight, std::to_string(applesEaten).c_str(), "Apples eaten" );
     drawStats( (SCREEN_WIDTH/2), statsHeight, timeToString(timePlayed).c_str(), "Time spent playing" );
@@ -56,10 +54,7 @@ void Stats::drawStats( float x, float y, std::string statData, std::string statN
     int statsFontSize = 50;
     int descFontSize = 30;
     int verticalSpacing = 50;
-    int text_width;
 
-    text_width = vita2d_font_text_width( gFont[ (int)(statsFontSize * FONT_SCALE) ], (int)(statsFontSize * FONT_SCALE), statData.c_str() );
-	vita2d_font_draw_textf( gFont[ (int)(statsFontSize * FONT_SCALE) ], x - (text_width/2), y, MAIN_FONT_COLOR, (int)(statsFontSize * FONT_SCALE), statData.c_str() );
-    text_width = vita2d_font_text_width( gFont[ (int)(descFontSize * FONT_SCALE) ], (int)(descFontSize * FONT_SCALE), statName.c_str() );
-    vita2d_font_draw_text( gFont[ (int)(descFontSize * FONT_SCALE) ], x - (text_width/2), y + verticalSpacing, MAIN_FONT_COLOR, (int)(descFontSize * FONT_SCALE), statName.c_str() );
+    drawText_position( centeredX, x, y, statsFontSize, statData.c_str() );
+    drawText_position( centeredX, x, y + verticalSpacing, descFontSize, statName.c_str() );
 }

@@ -156,8 +156,7 @@ void Game::gameMenu()
 	mainMenu.drawSplashText();
 
 	// Draw version in the lower-left corner
-	int text_height = vita2d_font_text_height( gFont[ (int)(24 * FONT_SCALE) ], (int)(24 * FONT_SCALE), "version: " );
-	vita2d_font_draw_textf( gFont[ (int)(24 * FONT_SCALE) ], 10, SCREEN_HEIGHT-(text_height/2)-5, MAIN_FONT_COLOR, (int)(24 * FONT_SCALE), "version: %s", VERSION );
+	drawTextf( 10, SCREEN_HEIGHT - 10, 24, "version: %s", VERSION );
 
 	mainMenu.renderCursor( mainMenu.item[ mainMenu.cursor ] );	
 
@@ -400,8 +399,7 @@ void Game::gamePaused()
 	// Dim the background
 	vita2d_draw_rectangle( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, RGBA8( 0, 0, 0, 40 ) );
 
-	int topText_width = vita2d_font_text_width( gFont[ (int)(60 * FONT_SCALE) ], (int)(60 * FONT_SCALE), "Paused" );
-	vita2d_font_draw_text( gFont[ (int)(60 * FONT_SCALE) ], (SCREEN_WIDTH - topText_width)/2, 110, MAIN_FONT_COLOR, (int)(60 * FONT_SCALE), "Paused" );
+	drawText_position( centeredX, SCREEN_WIDTH/2, 110, 60, "Paused" );
 
 	pauseMenu.renderCursor( pauseMenu.item[ pauseMenu.cursor ] );
 
@@ -431,21 +429,6 @@ void Game::gameEnd()
 	gameDraw();
 
 	gameOverMenu.drawMenu();
-
-	/*
-	// Draw the Game Over text over the game
-	vita2d_draw_rectangle( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, RGBA8( 0, 0, 0, 40 ) );
-
-	int topText_width = vita2d_font_text_width( gFont[ 60 ], 60, "Game Over");
-	vita2d_font_draw_text( gFont[ 60 ], (SCREEN_WIDTH - topText_width)/2, 110, MAIN_FONT_COLOR, 60, "Game Over" );
-	
-
-	gameOverMenu.renderCursor( gameOverMenu.item[ gameOverMenu.cursor ] );
-
-	for( int i = 0; i < gameOverMenu.MENU_ITEMS; ++i )			
-		gameOverMenu.renderButton( gameOverMenu.item[ i ] );
-
-	*/
 
 	// If the player set a new highscore
 	if( collectable.getScore() >= collectable.getHighscore() )
@@ -658,23 +641,22 @@ void Game::gameHTP()
 	drawBackground();
 
 	int text_width;
+	int textSize = 20;
 
-	text_width = vita2d_font_text_width( gFont[ (int)(35 * FONT_SCALE) ], (int)(35 * FONT_SCALE), "How to play" );
-	vita2d_font_draw_text( gFont[ (int)(35 * FONT_SCALE) ], ( ( SCREEN_WIDTH - text_width ) / 2 ), 40, MAIN_FONT_COLOR, (int)(35 * FONT_SCALE), "How to play" );
+	drawText_position( centeredX, SCREEN_WIDTH/ 2, 40, 35, "How to play" );
 
-	vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], 15, 100, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "Your goal in this game is to eat as many apples as you can," );
-	vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], 15, 130, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "each apple eaten adds a point to your score." );
-	vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], 15, 160, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "Avoid biting your own tail, or you will lose the game." );
+	drawText( 15, 100, textSize, "Your goal in this game is to eat as many apples as you can," );
+	drawText( 15, 130, textSize, "each apple eaten adds a point to your score." );
+	drawText( 15, 160, textSize, "Avoid biting your own tail, or you will lose the game." );
 
-
-	vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], 15, 260, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "- The snake moves forward by itself." );
-	vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], 15, 310, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "- Use the left stick, DPAD or touch to control the snake" );
-	vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], 15, 360, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "- You can boost the snake's speed by holding the   button." );
+	drawText( 15, 260, textSize, "- The snake moves forward by itself." );
+	drawText( 15, 310, textSize, "- Use the left stick, DPAD or touch to control the snake" );
+	drawText( 15, 360, textSize, "- You can boost the snake's speed by holding the   button." );
 
 	text_width = vita2d_font_text_width( gFont[ (int)(20 * FONT_SCALE) ], (int)(20 * FONT_SCALE), "- You can boost the snake's speed by holding the " );
 	gCrossTexture.draw_scale( text_width + 12, 365 - (gCrossTexture.get_height()*0.30), 0.30, 0.30 );
 
-	vita2d_font_draw_text( gFont[ (int)(20 * FONT_SCALE) ], 15, 440, MAIN_FONT_COLOR, (int)(20 * FONT_SCALE), "- Pause the game with the START button." );
+	drawText( 15, 440, textSize, "- Pause the game with the START button." );
 
 	drawBackText();
 
@@ -719,25 +701,24 @@ void Game::gameCredits()
 	int creditsSize = 20;
 	int text_width;
 
-	text_width = vita2d_font_text_width( gFont[ (int)(30 * FONT_SCALE) ], (int)(30 * FONT_SCALE), "VitaSnake is a game made by Grzybojad" );
-	vita2d_font_draw_text( gFont[ (int)(30 * FONT_SCALE) ], ( ( SCREEN_WIDTH - text_width ) / 2 ), 40, MAIN_FONT_COLOR, (int)(30 * FONT_SCALE), "VitaSnake is a game made by Grzybojad" );
+	drawText_position( centeredX, SCREEN_WIDTH/ 2, 40, 30, "VitaSnake is a game made by Grzybojad" );
 
-	vita2d_font_draw_text( gFont[ (int)(creditsSize * FONT_SCALE) ], 15, 90, MAIN_FONT_COLOR, (int)(creditsSize * FONT_SCALE), "Texture credits:" );
-	vita2d_font_draw_text( gFont[ (int)(creditsSize * FONT_SCALE) ], 15, 120, MAIN_FONT_COLOR, (int)(creditsSize * FONT_SCALE), "- Livearea, default snake, apple and mushroom textures by Catter" );
-	vita2d_font_draw_text( gFont[ (int)(creditsSize * FONT_SCALE) ], 15, 150, MAIN_FONT_COLOR, (int)(creditsSize * FONT_SCALE), "- RPPHS snake and apple textures by MotoLegacy" );
-	vita2d_font_draw_text( gFont[ (int)(creditsSize * FONT_SCALE) ], 15, 180, MAIN_FONT_COLOR, (int)(creditsSize * FONT_SCALE), "- Desert tile from Whispers of Avalon: Desert Tileset by Leonard Pabin" );
-	vita2d_font_draw_text( gFont[ (int)(creditsSize * FONT_SCALE) ], 15, 210, MAIN_FONT_COLOR, (int)(creditsSize * FONT_SCALE), "- Button symbols from \"No dead folk!\"" );
+	drawText( 15, 90, creditsSize, "Texture credits:" );
+	drawText( 15, 120, creditsSize, "- Livearea, default snake, apple and mushroom textures by JumboCube" );
+	drawText( 15, 150, creditsSize, "- RPPHS snake and apple textures by MotoLegacy" );
+	drawText( 15, 180, creditsSize, "- Desert tile from Whispers of Avalon: Desert Tileset by Leonard Pabin" );
+	drawText( 15, 210, creditsSize, "- Button symbols from \"No dead folk!\"" );
 
-	vita2d_font_draw_text( gFont[ (int)(creditsSize * FONT_SCALE) ], 15, 260, MAIN_FONT_COLOR, (int)(creditsSize * FONT_SCALE), "Sound effect credits:" );
-	vita2d_font_draw_text( gFont[ (int)(creditsSize * FONT_SCALE) ], 15, 290, MAIN_FONT_COLOR, (int)(creditsSize * FONT_SCALE), "- RPG Sound Pack by artisticdude" );
-	vita2d_font_draw_text( gFont[ (int)(creditsSize * FONT_SCALE) ], 15, 320, MAIN_FONT_COLOR, (int)(creditsSize * FONT_SCALE), "- The Essential Retro Video Game Sound Effects Collection By Juhani Junkala" );
+	drawText( 15, 260, creditsSize, "Sound effect credits:" );
+	drawText( 15, 290, creditsSize, "- RPG Sound Pack by artisticdude" );
+	drawText( 15, 320, creditsSize, "- The Essential Retro Video Game Sound Effects Collection By Juhani Junkala" );
 
-	vita2d_font_draw_text( gFont[ (int)(creditsSize * FONT_SCALE) ], 15, 370, MAIN_FONT_COLOR, (int)(creditsSize * FONT_SCALE), "Special thanks to:" );
-	vita2d_font_draw_text( gFont[ (int)(creditsSize * FONT_SCALE) ], 15, 400, MAIN_FONT_COLOR, (int)(creditsSize * FONT_SCALE), "- all VitaSDK contributors" );
-	vita2d_font_draw_text( gFont[ (int)(creditsSize * FONT_SCALE) ], 15, 430, MAIN_FONT_COLOR, (int)(creditsSize * FONT_SCALE), "- Xerpi for libvita2d" );
-	vita2d_font_draw_text( gFont[ (int)(creditsSize * FONT_SCALE) ], 15, 460, MAIN_FONT_COLOR, (int)(creditsSize * FONT_SCALE), "- Everyone who helped me on Discord" );
+	drawText( 15, 370, creditsSize, "Special thanks to:" );
+	drawText( 15, 400, creditsSize, "- all VitaSDK contributors" );
+	drawText( 15, 430, creditsSize, "- Xerpi for libvita2d" );
+	drawText( 15, 460, creditsSize, "- Everyone who helped me on Discord" );
 
-	vita2d_font_draw_text( gFont[ (int)(creditsSize * FONT_SCALE) ], 15, 500, MAIN_FONT_COLOR, (int)(creditsSize * FONT_SCALE), "And thank You for playing vitaSnake!" );
+	drawText( 15, 500, creditsSize, "And thank You for playing vitaSnake!" );
 
 	drawBackText();
 
